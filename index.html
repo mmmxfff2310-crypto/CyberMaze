@@ -1,1 +1,771 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Анкета участников | Форма связи</title>
+  
+  <!-- Tailwind CSS & Google Fonts -->
+  <script src="https://cdn.tailwindcss.com"></script>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+  <!-- FontAwesome Icons -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
 
+  <style>
+    body {
+      font-family: 'Inter', sans-serif;
+      overflow-x: hidden;
+      background: linear-gradient(135deg, #0ea5e9, #38bdf8, #7dd3fc, #bae6fd);
+      background-size: 400% 400%;
+      animation: gradientShift 14s ease infinite;
+    }
+
+    @keyframes gradientShift {
+      0% { background-position: 0% 50%; }
+      50% { background-position: 100% 50%; }
+      100% { background-position: 0% 50%; }
+    }
+
+    /* Floating orbs in background */
+    .orb {
+      position: absolute;
+      border-radius: 50%;
+      filter: blur(60px);
+      z-index: 0;
+      pointer-events: none;
+      opacity: 0.7;
+      animation: floatOrb 20s infinite alternate ease-in-out;
+    }
+
+    .orb-1 {
+      width: 380px;
+      height: 380px;
+      background: rgba(14, 165, 233, 0.65);
+      top: -100px;
+      left: -80px;
+    }
+
+    .orb-2 {
+      width: 450px;
+      height: 450px;
+      background: rgba(56, 189, 248, 0.5);
+      bottom: -150px;
+      right: -100px;
+      animation-duration: 25s;
+    }
+
+    .orb-3 {
+      width: 280px;
+      height: 280px;
+      background: rgba(224, 242, 254, 0.45);
+      top: 40%;
+      left: 60%;
+      animation-duration: 18s;
+    }
+
+    @keyframes floatOrb {
+      0% { transform: translate(0, 0) scale(1); }
+      50% { transform: translate(60px, 40px) scale(1.12); }
+      100% { transform: translate(-40px, 80px) scale(0.95); }
+    }
+
+    /* Glassmorphism Classes */
+    .glass-card {
+      background: rgba(255, 255, 255, 0.82);
+      backdrop-filter: blur(18px);
+      -webkit-backdrop-filter: blur(18px);
+      border: 1px solid rgba(255, 255, 255, 0.7);
+      box-shadow: 0 20px 45px -10px rgba(2, 132, 199, 0.22),
+                  0 8px 16px -6px rgba(14, 165, 233, 0.15);
+    }
+
+    .glass-header {
+      background: rgba(255, 255, 255, 0.75);
+      backdrop-filter: blur(16px);
+      border-bottom: 1px solid rgba(255, 255, 255, 0.6);
+    }
+
+    .input-field {
+      background: rgba(240, 249, 255, 0.7);
+      border: 1.5px solid rgba(186, 230, 253, 0.9);
+      transition: all 0.25s cubic-bezier(0.4, 0, 0.2, 1);
+    }
+
+    .input-field:focus {
+      background: #ffffff;
+      border-color: #0284c7;
+      box-shadow: 0 0 0 4px rgba(14, 165, 233, 0.2);
+      outline: none;
+    }
+
+    /* Shake Animation for incorrect password */
+    @keyframes shake {
+      0%, 100% { transform: translateX(0); }
+      20%, 60% { transform: translateX(-10px); }
+      40%, 80% { transform: translateX(10px); }
+    }
+    .shake-animation {
+      animation: shake 0.45s ease-in-out;
+    }
+
+    /* Custom Scrollbar */
+    ::-webkit-scrollbar {
+      width: 7px;
+      height: 7px;
+    }
+    ::-webkit-scrollbar-track {
+      background: rgba(224, 242, 254, 0.5);
+      border-radius: 9999px;
+    }
+    ::-webkit-scrollbar-thumb {
+      background: #38bdf8;
+      border-radius: 9999px;
+    }
+    ::-webkit-scrollbar-thumb:hover {
+      background: #0284c7;
+    }
+  </style>
+</head>
+<body class="min-h-screen relative text-slate-800 flex flex-col justify-between selection:bg-sky-200 selection:text-sky-900">
+
+  <!-- Background Orbs -->
+  <div class="orb orb-1"></div>
+  <div class="orb orb-2"></div>
+  <div class="orb orb-3"></div>
+
+  <header class="glass-header sticky top-0 z-30 px-5 sm:px-10 py-4 flex items-center justify-between shadow-sm transition-all duration-300">
+    <div class="flex items-center space-x-3">
+      <div class="w-10 h-10 rounded-2xl bg-gradient-to-tr from-sky-500 to-cyan-400 flex items-center justify-center text-white shadow-md shadow-sky-300">
+        <i class="fa-solid fa-address-card text-lg"></i>
+      </div>
+      <div>
+        <h1 class="text-lg sm:text-xl font-bold tracking-tight bg-gradient-to-r from-sky-700 via-sky-600 to-cyan-600 bg-clip-text text-transparent">
+          Анкета Участника
+        </h1>
+        <p class="text-xs text-sky-600 font-medium hidden sm:block">Заполните поля и отправьте свои данные</p>
+      </div>
+    </div>
+
+    <!-- Admin View Button -->
+    <button 
+      id="openAuthBtn"
+      class="group relative inline-flex items-center gap-2 px-4 py-2 sm:px-5 sm:py-2.5 rounded-full bg-gradient-to-r from-sky-600 to-blue-600 hover:from-sky-500 hover:to-blue-500 text-white font-medium text-sm shadow-lg shadow-sky-400/40 hover:shadow-sky-500/60 active:scale-95 transition-all duration-200"
+      title="Просмотр отправленных данных"
+    >
+      <span class="relative flex h-2.5 w-2.5">
+        <span class="animate-ping absolute inline-flex h-full w-full rounded-full bg-white opacity-75"></span>
+        <span class="relative inline-flex rounded-full h-2.5 w-2.5 bg-white"></span>
+      </span>
+      <i class="fa-solid fa-lock text-xs"></i>
+      <span>Просмотр</span>
+    </button>
+  </header>
+
+  <main class="relative z-10 flex-1 flex items-center justify-center px-4 py-10 sm:py-16">
+    <div class="w-full max-w-xl">
+      <div class="glass-card rounded-3xl p-6 sm:p-10 shadow-2xl transition-all duration-300 hover:shadow-sky-200/50">
+        
+        <div class="text-center mb-8">
+          <div class="inline-flex p-3 rounded-2xl bg-sky-100/80 text-sky-600 mb-3 text-xl shadow-inner">
+            <i class="fa-regular fa-paper-plane"></i>
+          </div>
+          <h2 class="text-2xl sm:text-3xl font-extrabold text-slate-800 tracking-tight">Добро пожаловать!</h2>
+          <p class="text-slate-500 text-sm mt-1">Пожалуйста, укажите ваши данные для связи</p>
+        </div>
+
+        <form id="profileForm" class="space-y-4">
+          <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
+            <!-- Имя -->
+            <div>
+              <label for="firstName" class="block text-xs font-semibold text-slate-600 uppercase tracking-wider mb-1.5">
+                Имя <span class="text-rose-500">*</span>
+              </label>
+              <div class="relative">
+                <i class="fa-regular fa-user absolute left-3.5 top-3.5 text-sky-400 text-sm"></i>
+                <input 
+                  type="text" 
+                  id="firstName" 
+                  required 
+                  placeholder="Максим"
+                  class="input-field w-full pl-10 pr-4 py-2.5 rounded-xl text-slate-700 text-sm focus:outline-none"
+                >
+              </div>
+            </div>
+
+            <!-- Фамилия -->
+            <div>
+              <label for="lastName" class="block text-xs font-semibold text-slate-600 uppercase tracking-wider mb-1.5">
+                Фамилия <span class="text-rose-500">*</span>
+              </label>
+              <div class="relative">
+                <i class="fa-regular fa-id-badge absolute left-3.5 top-3.5 text-sky-400 text-sm"></i>
+                <input 
+                  type="text" 
+                  id="lastName" 
+                  required 
+                  placeholder="Иванов"
+                  class="input-field w-full pl-10 pr-4 py-2.5 rounded-xl text-slate-700 text-sm focus:outline-none"
+                >
+              </div>
+            </div>
+          </div>
+
+          <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
+            <!-- Город -->
+            <div>
+              <label for="city" class="block text-xs font-semibold text-slate-600 uppercase tracking-wider mb-1.5">
+                Город <span class="text-rose-500">*</span>
+              </label>
+              <div class="relative">
+                <i class="fa-solid fa-location-dot absolute left-3.5 top-3.5 text-sky-400 text-sm"></i>
+                <input 
+                  type="text" 
+                  id="city" 
+                  required 
+                  placeholder="Москва"
+                  class="input-field w-full pl-10 pr-4 py-2.5 rounded-xl text-slate-700 text-sm focus:outline-none"
+                >
+              </div>
+            </div>
+
+            <!-- Сколько лет -->
+            <div>
+              <label for="age" class="block text-xs font-semibold text-slate-600 uppercase tracking-wider mb-1.5">
+                Сколько лет <span class="text-rose-500">*</span>
+              </label>
+              <div class="relative">
+                <i class="fa-solid fa-cake-candles absolute left-3.5 top-3.5 text-sky-400 text-sm"></i>
+                <input 
+                  type="number" 
+                  id="age" 
+                  required 
+                  min="1" 
+                  max="120"
+                  placeholder="24"
+                  class="input-field w-full pl-10 pr-4 py-2.5 rounded-xl text-slate-700 text-sm focus:outline-none"
+                >
+              </div>
+            </div>
+          </div>
+
+          <!-- В какое время свободен -->
+          <div>
+            <label for="freeTime" class="block text-xs font-semibold text-slate-600 uppercase tracking-wider mb-1.5">
+              В какое время свободен(-на) <span class="text-rose-500">*</span>
+            </label>
+            <div class="relative">
+              <i class="fa-regular fa-clock absolute left-3.5 top-3.5 text-sky-400 text-sm"></i>
+              <input 
+                type="text" 
+                id="freeTime" 
+                required 
+                placeholder="Например: по вечерам после 18:00, выходные"
+                class="input-field w-full pl-10 pr-4 py-2.5 rounded-xl text-slate-700 text-sm focus:outline-none"
+              >
+            </div>
+            <p class="text-[11px] text-slate-400 mt-1 pl-1">Укажите дни недели или часы, когда вам удобно связаться</p>
+          </div>
+
+          <!-- Submit Button -->
+          <div class="pt-3">
+            <button 
+              type="submit" 
+              id="submitBtn"
+              class="w-full py-3.5 px-6 rounded-2xl bg-gradient-to-r from-sky-500 via-sky-600 to-blue-600 hover:from-sky-400 hover:to-blue-500 text-white font-semibold text-base shadow-lg shadow-sky-500/30 hover:shadow-sky-500/50 active:scale-[0.98] transition-all duration-200 flex items-center justify-center space-x-2"
+            >
+              <span>Отправить анкету</span>
+              <i class="fa-solid fa-arrow-right text-sm"></i>
+            </button>
+          </div>
+        </form>
+
+      </div>
+    </div>
+  </main>
+
+  <!-- MODAL: Password Verification -->
+  <div id="authModal" class="fixed inset-0 z-50 bg-slate-900/40 backdrop-blur-sm flex items-center justify-center p-4 hidden opacity-0 transition-opacity duration-300">
+    <div id="authBox" class="glass-card w-full max-w-sm rounded-3xl p-6 sm:p-8 shadow-2xl relative scale-95 transition-transform duration-300">
+      <button id="closeAuthBtn" class="absolute top-4 right-4 text-slate-400 hover:text-slate-600 transition-colors">
+        <i class="fa-solid fa-xmark text-lg"></i>
+      </button>
+
+      <div class="text-center mb-6">
+        <div class="w-14 h-14 rounded-2xl bg-sky-100 text-sky-600 flex items-center justify-center mx-auto mb-3 shadow-inner">
+          <i class="fa-solid fa-shield-halved text-2xl"></i>
+        </div>
+        <h3 class="text-xl font-bold text-slate-800">Доступ к записям</h3>
+        <p class="text-xs text-slate-500 mt-1">Введите пароль администратора для просмотра ответов пользователей</p>
+      </div>
+
+      <form id="authForm" class="space-y-4">
+        <div>
+          <label for="adminPassword" class="block text-xs font-semibold text-slate-600 uppercase tracking-wider mb-1.5">
+            Пароль
+          </label>
+          <div class="relative">
+            <i class="fa-solid fa-key absolute left-3.5 top-3.5 text-sky-400 text-sm"></i>
+            <input 
+              type="password" 
+              id="adminPassword" 
+              placeholder="••••••••••••"
+              class="input-field w-full pl-10 pr-10 py-2.5 rounded-xl text-slate-700 text-sm focus:outline-none"
+              autocomplete="current-password"
+            >
+            <button type="button" id="togglePasswordVisibility" class="absolute right-3.5 top-3.5 text-slate-400 hover:text-slate-600 text-sm">
+              <i class="fa-regular fa-eye"></i>
+            </button>
+          </div>
+          <p id="authError" class="text-xs text-rose-500 font-medium mt-1.5 hidden flex items-center gap-1">
+            <i class="fa-solid fa-circle-exclamation"></i>
+            <span>Неверный пароль. Попробуйте еще раз.</span>
+          </p>
+        </div>
+
+        <button 
+          type="submit" 
+          class="w-full py-2.5 px-4 rounded-xl bg-gradient-to-r from-sky-600 to-blue-600 hover:from-sky-500 hover:to-blue-500 text-white font-medium text-sm shadow-md shadow-sky-500/30 active:scale-[0.98] transition-all"
+        >
+          Войти
+        </button>
+      </form>
+    </div>
+  </div>
+
+  <!-- MODAL: Admin Dashboard -->
+  <div id="adminModal" class="fixed inset-0 z-50 bg-slate-900/50 backdrop-blur-md flex items-center justify-center p-3 sm:p-6 hidden opacity-0 transition-opacity duration-300">
+    <div class="glass-card w-full max-w-5xl max-h-[90vh] rounded-3xl p-5 sm:p-8 shadow-2xl flex flex-col relative scale-95 transition-transform duration-300">
+      
+      <!-- Admin Header -->
+      <div class="flex flex-col sm:flex-row items-start sm:items-center justify-between pb-4 border-b border-sky-100 gap-3">
+        <div>
+          <div class="flex items-center gap-2">
+            <span class="inline-block w-2.5 h-2.5 rounded-full bg-emerald-500"></span>
+            <h3 class="text-xl sm:text-2xl font-bold text-slate-800">Список анкет пользователей</h3>
+          </div>
+          <p class="text-xs text-slate-500 mt-0.5">
+            Всего записей: <span id="recordCountBadge" class="font-bold text-sky-600">0</span>
+          </p>
+        </div>
+        <div class="flex items-center gap-2 self-end sm:self-auto">
+          <button id="exportCsvBtn" class="px-3 py-1.5 rounded-xl border border-sky-200 hover:bg-sky-50 text-sky-700 text-xs font-semibold transition-colors flex items-center gap-1.5" title="Скачать CSV">
+            <i class="fa-solid fa-file-arrow-down"></i> Экспорт CSV
+          </button>
+          <button id="clearAllBtn" class="px-3 py-1.5 rounded-xl border border-rose-200 hover:bg-rose-50 text-rose-600 text-xs font-semibold transition-colors flex items-center gap-1.5" title="Удалить все данные">
+            <i class="fa-regular fa-trash-can"></i> Очистить всё
+          </button>
+          <button id="closeAdminBtn" class="p-2 rounded-xl text-slate-400 hover:text-slate-600 hover:bg-slate-100/60 transition-colors ml-1">
+            <i class="fa-solid fa-xmark text-lg"></i>
+          </button>
+        </div>
+      </div>
+
+      <!-- Search & Filter Bar -->
+      <div class="my-4">
+        <div class="relative">
+          <i class="fa-solid fa-magnifying-glass absolute left-3.5 top-3 text-sky-400 text-sm"></i>
+          <input 
+            type="text" 
+            id="searchInput" 
+            placeholder="Быстрый поиск по имени, фамилии или городу..."
+            class="input-field w-full pl-10 pr-4 py-2 rounded-xl text-sm text-slate-700"
+          >
+        </div>
+      </div>
+
+      <!-- Table / Cards Container -->
+      <div class="flex-1 overflow-y-auto pr-1">
+        <!-- Desktop Table -->
+        <div class="hidden md:block overflow-hidden rounded-2xl border border-sky-100 shadow-sm">
+          <table class="w-full text-left text-xs sm:text-sm">
+            <thead class="bg-sky-50/80 text-sky-900 uppercase font-semibold text-[11px] tracking-wider border-b border-sky-100">
+              <tr>
+                <th class="py-3 px-4">#</th>
+                <th class="py-3 px-4">Дата и время</th>
+                <th class="py-3 px-4">ФИО</th>
+                <th class="py-3 px-4">Возраст</th>
+                <th class="py-3 px-4">Город</th>
+                <th class="py-3 px-4">Свободное время</th>
+                <th class="py-3 px-3 text-right">Действие</th>
+              </tr>
+            </thead>
+            <tbody id="adminTableBody" class="divide-y divide-sky-50 bg-white/60">
+              <!-- Rendered dynamically -->
+            </tbody>
+          </table>
+        </div>
+
+        <!-- Mobile Card List -->
+        <div id="adminCardList" class="md:hidden space-y-3">
+          <!-- Rendered dynamically -->
+        </div>
+
+        <!-- Empty State -->
+        <div id="emptyState" class="py-12 text-center hidden">
+          <div class="w-16 h-16 mx-auto mb-3 rounded-full bg-sky-50 flex items-center justify-center text-sky-300 text-2xl">
+            <i class="fa-regular fa-folder-open"></i>
+          </div>
+          <p class="text-sm font-medium text-slate-600">Нет сохраненных анкет</p>
+          <p class="text-xs text-slate-400 mt-1">Отправьте форму на главной странице, чтобы появились записи</p>
+        </div>
+      </div>
+
+      <!-- Footer Info -->
+      <div class="pt-4 mt-2 border-t border-sky-100 flex justify-between items-center text-xs text-slate-400">
+        <span>Данные хранятся в браузере (localStorage)</span>
+        <button id="adminExitBtn" class="font-medium text-sky-600 hover:text-sky-800 transition-colors">
+          Закрыть панель
+        </button>
+      </div>
+    </div>
+  </div>
+
+  <!-- Toast Notification -->
+  <div id="toast" class="fixed bottom-6 right-6 z-50 transform translate-y-20 opacity-0 transition-all duration-300 pointer-events-none">
+    <div class="glass-card flex items-center gap-3 px-5 py-3.5 rounded-2xl shadow-xl border-emerald-200">
+      <div class="w-8 h-8 rounded-xl bg-emerald-100 text-emerald-600 flex items-center justify-center">
+        <i class="fa-solid fa-check"></i>
+      </div>
+      <div>
+        <p class="text-xs font-semibold text-slate-800" id="toastTitle">Успешно!</p>
+        <p class="text-xs text-slate-500" id="toastMessage">Анкета успешно сохранена.</p>
+      </div>
+    </div>
+  </div>
+
+  <!-- Footer -->
+  <footer class="relative z-10 py-4 text-center text-xs text-sky-900/70 font-medium">
+    &copy; 2024–2026 Онлайн Форма. Готово для публикации на GitHub Pages.
+  </footer>
+
+  <script>
+    // Configuration & State
+    const AUTH_PASSWORD = "Max_Flom2014";
+    const STORAGE_KEY = "user_submissions_data";
+
+    // DOM Elements
+    const profileForm = document.getElementById('profileForm');
+    const openAuthBtn = document.getElementById('openAuthBtn');
+    const authModal = document.getElementById('authModal');
+    const authBox = document.getElementById('authBox');
+    const closeAuthBtn = document.getElementById('closeAuthBtn');
+    const authForm = document.getElementById('authForm');
+    const adminPasswordInput = document.getElementById('adminPassword');
+    const authError = document.getElementById('authError');
+    const togglePasswordVisibility = document.getElementById('togglePasswordVisibility');
+
+    const adminModal = document.getElementById('adminModal');
+    const closeAdminBtn = document.getElementById('closeAdminBtn');
+    const adminExitBtn = document.getElementById('adminExitBtn');
+    const adminTableBody = document.getElementById('adminTableBody');
+    const adminCardList = document.getElementById('adminCardList');
+    const emptyState = document.getElementById('emptyState');
+    const recordCountBadge = document.getElementById('recordCountBadge');
+    const searchInput = document.getElementById('searchInput');
+    const clearAllBtn = document.getElementById('clearAllBtn');
+    const exportCsvBtn = document.getElementById('exportCsvBtn');
+
+    const toast = document.getElementById('toast');
+    const toastTitle = document.getElementById('toastTitle');
+    const toastMessage = document.getElementById('toastMessage');
+
+    // Helper: Toast notifications
+    function showToast(title, message, isSuccess = true) {
+      toastTitle.textContent = title;
+      toastMessage.textContent = message;
+      
+      toast.classList.remove('translate-y-20', 'opacity-0');
+      toast.classList.add('translate-y-0', 'opacity-100');
+
+      setTimeout(() => {
+        toast.classList.remove('translate-y-0', 'opacity-100');
+        toast.classList.add('translate-y-20', 'opacity-0');
+      }, 3500);
+    }
+
+    // Helper: Local Storage Get/Set
+    function getSubmissions() {
+      try {
+        const raw = localStorage.getItem(STORAGE_KEY);
+        return raw ? JSON.parse(raw) : [];
+      } catch (e) {
+        console.error("Ошибка при чтении localStorage", e);
+        return [];
+      }
+    }
+
+    function saveSubmissions(list) {
+      try {
+        localStorage.setItem(STORAGE_KEY, JSON.stringify(list));
+      } catch (e) {
+        console.error("Ошибка при сохранении localStorage", e);
+      }
+    }
+
+    // Handle Form Submit
+    profileForm.addEventListener('submit', (e) => {
+      e.preventDefault();
+
+      const firstName = document.getElementById('firstName').value.trim();
+      const lastName = document.getElementById('lastName').value.trim();
+      const city = document.getElementById('city').value.trim();
+      const age = document.getElementById('age').value.trim();
+      const freeTime = document.getElementById('freeTime').value.trim();
+
+      if (!firstName || !lastName || !city || !age || !freeTime) {
+        showToast("Ошибка", "Заполните все обязательные поля!", false);
+        return;
+      }
+
+      const newSubmission = {
+        id: Date.now().toString(),
+        submittedAt: new Date().toLocaleString('ru-RU', {
+          year: 'numeric',
+          month: '2-digit',
+          day: '2-digit',
+          hour: '2-digit',
+          minute: '2-digit',
+          second: '2-digit'
+        }),
+        firstName,
+        lastName,
+        city,
+        age,
+        freeTime
+      };
+
+      const submissions = getSubmissions();
+      // Add new record to top of list
+      submissions.unshift(newSubmission);
+      saveSubmissions(submissions);
+
+      // Reset form
+      profileForm.reset();
+      showToast("Успех!", "Данные успешно отправлены и сохранены!");
+    });
+
+    function openModal(modalEl, innerBoxSelector) {
+      modalEl.classList.remove('hidden');
+      setTimeout(() => {
+        modalEl.classList.remove('opacity-0');
+        const inner = modalEl.querySelector(innerBoxSelector);
+        if (inner) inner.classList.remove('scale-95');
+      }, 20);
+    }
+
+    function closeModal(modalEl, innerBoxSelector) {
+      modalEl.classList.add('opacity-0');
+      const inner = modalEl.querySelector(innerBoxSelector);
+      if (inner) inner.classList.add('scale-95');
+      setTimeout(() => {
+        modalEl.classList.add('hidden');
+      }, 300);
+    }
+
+    // Toggle Password Visibility
+    togglePasswordVisibility.addEventListener('click', () => {
+      const type = adminPasswordInput.getAttribute('type') === 'password' ? 'text' : 'password';
+      adminPasswordInput.setAttribute('type', type);
+      const icon = togglePasswordVisibility.querySelector('i');
+      icon.classList.toggle('fa-eye');
+      icon.classList.toggle('fa-eye-slash');
+    });
+
+    // Open Auth Modal
+    openAuthBtn.addEventListener('click', () => {
+      adminPasswordInput.value = '';
+      authError.classList.add('hidden');
+      openModal(authModal, '#authBox');
+      setTimeout(() => adminPasswordInput.focus(), 150);
+    });
+
+    // Close Auth Modal
+    closeAuthBtn.addEventListener('click', () => closeModal(authModal, '#authBox'));
+    authModal.addEventListener('click', (e) => {
+      if (e.target === authModal) closeModal(authModal, '#authBox');
+    });
+
+    // Auth Submission
+    authForm.addEventListener('submit', (e) => {
+      e.preventDefault();
+      const enteredPass = adminPasswordInput.value;
+
+      if (enteredPass === AUTH_PASSWORD) {
+        authError.classList.add('hidden');
+        closeModal(authModal, '#authBox');
+        
+        // Open Admin Dashboard after brief delay
+        setTimeout(() => {
+          renderAdminData();
+          openModal(adminModal, '.glass-card');
+        }, 320);
+      } else {
+        authError.classList.remove('hidden');
+        authBox.classList.add('shake-animation');
+        setTimeout(() => {
+          authBox.classList.remove('shake-animation');
+        }, 500);
+      }
+    });
+
+    // Close Admin Modal
+    function closeAdminDashboard() {
+      closeModal(adminModal, '.glass-card');
+    }
+    closeAdminBtn.addEventListener('click', closeAdminDashboard);
+    adminExitBtn.addEventListener('click', closeAdminDashboard);
+    adminModal.addEventListener('click', (e) => {
+      if (e.target === adminModal) closeAdminDashboard();
+    });
+
+    function renderAdminData(filter = '') {
+      const data = getSubmissions();
+      const lowerFilter = filter.toLowerCase().trim();
+
+      const filtered = data.filter(item => {
+        if (!lowerFilter) return true;
+        return (
+          item.firstName.toLowerCase().includes(lowerFilter) ||
+          item.lastName.toLowerCase().includes(lowerFilter) ||
+          item.city.toLowerCase().includes(lowerFilter) ||
+          item.freeTime.toLowerCase().includes(lowerFilter)
+        );
+      });
+
+      recordCountBadge.textContent = `${filtered.length} (из ${data.length})`;
+
+      // Render Empty state
+      if (filtered.length === 0) {
+        adminTableBody.innerHTML = '';
+        adminCardList.innerHTML = '';
+        emptyState.classList.remove('hidden');
+        return;
+      }
+      emptyState.classList.add('hidden');
+
+      // 1. Render Desktop Table Rows
+      adminTableBody.innerHTML = filtered.map((item, index) => `
+        <tr class="hover:bg-sky-50/50 transition-colors">
+          <td class="py-3 px-4 text-slate-400 font-mono text-xs">${index + 1}</td>
+          <td class="py-3 px-4 font-mono text-slate-500 whitespace-nowrap text-xs">
+            <i class="fa-regular fa-clock mr-1 text-sky-400"></i>${escapeHtml(item.submittedAt)}
+          </td>
+          <td class="py-3 px-4 font-semibold text-slate-800 whitespace-nowrap">
+            ${escapeHtml(item.lastName)} ${escapeHtml(item.firstName)}
+          </td>
+          <td class="py-3 px-4 text-slate-600">${escapeHtml(item.age)} лет</td>
+          <td class="py-3 px-4 text-slate-700">
+            <span class="inline-flex items-center gap-1 bg-sky-100/70 text-sky-800 px-2 py-0.5 rounded-lg text-xs">
+              <i class="fa-solid fa-map-pin text-[10px]"></i> ${escapeHtml(item.city)}
+            </span>
+          </td>
+          <td class="py-3 px-4 text-slate-600 max-w-xs break-words">${escapeHtml(item.freeTime)}</td>
+          <td class="py-3 px-3 text-right">
+            <button onclick="deleteRecord('${item.id}')" class="text-rose-400 hover:text-rose-600 p-1.5 transition-colors" title="Удалить">
+              <i class="fa-regular fa-trash-can"></i>
+            </button>
+          </td>
+        </tr>
+      `).join('');
+
+      // 2. Render Mobile Cards
+      adminCardList.innerHTML = filtered.map((item, index) => `
+        <div class="p-4 rounded-2xl bg-white/70 border border-sky-100 shadow-sm relative space-y-2">
+          <div class="flex items-start justify-between">
+            <div>
+              <span class="text-xs font-bold text-sky-600 mr-1.5">#${index + 1}</span>
+              <span class="font-bold text-slate-800 text-base">${escapeHtml(item.lastName)} ${escapeHtml(item.firstName)}</span>
+            </div>
+            <button onclick="deleteRecord('${item.id}')" class="text-rose-400 hover:text-rose-600 p-1 text-sm">
+              <i class="fa-regular fa-trash-can"></i>
+            </button>
+          </div>
+          <div class="text-xs text-slate-500 flex items-center gap-1 font-mono">
+            <i class="fa-regular fa-clock text-sky-400"></i> ${escapeHtml(item.submittedAt)}
+          </div>
+          <div class="grid grid-cols-2 gap-2 text-xs pt-1 border-t border-sky-50">
+            <div>
+              <span class="text-slate-400 block">Город:</span>
+              <span class="font-medium text-slate-700">${escapeHtml(item.city)}</span>
+            </div>
+            <div>
+              <span class="text-slate-400 block">Возраст:</span>
+              <span class="font-medium text-slate-700">${escapeHtml(item.age)} лет</span>
+            </div>
+          </div>
+          <div class="text-xs pt-1">
+            <span class="text-slate-400 block">Свободное время:</span>
+            <span class="text-slate-700 bg-sky-50/80 p-2 rounded-lg block mt-0.5">${escapeHtml(item.freeTime)}</span>
+          </div>
+        </div>
+      `).join('');
+    }
+
+    // Single Record Deletion
+    window.deleteRecord = function(id) {
+      const data = getSubmissions();
+      const filtered = data.filter(item => item.id !== id);
+      saveSubmissions(filtered);
+      renderAdminData(searchInput.value);
+      showToast("Удалено", "Запись успешно удалена");
+    };
+
+    // Clear All Records
+    clearAllBtn.addEventListener('click', () => {
+      const data = getSubmissions();
+      if (data.length === 0) {
+        showToast("Информация", "Записей уже нет");
+        return;
+      }
+      saveSubmissions([]);
+      renderAdminData();
+      showToast("Очищено", "Все сохраненные анкеты были удалены");
+    });
+
+    // Search filter listener
+    searchInput.addEventListener('input', (e) => {
+      renderAdminData(e.target.value);
+    });
+
+    // Export to CSV
+    exportCsvBtn.addEventListener('click', () => {
+      const data = getSubmissions();
+      if (data.length === 0) {
+        showToast("Внимание", "Нет данных для выгрузки");
+        return;
+      }
+
+      let csvContent = "\uFEFF"; // UTF-8 BOM for Russian characters in Excel
+      csvContent += "Дата и время;Фамилия;Имя;Возраст;Город;Свободное время\n";
+
+      data.forEach(row => {
+        const cleanFreeTime = (row.freeTime || '').replace(/;/g, ',').replace(/\n/g, ' ');
+        csvContent += `"${row.submittedAt}";"${row.lastName}";"${row.firstName}";"${row.age}";"${row.city}";"${cleanFreeTime}"\n`;
+      });
+
+      const blob = new Blob([csvContent], { type: 'text/csv;charset=utf-8;' });
+      const url = URL.createObjectURL(blob);
+      const link = document.createElement("a");
+      link.setAttribute("href", url);
+      link.setAttribute("download", `ankety_export_${new Date().toISOString().slice(0, 10)}.csv`);
+      document.body.appendChild(link);
+      link.click();
+      document.body.removeChild(link);
+      showToast("Экспорт", "CSV файл успешно сформирован");
+    });
+
+    // XSS Sanitizer
+    function escapeHtml(string) {
+      if (!string) return '';
+      return String(string)
+        .replace(/&/g, "&amp;")
+        .replace(/</g, "&lt;")
+        .replace(/>/g, "&gt;")
+        .replace(/"/g, "&quot;")
+        .replace(/'/g, "&#039;");
+    }
+  </script>
+</body>
+</html>
