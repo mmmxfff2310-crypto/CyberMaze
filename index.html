@@ -3,1910 +3,1019 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>ReallyWorld — Официальный сайт сервера Майнкрафт</title>
-  <meta name="description" content="Официальный сайт лучшего сервера майнкрафт ReallyWorld от Домера. Донат, привилегии Dragon, Magister, Imperator, кейсы, риллики. IP: mc.reallyworld.me">
-  <link rel="preconnect" href="https://fonts.googleapis.com">
-  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;500;600;700;800;900&family=Unbounded:wght@600;700;800;900&display=swap" rel="stylesheet">
-  <script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.6.0/dist/confetti.browser.min.js"></script>
-
+  <title>Cyber Maze: Lava Escape</title>
   <style>
-    :root {
-      --bg-dark: #070510;
-      --bg-card: rgba(18, 14, 38, 0.7);
-      --bg-card-hover: rgba(28, 22, 58, 0.85);
-      --border-card: rgba(139, 92, 246, 0.22);
-      --border-accent: rgba(168, 85, 247, 0.55);
-      --primary: #8b5cf6;
-      --primary-light: #a855f7;
-      --accent: #d946ef;
-      --accent-glow: rgba(217, 70, 239, 0.35);
-      --gold: #f59e0b;
-      --gold-glow: rgba(245, 158, 11, 0.4);
-      --green: #10b981;
-      --text: #ffffff;
-      --text-muted: #9ca3af;
-      --font-display: 'Unbounded', sans-serif;
-      --font-body: 'Montserrat', sans-serif;
-      --transition: all 0.22s cubic-bezier(0.4, 0, 0.2, 1);
-    }
-
     * {
       box-sizing: border-box;
       margin: 0;
       padding: 0;
-      -webkit-font-smoothing: antialiased;
+      font-family: 'Segoe UI', -apple-system, BlinkMacSystemFont, Roboto, sans-serif;
+      user-select: none;
     }
 
     body {
-      background-color: var(--bg-dark);
-      color: var(--text);
-      font-family: var(--font-body);
-      min-height: 100vh;
-      overflow-x: hidden;
-      line-height: 1.5;
-      background-image: 
-        radial-gradient(circle at 50% 0%, rgba(139, 92, 246, 0.22) 0%, transparent 45%),
-        radial-gradient(circle at 85% 20%, rgba(217, 70, 239, 0.12) 0%, transparent 40%),
-        radial-gradient(circle at 15% 45%, rgba(99, 102, 241, 0.12) 0%, transparent 40%),
-        radial-gradient(circle at 50% 80%, rgba(168, 85, 247, 0.15) 0%, transparent 50%);
-      background-attachment: fixed;
-    }
-
-    /* Ambient cyber grid */
-    .cyber-grid {
-      position: fixed;
-      inset: 0;
-      background-size: 50px 50px;
-      background-image: 
-        linear-gradient(to right, rgba(255, 255, 255, 0.02) 1px, transparent 1px),
-        linear-gradient(to bottom, rgba(255, 255, 255, 0.02) 1px, transparent 1px);
-      pointer-events: none;
-      z-index: 0;
-    }
-
-    .container {
-      max-width: 1240px;
-      margin: 0 auto;
-      padding: 0 20px;
-      position: relative;
-      z-index: 2;
-    }
-
-    /* Header */
-    header {
-      position: sticky;
-      top: 0;
-      backdrop-filter: blur(20px);
-      -webkit-backdrop-filter: blur(20px);
-      background: rgba(7, 5, 16, 0.85);
-      border-bottom: 1px solid rgba(139, 92, 246, 0.2);
-      z-index: 100;
-      transition: var(--transition);
-    }
-
-    .nav-container {
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-      height: 76px;
-    }
-
-    .logo-area {
-      display: flex;
-      align-items: center;
-      gap: 12px;
-      text-decoration: none;
+      background-color: #03030a;
       color: #fff;
-    }
-
-    .logo-icon {
-      width: 44px;
-      height: 44px;
-      border-radius: 12px;
-      background: linear-gradient(135deg, #a855f7, #6366f1);
+      overflow: hidden;
+      height: 100vh;
       display: flex;
-      align-items: center;
       justify-content: center;
-      box-shadow: 0 0 20px rgba(168, 85, 247, 0.5);
-      position: relative;
-    }
-
-    .logo-icon svg {
-      width: 24px;
-      height: 24px;
-      fill: #fff;
-    }
-
-    .logo-text {
-      display: flex;
-      flex-direction: column;
-    }
-
-    .logo-title {
-      font-family: var(--font-display);
-      font-size: 20px;
-      font-weight: 800;
-      letter-spacing: -0.5px;
-      background: linear-gradient(to right, #fff, #c084fc);
-      -webkit-background-clip: text;
-      -webkit-text-fill-color: transparent;
-    }
-
-    .logo-sub {
-      font-size: 10px;
-      color: var(--text-muted);
-      text-transform: uppercase;
-      letter-spacing: 1.5px;
-      font-weight: 600;
-    }
-
-    .nav-links {
-      display: flex;
-      gap: 28px;
       align-items: center;
     }
 
-    .nav-link {
-      color: #d1d5db;
-      text-decoration: none;
-      font-weight: 600;
-      font-size: 14px;
-      transition: var(--transition);
-      display: flex;
-      align-items: center;
-      gap: 6px;
-      position: relative;
-    }
-
-    .nav-link:hover, .nav-link.active {
-      color: #fff;
-    }
-
-    .nav-link:hover::after, .nav-link.active::after {
-      content: '';
+    #bgCanvas {
       position: absolute;
-      bottom: -6px;
+      top: 0;
       left: 0;
       width: 100%;
-      height: 2px;
-      background: linear-gradient(90deg, var(--accent), var(--primary));
-      border-radius: 2px;
-    }
-
-    .header-actions {
-      display: flex;
-      align-items: center;
-      gap: 16px;
-    }
-
-    /* Server Status pill */
-    .online-counter-pill {
-      background: rgba(16, 185, 129, 0.1);
-      border: 1px solid rgba(16, 185, 129, 0.3);
-      padding: 6px 14px;
-      border-radius: 30px;
-      display: flex;
-      align-items: center;
-      gap: 8px;
-      font-size: 13px;
-      font-weight: 700;
-      color: #34d399;
-    }
-
-    .status-dot {
-      width: 8px;
-      height: 8px;
-      border-radius: 50%;
-      background: #10b981;
-      box-shadow: 0 0 10px #10b981;
-      animation: pulse-dot 1.8s infinite;
-    }
-
-    @keyframes pulse-dot {
-      0%, 100% { opacity: 1; transform: scale(1); }
-      50% { opacity: 0.5; transform: scale(0.85); }
-    }
-
-    /* Live Feed Ticker */
-    .live-feed-bar {
-      background: rgba(13, 10, 27, 0.7);
-      border-bottom: 1px solid rgba(139, 92, 246, 0.15);
-      padding: 10px 0;
-      overflow: hidden;
-      position: relative;
-      z-index: 10;
-    }
-
-    .feed-container {
-      display: flex;
-      align-items: center;
-      gap: 16px;
-    }
-
-    .feed-label {
-      display: flex;
-      align-items: center;
-      gap: 6px;
-      font-size: 11px;
-      font-weight: 800;
-      text-transform: uppercase;
-      letter-spacing: 1px;
-      color: var(--accent);
-      white-space: nowrap;
-      background: rgba(217, 70, 239, 0.12);
-      padding: 4px 10px;
-      border-radius: 6px;
-      border: 1px solid rgba(217, 70, 239, 0.3);
-    }
-
-    .feed-ticker {
-      display: flex;
-      gap: 24px;
-      overflow-x: auto;
-      scrollbar-width: none;
-      -ms-overflow-style: none;
-      white-space: nowrap;
-      padding: 2px 0;
-    }
-    .feed-ticker::-webkit-scrollbar { display: none; }
-
-    .feed-item {
-      display: inline-flex;
-      align-items: center;
-      gap: 8px;
-      background: rgba(255, 255, 255, 0.03);
-      border: 1px solid rgba(255, 255, 255, 0.08);
-      padding: 4px 12px;
-      border-radius: 20px;
-      font-size: 12px;
-      animation: fadeIn 0.4s ease;
-    }
-
-    .feed-item img {
-      width: 18px;
-      height: 18px;
-      border-radius: 4px;
-      image-rendering: pixelated;
-    }
-
-    .feed-nick { font-weight: 700; color: #fff; }
-    .feed-item-title { font-weight: 700; color: var(--gold); }
-    .feed-time { color: var(--text-muted); font-size: 11px; }
-
-    /* Hero Section */
-    .hero {
-      padding: 70px 0 40px;
-      text-align: center;
-      position: relative;
-    }
-
-    .hero-badge {
-      display: inline-flex;
-      align-items: center;
-      gap: 8px;
-      padding: 6px 18px;
-      background: rgba(168, 85, 247, 0.12);
-      border: 1px solid var(--border-accent);
-      border-radius: 30px;
-      font-size: 13px;
-      font-weight: 700;
-      color: #e9d5ff;
-      margin-bottom: 24px;
-      box-shadow: 0 0 25px rgba(168, 85, 247, 0.2);
-    }
-
-    .hero-title {
-      font-family: var(--font-display);
-      font-size: clamp(34px, 5.5vw, 64px);
-      font-weight: 900;
-      line-height: 1.1;
-      margin-bottom: 20px;
-      letter-spacing: -1px;
-    }
-
-    .hero-title .gradient-text {
-      background: linear-gradient(135deg, #ffffff 10%, #d8b4fe 50%, #c026d3 100%);
-      -webkit-background-clip: text;
-      -webkit-text-fill-color: transparent;
-      text-shadow: 0 0 35px rgba(192, 38, 211, 0.4);
-    }
-
-    .hero-desc {
-      font-size: clamp(15px, 2vw, 18px);
-      color: #cbd5e1;
-      max-width: 660px;
-      margin: 0 auto 36px;
-      font-weight: 500;
-    }
-
-    /* IP Copy Box */
-    .ip-box-wrapper {
-      max-width: 520px;
-      margin: 0 auto 50px;
-    }
-
-    .ip-box {
-      background: rgba(22, 17, 44, 0.9);
-      border: 2px solid var(--border-accent);
-      box-shadow: 0 10px 40px rgba(139, 92, 246, 0.35);
-      border-radius: 18px;
-      padding: 8px 10px 8px 24px;
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-      cursor: pointer;
-      transition: var(--transition);
-      position: relative;
-      overflow: hidden;
-    }
-
-    .ip-box:hover {
-      transform: translateY(-2px);
-      border-color: #d946ef;
-      box-shadow: 0 15px 45px rgba(217, 70, 239, 0.4);
-    }
-
-    .ip-data {
-      text-align: left;
-    }
-
-    .ip-title {
-      font-size: 11px;
-      font-weight: 700;
-      text-transform: uppercase;
-      letter-spacing: 1.5px;
-      color: var(--accent);
-    }
-
-    .ip-address {
-      font-family: var(--font-display);
-      font-size: 20px;
-      font-weight: 800;
-      color: #fff;
-      letter-spacing: 0.5px;
-    }
-
-    .ip-copy-btn {
-      background: linear-gradient(135deg, var(--primary-light), var(--accent));
-      color: #fff;
-      font-family: var(--font-body);
-      font-size: 14px;
-      font-weight: 800;
-      padding: 14px 22px;
-      border-radius: 12px;
-      border: none;
-      display: flex;
-      align-items: center;
-      gap: 8px;
-      cursor: pointer;
-      box-shadow: 0 4px 15px rgba(217, 70, 239, 0.4);
-      transition: var(--transition);
-    }
-
-    .ip-box:hover .ip-copy-btn {
-      filter: brightness(1.1);
-    }
-
-    /* Action Tiles */
-    .action-tiles {
-      display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
-      gap: 16px;
-      margin-bottom: 60px;
-    }
-
-    .tile-card {
-      background: var(--bg-card);
-      border: 1px solid var(--border-card);
-      border-radius: 16px;
-      padding: 22px;
-      text-align: left;
-      text-decoration: none;
-      color: inherit;
-      transition: var(--transition);
-      display: flex;
-      align-items: center;
-      gap: 16px;
-      backdrop-filter: blur(10px);
-      position: relative;
-      overflow: hidden;
-    }
-
-    .tile-card:hover {
-      background: var(--bg-card-hover);
-      border-color: var(--border-accent);
-      transform: translateY(-4px);
-      box-shadow: 0 12px 30px rgba(0, 0, 0, 0.4);
-    }
-
-    .tile-icon {
-      width: 52px;
-      height: 52px;
-      border-radius: 14px;
-      background: rgba(139, 92, 246, 0.15);
-      border: 1px solid rgba(139, 92, 246, 0.3);
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      flex-shrink: 0;
-    }
-
-    .tile-card:nth-child(1) .tile-icon { background: rgba(59, 130, 246, 0.15); border-color: rgba(59, 130, 246, 0.35); color: #60a5fa; }
-    .tile-card:nth-child(2) .tile-icon { background: rgba(245, 158, 11, 0.15); border-color: rgba(245, 158, 11, 0.35); color: #fbbf24; }
-    .tile-card:nth-child(3) .tile-icon { background: rgba(16, 185, 129, 0.15); border-color: rgba(16, 185, 129, 0.35); color: #34d399; }
-    .tile-card:nth-child(4) .tile-icon { background: rgba(236, 72, 153, 0.15); border-color: rgba(236, 72, 153, 0.35); color: #f472b6; }
-
-    .tile-icon svg { width: 26px; height: 26px; }
-
-    .tile-info h3 {
-      font-size: 16px;
-      font-weight: 800;
-      margin-bottom: 4px;
-    }
-
-    .tile-info p {
-      font-size: 13px;
-      color: var(--text-muted);
-    }
-
-    /* Section Header */
-    .section-head {
-      text-align: center;
-      margin-bottom: 36px;
-    }
-
-    .section-title {
-      font-family: var(--font-display);
-      font-size: 30px;
-      font-weight: 800;
-      letter-spacing: -0.5px;
-      margin-bottom: 8px;
-    }
-
-    .section-sub {
-      color: var(--text-muted);
-      font-size: 15px;
-    }
-
-    /* Shop Navigation Tabs */
-    .shop-nav {
-      display: flex;
-      justify-content: center;
-      flex-wrap: wrap;
-      gap: 10px;
-      margin-bottom: 36px;
-    }
-
-    .shop-tab {
-      background: rgba(24, 18, 48, 0.7);
-      border: 1px solid rgba(139, 92, 246, 0.25);
-      color: #d1d5db;
-      font-family: var(--font-body);
-      font-size: 14px;
-      font-weight: 700;
-      padding: 12px 24px;
-      border-radius: 12px;
-      cursor: pointer;
-      transition: var(--transition);
-      display: flex;
-      align-items: center;
-      gap: 8px;
-    }
-
-    .shop-tab:hover {
-      background: rgba(45, 33, 85, 0.9);
-      color: #fff;
-    }
-
-    .shop-tab.active {
-      background: linear-gradient(135deg, #7c3aed, #a855f7);
-      color: #fff;
-      border-color: #c084fc;
-      box-shadow: 0 4px 20px rgba(168, 85, 247, 0.4);
-    }
-
-    /* Product Grid */
-    .products-grid {
-      display: grid;
-      grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
-      gap: 22px;
-      margin-bottom: 80px;
-    }
-
-    .product-card {
-      background: var(--bg-card);
-      border: 1px solid var(--border-card);
-      border-radius: 18px;
-      padding: 24px;
-      display: flex;
-      flex-direction: column;
-      position: relative;
-      overflow: hidden;
-      transition: var(--transition);
-      backdrop-filter: blur(12px);
-    }
-
-    .product-card:hover {
-      transform: translateY(-6px);
-      background: var(--bg-card-hover);
-      border-color: var(--border-accent);
-      box-shadow: 0 16px 35px rgba(0, 0, 0, 0.5);
-    }
-
-    .product-card.badge-top::before {
-      content: attr(data-badge);
-      position: absolute;
-      top: 14px;
-      right: 14px;
-      font-size: 11px;
-      font-weight: 800;
-      padding: 4px 10px;
-      border-radius: 20px;
-      background: linear-gradient(135deg, #f59e0b, #ef4444);
-      color: #fff;
-      box-shadow: 0 2px 10px rgba(239, 68, 68, 0.4);
-      letter-spacing: 0.5px;
-    }
-
-    .card-glow {
-      position: absolute;
-      top: -50px;
-      left: 50%;
-      transform: translateX(-50%);
-      width: 140px;
-      height: 140px;
-      border-radius: 50%;
-      background: radial-gradient(circle, var(--glow-color, rgba(168, 85, 247, 0.3)) 0%, transparent 70%);
-      pointer-events: none;
-    }
-
-    .product-icon-wrap {
-      width: 64px;
-      height: 64px;
-      margin: 8px auto 16px;
-      border-radius: 16px;
-      background: rgba(255, 255, 255, 0.05);
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      border: 1px solid rgba(255, 255, 255, 0.1);
-      position: relative;
+      height: 100%;
       z-index: 1;
     }
 
-    .product-icon-wrap svg {
-      width: 32px;
-      height: 32px;
-    }
-
-    .product-name {
-      font-family: var(--font-display);
-      font-size: 20px;
-      font-weight: 800;
-      text-align: center;
-      margin-bottom: 6px;
-      color: #fff;
-    }
-
-    .product-sub {
-      text-align: center;
-      font-size: 13px;
-      color: var(--text-muted);
-      margin-bottom: 18px;
-    }
-
-    .product-features {
-      list-style: none;
-      margin-bottom: 22px;
-      flex-grow: 1;
+    #menuScreen {
+      position: relative;
+      z-index: 2;
       display: flex;
       flex-direction: column;
-      gap: 9px;
-    }
-
-    .product-features li {
-      font-size: 13px;
-      color: #cbd5e1;
-      display: flex;
       align-items: center;
-      gap: 10px;
-    }
-
-    .product-features li svg {
-      width: 16px;
-      height: 16px;
-      color: #10b981;
-      flex-shrink: 0;
-    }
-
-    .price-row {
-      display: flex;
-      align-items: baseline;
-      justify-content: center;
-      gap: 8px;
-      margin-bottom: 16px;
-      padding-top: 14px;
-      border-top: 1px solid rgba(255, 255, 255, 0.07);
-    }
-
-    .price-current {
-      font-family: var(--font-display);
-      font-size: 26px;
-      font-weight: 800;
-      color: #fff;
-    }
-
-    .price-old {
-      font-size: 15px;
-      color: #64748b;
-      text-decoration: line-through;
-    }
-
-    .btn-buy {
-      width: 100%;
-      background: linear-gradient(135deg, #7c3aed, #a855f7);
-      color: #fff;
-      font-family: var(--font-body);
-      font-weight: 800;
-      font-size: 14px;
-      padding: 13px 20px;
-      border-radius: 12px;
-      border: none;
-      cursor: pointer;
-      transition: var(--transition);
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      gap: 8px;
-    }
-
-    .btn-buy:hover {
-      background: linear-gradient(135deg, #8b5cf6, #c084fc);
-      transform: translateY(-2px);
-      box-shadow: 0 8px 22px rgba(168, 85, 247, 0.45);
-    }
-
-    /* Steps Section */
-    .steps-section {
-      background: rgba(14, 11, 29, 0.6);
-      border: 1px solid var(--border-card);
+      background: rgba(10, 10, 26, 0.78);
+      backdrop-filter: blur(14px);
+      padding: 44px 60px;
       border-radius: 24px;
-      padding: 50px 30px;
-      margin-bottom: 80px;
+      border: 1px solid rgba(0, 240, 255, 0.4);
+      box-shadow: 0 0 50px rgba(0, 240, 255, 0.25), inset 0 0 25px rgba(255, 0, 127, 0.2);
+      text-align: center;
+      animation: float 4s ease-in-out infinite;
     }
 
-    .steps-grid {
-      display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
-      gap: 24px;
-      margin-top: 36px;
+    @keyframes float {
+      0%, 100% { transform: translateY(0); }
+      50% { transform: translateY(-7px); }
     }
 
-    .step-card {
-      background: rgba(22, 17, 44, 0.6);
-      border: 1px solid rgba(139, 92, 246, 0.2);
-      border-radius: 18px;
-      padding: 26px;
-      position: relative;
+    h1 {
+      font-size: 3.2rem;
+      letter-spacing: 5px;
+      background: linear-gradient(135deg, #00f0ff 0%, #ff007f 100%);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      margin-bottom: 8px;
+      text-transform: uppercase;
+      font-weight: 900;
+      filter: drop-shadow(0 0 20px rgba(255, 0, 127, 0.4));
     }
 
-    .step-num {
-      position: absolute;
-      top: -16px;
-      left: 24px;
-      width: 36px;
-      height: 36px;
-      border-radius: 10px;
-      background: linear-gradient(135deg, #8b5cf6, #d946ef);
-      font-family: var(--font-display);
+    p.subtitle {
+      color: #94a3b8;
+      font-size: 1.05rem;
+      margin-bottom: 24px;
+      letter-spacing: 1px;
+    }
+
+    .warning-text {
+      color: #ff5533;
+      font-size: 0.95rem;
+      font-weight: bold;
+      margin-bottom: 24px;
+      text-shadow: 0 0 10px rgba(255, 68, 0, 0.6);
+    }
+
+    .difficulty-row {
+      display: flex;
+      gap: 12px;
+      margin-bottom: 28px;
+    }
+
+    .diff-btn {
+      background: rgba(30, 41, 59, 0.8);
+      border: 1px solid #334155;
+      color: #94a3b8;
+      padding: 8px 18px;
+      border-radius: 20px;
+      cursor: pointer;
+      font-size: 0.9rem;
+      font-weight: 600;
+      transition: all 0.2s;
+    }
+
+    .diff-btn.active {
+      background: rgba(0, 240, 255, 0.2);
+      border-color: #00f0ff;
+      color: #00f0ff;
+      box-shadow: 0 0 15px rgba(0, 240, 255, 0.3);
+    }
+
+    .btn-start {
+      background: linear-gradient(90deg, #ff007f, #00f0ff);
+      color: #fff;
+      border: none;
+      padding: 16px 54px;
+      font-size: 1.3rem;
       font-weight: 800;
-      font-size: 16px;
+      border-radius: 50px;
+      cursor: pointer;
+      text-transform: uppercase;
+      letter-spacing: 2px;
+      box-shadow: 0 0 30px rgba(255, 0, 127, 0.6);
+      transition: all 0.3s;
+    }
+
+    .btn-start:hover {
+      transform: scale(1.06);
+      box-shadow: 0 0 45px rgba(0, 240, 255, 0.85);
+    }
+
+    #gameScreen {
+      position: relative;
+      z-index: 2;
+      display: none;
+      flex-direction: column;
+      align-items: center;
+      gap: 14px;
+    }
+
+    .hud {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      width: 100%;
+      max-width: 620px;
+      background: rgba(15, 23, 42, 0.88);
+      backdrop-filter: blur(8px);
+      padding: 10px 24px;
+      border-radius: 14px;
+      border: 1px solid #334155;
+      font-size: 0.95rem;
+      font-weight: 600;
+      box-shadow: 0 0 20px rgba(0, 240, 255, 0.15);
+    }
+
+    .hud-badge {
       display: flex;
       align-items: center;
-      justify-content: center;
-      box-shadow: 0 4px 15px rgba(217, 70, 239, 0.4);
+      gap: 6px;
+      color: #38bdf8;
     }
 
-    .step-card h4 {
-      font-size: 18px;
+    .best-badge {
+      color: #facc15;
+      text-shadow: 0 0 8px rgba(250, 204, 21, 0.4);
+    }
+
+    .lava-badge {
+      color: #ff5533;
+      text-shadow: 0 0 10px rgba(255, 68, 0, 0.6);
       font-weight: 800;
-      margin-top: 10px;
-      margin-bottom: 10px;
     }
 
-    .step-card p {
-      font-size: 14px;
-      color: var(--text-muted);
-      line-height: 1.6;
+    .hud-btn {
+      background: #1e293b;
+      border: 1px solid #475569;
+      color: #e2e8f0;
+      padding: 6px 14px;
+      border-radius: 8px;
+      cursor: pointer;
+      font-size: 0.85rem;
+      font-weight: bold;
+      transition: background 0.2s;
     }
 
-    /* Comparison Table */
-    .compare-section {
-      margin-bottom: 80px;
+    .hud-btn:hover {
+      background: #334155;
     }
 
-    .table-wrapper {
-      background: var(--bg-card);
-      border: 1px solid var(--border-card);
-      border-radius: 18px;
-      overflow-x: auto;
-      backdrop-filter: blur(12px);
+    #mazeCanvas {
+      background: #080a14;
+      border: 2px solid #00f0ff;
+      border-radius: 14px;
+      box-shadow: 0 0 35px rgba(0, 240, 255, 0.35);
     }
 
-    .compare-table {
+    #fireworksCanvas {
+      position: absolute;
+      top: 0;
+      left: 0;
       width: 100%;
-      border-collapse: collapse;
+      height: 100%;
+      z-index: 10;
+      pointer-events: none;
+    }
+
+    /* Модальные окна победы и гибели */
+    .modal {
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+      z-index: 20;
+      display: none;
+      flex-direction: column;
+      align-items: center;
+      background: rgba(10, 10, 28, 0.96);
+      backdrop-filter: blur(14px);
+      padding: 42px 64px;
+      border-radius: 26px;
       text-align: center;
-      font-size: 14px;
+      animation: popIn 0.35s cubic-bezier(0.175, 0.885, 0.32, 1.275);
     }
 
-    .compare-table th, .compare-table td {
-      padding: 16px 20px;
-      border-bottom: 1px solid rgba(255, 255, 255, 0.06);
+    @keyframes popIn {
+      from { transform: translate(-50%, -50%) scale(0.7); opacity: 0; }
+      to { transform: translate(-50%, -50%) scale(1); opacity: 1; }
     }
 
-    .compare-table th {
-      background: rgba(30, 24, 60, 0.8);
-      font-family: var(--font-display);
-      font-size: 14px;
-      font-weight: 700;
-      color: #fff;
+    #winModal {
+      border: 2px solid #38ef7d;
+      box-shadow: 0 0 70px rgba(56, 239, 125, 0.6);
     }
 
-    .compare-table th:first-child, .compare-table td:first-child {
-      text-align: left;
-      font-weight: 600;
-    }
-
-    .compare-table tr:hover td {
-      background: rgba(255, 255, 255, 0.02);
-    }
-
-    .badge-check {
-      color: #10b981;
+    #winModal h2 {
+      font-size: 2.4rem;
+      color: #38ef7d;
+      margin-bottom: 12px;
+      text-shadow: 0 0 25px rgba(56, 239, 125, 0.7);
+      text-transform: uppercase;
       font-weight: 900;
     }
 
-    .badge-cross {
-      color: #64748b;
+    #deathModal {
+      border: 2px solid #ff2200;
+      box-shadow: 0 0 70px rgba(255, 34, 0, 0.75);
     }
 
-    /* Footer */
-    footer {
-      background: #04030a;
-      border-top: 1px solid rgba(139, 92, 246, 0.2);
-      padding: 50px 0 30px;
-      font-size: 14px;
-      color: var(--text-muted);
+    #deathModal h2 {
+      font-size: 2.4rem;
+      color: #ff3b30;
+      margin-bottom: 12px;
+      text-shadow: 0 0 25px rgba(255, 59, 48, 0.8);
+      text-transform: uppercase;
+      font-weight: 900;
     }
 
-    .footer-grid {
-      display: grid;
-      grid-template-columns: 2fr repeat(3, 1fr);
-      gap: 36px;
-      margin-bottom: 40px;
-    }
-
-    .footer-desc {
-      margin-top: 14px;
-      font-size: 13px;
-      max-width: 320px;
+    .modal-text {
+      font-size: 1.15rem;
+      color: #e2e8f0;
+      margin-bottom: 26px;
       line-height: 1.6;
     }
 
-    .footer-col h5 {
-      color: #fff;
-      font-weight: 800;
-      font-size: 15px;
-      margin-bottom: 18px;
-    }
-
-    .footer-col ul {
-      list-style: none;
-      display: flex;
-      flex-direction: column;
-      gap: 10px;
-    }
-
-    .footer-col a {
-      color: var(--text-muted);
-      text-decoration: none;
-      transition: var(--transition);
-    }
-
-    .footer-col a:hover {
-      color: #fff;
-    }
-
-    .footer-bottom {
-      border-top: 1px solid rgba(255, 255, 255, 0.06);
-      padding-top: 24px;
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-      flex-wrap: wrap;
-      gap: 16px;
-      font-size: 12px;
-    }
-
-    /* Checkout Modal */
-    .modal-overlay {
-      position: fixed;
-      inset: 0;
-      background: rgba(4, 3, 10, 0.85);
-      backdrop-filter: blur(12px);
-      z-index: 1000;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      padding: 20px;
-      opacity: 0;
-      pointer-events: none;
-      transition: opacity 0.25s ease;
-    }
-
-    .modal-overlay.active {
-      opacity: 1;
-      pointer-events: auto;
-    }
-
-    .checkout-modal {
-      background: #120e26;
-      border: 1px solid var(--border-accent);
-      border-radius: 24px;
-      width: 100%;
-      max-width: 520px;
-      padding: 32px;
-      box-shadow: 0 25px 60px rgba(0, 0, 0, 0.7);
-      position: relative;
-      transform: translateY(20px);
-      transition: transform 0.25s cubic-bezier(0.34, 1.56, 0.64, 1);
-    }
-
-    .modal-overlay.active .checkout-modal {
-      transform: translateY(0);
-    }
-
-    .modal-close {
-      position: absolute;
-      top: 20px;
-      right: 20px;
-      background: rgba(255, 255, 255, 0.08);
+    .btn-again {
+      background: linear-gradient(90deg, #11998e, #38ef7d);
+      color: #03140b;
       border: none;
-      width: 34px;
-      height: 34px;
-      border-radius: 10px;
-      color: #fff;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      cursor: pointer;
-      transition: var(--transition);
-    }
-
-    .modal-close:hover {
-      background: rgba(255, 255, 255, 0.2);
-    }
-
-    .checkout-header {
-      display: flex;
-      align-items: center;
-      gap: 16px;
-      margin-bottom: 24px;
-      padding-bottom: 18px;
-      border-bottom: 1px solid rgba(255, 255, 255, 0.08);
-    }
-
-    .checkout-avatar-wrap {
-      width: 56px;
-      height: 56px;
-      border-radius: 14px;
-      background: rgba(255, 255, 255, 0.05);
-      border: 1px solid rgba(255, 255, 255, 0.15);
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      overflow: hidden;
-      flex-shrink: 0;
-    }
-
-    .checkout-avatar-wrap img {
-      width: 44px;
-      height: 44px;
-      image-rendering: pixelated;
-    }
-
-    .checkout-title h3 {
-      font-size: 18px;
+      padding: 15px 42px;
+      font-size: 1.15rem;
       font-weight: 800;
-    }
-
-    .checkout-title p {
-      font-size: 13px;
-      color: var(--text-muted);
-    }
-
-    .form-group {
-      margin-bottom: 18px;
-    }
-
-    .form-label {
-      display: block;
-      font-size: 12px;
-      font-weight: 700;
+      border-radius: 35px;
+      cursor: pointer;
+      box-shadow: 0 0 25px rgba(56, 239, 125, 0.5);
+      transition: all 0.2s;
       text-transform: uppercase;
-      letter-spacing: 0.5px;
-      margin-bottom: 8px;
-      color: #cbd5e1;
+      letter-spacing: 1px;
     }
 
-    .form-input {
-      width: 100%;
-      background: rgba(255, 255, 255, 0.05);
-      border: 1px solid rgba(255, 255, 255, 0.12);
-      border-radius: 12px;
-      padding: 13px 16px;
+    .btn-retry {
+      background: linear-gradient(90deg, #ff416c, #ff4b2b);
       color: #fff;
-      font-family: var(--font-body);
-      font-size: 15px;
-      font-weight: 600;
-      transition: var(--transition);
-    }
-
-    .form-input:focus {
-      outline: none;
-      border-color: var(--primary-light);
-      background: rgba(255, 255, 255, 0.08);
-      box-shadow: 0 0 15px rgba(168, 85, 247, 0.25);
-    }
-
-    .promo-input-group {
-      display: flex;
-      gap: 8px;
-    }
-
-    .promo-btn {
-      background: rgba(139, 92, 246, 0.25);
-      border: 1px solid var(--border-accent);
-      color: #fff;
-      padding: 0 16px;
-      border-radius: 12px;
-      font-weight: 700;
-      cursor: pointer;
-      font-size: 13px;
-      transition: var(--transition);
-      white-space: nowrap;
-    }
-
-    .promo-btn:hover {
-      background: var(--primary);
-    }
-
-    .promo-status {
-      font-size: 12px;
-      margin-top: 6px;
-      font-weight: 600;
-    }
-    .promo-status.success { color: #34d399; }
-    .promo-status.error { color: #f87171; }
-
-    /* Payment Gateways */
-    .payments-grid {
-      display: grid;
-      grid-template-columns: repeat(3, 1fr);
-      gap: 10px;
-      margin-bottom: 22px;
-    }
-
-    .payment-option {
-      border: 1px solid rgba(255, 255, 255, 0.1);
-      border-radius: 12px;
-      padding: 10px;
-      text-align: center;
-      cursor: pointer;
-      transition: var(--transition);
-      background: rgba(255, 255, 255, 0.02);
-    }
-
-    .payment-option:hover {
-      border-color: rgba(168, 85, 247, 0.4);
-      background: rgba(255, 255, 255, 0.05);
-    }
-
-    .payment-option.active {
-      border-color: var(--accent);
-      background: rgba(217, 70, 239, 0.1);
-    }
-
-    .payment-option span {
-      display: block;
-      font-size: 12px;
-      font-weight: 700;
-      margin-top: 4px;
-    }
-
-    .payment-option small {
-      font-size: 10px;
-      color: var(--text-muted);
-    }
-
-    .checkout-summary {
-      background: rgba(0, 0, 0, 0.3);
-      border-radius: 14px;
-      padding: 16px;
-      margin-bottom: 22px;
-    }
-
-    .summary-line {
-      display: flex;
-      justify-content: space-between;
-      font-size: 13px;
-      color: var(--text-muted);
-      margin-bottom: 8px;
-    }
-
-    .summary-line.total {
-      font-size: 16px;
-      font-weight: 800;
-      color: #fff;
-      margin-bottom: 0;
-      padding-top: 8px;
-      border-top: 1px solid rgba(255, 255, 255, 0.08);
-    }
-
-    .btn-pay-submit {
-      width: 100%;
-      background: linear-gradient(135deg, #10b981, #059669);
-      color: #fff;
-      font-family: var(--font-body);
-      font-weight: 800;
-      font-size: 15px;
-      padding: 15px;
-      border-radius: 12px;
       border: none;
+      padding: 15px 42px;
+      font-size: 1.15rem;
+      font-weight: 800;
+      border-radius: 35px;
       cursor: pointer;
-      transition: var(--transition);
-      box-shadow: 0 4px 18px rgba(16, 185, 129, 0.4);
+      box-shadow: 0 0 25px rgba(255, 75, 43, 0.6);
+      transition: all 0.2s;
+      text-transform: uppercase;
+      letter-spacing: 1px;
     }
 
-    .btn-pay-submit:hover {
-      filter: brightness(1.1);
-      transform: translateY(-2px);
-    }
-
-    /* Toast Notification */
-    .toast {
-      position: fixed;
-      bottom: 24px;
-      right: 24px;
-      background: #1e173e;
-      border: 1px solid var(--border-accent);
-      padding: 14px 20px;
-      border-radius: 12px;
-      box-shadow: 0 10px 30px rgba(0,0,0,0.5);
-      z-index: 2000;
-      display: flex;
-      align-items: center;
-      gap: 12px;
-      font-weight: 700;
-      font-size: 14px;
-      transform: translateY(100px);
-      opacity: 0;
-      transition: all 0.3s cubic-bezier(0.34, 1.56, 0.64, 1);
-    }
-
-    .toast.show {
-      transform: translateY(0);
-      opacity: 1;
-    }
-
-    /* Mobile Responsive */
-    @media (max-width: 900px) {
-      .footer-grid {
-        grid-template-columns: 1fr 1fr;
-      }
-      .nav-links {
-        display: none;
-      }
-    }
-
-    @media (max-width: 600px) {
-      .hero { padding: 40px 0 20px; }
-      .ip-box { padding: 12px 14px; flex-direction: column; gap: 10px; }
-      .ip-copy-btn { width: 100%; justify-content: center; }
-      .footer-grid { grid-template-columns: 1fr; }
-      .payments-grid { grid-template-columns: 1fr; }
+    .btn-again:hover, .btn-retry:hover {
+      transform: scale(1.05);
     }
   </style>
 </head>
 <body>
 
-  <div class="cyber-grid"></div>
+  <canvas id="bgCanvas"></canvas>
 
-  <!-- Header -->
-  <header>
-    <div class="container nav-container">
-      <a href="#" class="logo-area">
-        <div class="logo-icon">
-          <svg viewBox="0 0 24 24"><path d="M12 2L2 7l10 5 10-5-10-5zM2 17l10 5 10-5M2 12l10 5 10-5"/></svg>
-        </div>
-        <div class="logo-text">
-          <span class="logo-title">REALLYWORLD</span>
-          <span class="logo-sub">GRIEF & ANARCHY</span>
-        </div>
-      </a>
-
-      <nav class="nav-links">
-        <a href="#shop" class="nav-link active">Магазин</a>
-        <a href="#compare" class="nav-link">Привилегии</a>
-        <a href="#start" class="nav-link">Как начать играть</a>
-        <a href="https://t.me" target="_blank" class="nav-link">Telegram-бот</a>
-        <a href="https://forum.reallyworld.ru" target="_blank" class="nav-link">Форум</a>
-      </nav>
-
-      <div class="header-actions">
-        <div class="online-counter-pill">
-          <span class="status-dot"></span>
-          <span id="liveOnline">7 482</span> игроков онлайн
-        </div>
-      </div>
+  <div id="menuScreen">
+    <h1>CYBER MAZE</h1>
+    <p class="subtitle">Управление: Удерживайте стрелки или WASD для плавной езды</p>
+    <p class="warning-text">⚠️ БЕГИ: Лава начнёт заливать лабиринт сзади!</p>
+    
+    <div class="difficulty-row">
+      <button class="diff-btn" data-size="19" data-speed="2.3">Быстрый (19x19)</button>
+      <button class="diff-btn active" data-size="27" data-speed="2.6">Большой (27x27)</button>
+      <button class="diff-btn" data-size="33" data-speed="3.1">Гигант (33x33)</button>
     </div>
-  </header>
 
-  <!-- Live Purchases Feed -->
-  <div class="live-feed-bar">
-    <div class="container feed-container">
-      <div class="feed-label">
-        <svg width="12" height="12" viewBox="0 0 24 24" fill="currentColor"><path d="M13 10V3L4 14h7v7l9-11h-7z"/></svg>
-        LIVE ПОКУПКИ
-      </div>
-      <div class="feed-ticker" id="feedTicker">
-        <!-- Injected via JS -->
-      </div>
-    </div>
+    <button class="btn-start" id="startBtn">НАЧАТЬ ИГРУ</button>
   </div>
 
-  <!-- Hero Section -->
-  <main class="container">
-    <section class="hero">
-      <div class="hero-badge">
-        <span>⚡ Крупнейший СНГ Гриф-сервер от Домера</span>
-      </div>
-      <h1 class="hero-title">
-        ЛУЧШИЙ ГРИФ В <br><span class="gradient-text">MINECRAFT 1.16.5 — 1.21</span>
-      </h1>
-      <p class="hero-desc">
-        Уникальная анархия с кланами, сферами, кастомным оружием, рейдами баз и честным PVP без лагов.
-      </p>
-
-      <!-- IP Copy Box -->
-      <div class="ip-box-wrapper">
-        <div class="ip-box" id="ipBox" onclick="copyServerIP()">
-          <div class="ip-data">
-            <div class="ip-title">IP ДЛЯ ПОДКЛЮЧЕНИЯ:</div>
-            <div class="ip-address" id="serverIp">mc.reallyworld.me</div>
-          </div>
-          <button class="ip-copy-btn" id="copyBtn">
-            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><rect x="9" y="9" width="13" height="13" rx="2" ry="2"></rect><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"></path></svg>
-            Скопировать IP
-          </button>
-        </div>
-      </div>
-
-      <!-- Action Quick Tiles -->
-      <div class="action-tiles">
-        <a href="#shop" class="tile-card">
-          <div class="tile-icon">
-            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="9" cy="21" r="1"/><circle cx="20" cy="21" r="1"/><path d="M1 1h4l2.68 13.39a2 2 0 0 0 2 1.61h9.72a2 2 0 0 0 2-1.61L23 6H6"/></svg>
-          </div>
-          <div class="tile-info">
-            <h3>Донат-магазин</h3>
-            <p>Скидки до -60% на ранги</p>
-          </div>
-        </a>
-
-        <a href="#start" class="tile-card">
-          <div class="tile-icon">
-            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/><line x1="16" y1="13" x2="8" y2="13"/><line x1="16" y1="17" x2="8" y2="17"/></svg>
-          </div>
-          <div class="tile-info">
-            <h3>Как начать?</h3>
-            <p>Гайд за 3 простых шага</p>
-          </div>
-        </a>
-
-        <a href="https://t.me" target="_blank" class="tile-card">
-          <div class="tile-icon">
-            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="22" y1="2" x2="11" y2="13"/><polygon points="22 2 15 22 11 13 2 9 22 2"/></svg>
-          </div>
-          <div class="tile-info">
-            <h3>Telegram-привязка</h3>
-            <p>Защита аккаунта и бонусы</p>
-          </div>
-        </a>
-
-        <a href="#compare" class="tile-card">
-          <div class="tile-icon">
-            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg>
-          </div>
-          <div class="tile-info">
-            <h3>Набор в модераторы</h3>
-            <p>Стань частью команды (14+)</p>
-          </div>
-        </a>
-      </div>
-    </section>
-
-    <!-- Shop Section -->
-    <section id="shop">
-      <div class="section-head">
-        <h2 class="section-title">АВТО-ДОНАТ МАГАЗИН</h2>
-        <p class="section-sub">Выдача доната происходит автоматически в течение 10 секунд после оплаты</p>
-      </div>
-
-      <!-- Shop Navigation -->
-      <div class="shop-nav">
-        <button class="shop-tab active" onclick="switchCategory('ranks')">
-          <svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg>
-          Привилегии
-        </button>
-        <button class="shop-tab" onclick="switchCategory('rilliks')">
-          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><path d="M12 6v12M9 10h6"/></svg>
-          Риллики (Валюта)
-        </button>
-        <button class="shop-tab" onclick="switchCategory('cases')">
-          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 8a2 2 0 0 0-1-1.73l-7-4a2 2 0 0 0-2 0l-7 4A2 2 0 0 0 3 8v8a2 2 0 0 0 1 1.73l7 4a2 2 0 0 0 2 0l7-4A2 2 0 0 0 21 16Z"/><path d="m3.3 7 8.7 5 8.7-5"/><path d="M12 22V12"/></svg>
-          Кейсы & Сферы
-        </button>
-        <button class="shop-tab" onclick="switchCategory('services')">
-          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg>
-          Разбан / Размут
-        </button>
-      </div>
-
-      <!-- Products Grid -->
-      <div class="products-grid" id="productsGrid">
-        <!-- Rendered via JS -->
-      </div>
-    </section>
-
-    <!-- Comparison Matrix Section -->
-    <section class="compare-section" id="compare">
-      <div class="section-head">
-        <h2 class="section-title">ТАБЛИЦА ПРИВИЛЕГИЙ (/description)</h2>
-        <p class="section-sub">Сравнение основных команд и возможностей топ-статусов на ReallyWorld</p>
-      </div>
-
-      <div class="table-wrapper">
-        <table class="compare-table">
-          <thead>
-            <tr>
-              <th>Возможности / Команды</th>
-              <th>HERO</th>
-              <th>TITAN</th>
-              <th>OVERLORD</th>
-              <th>MAGISTER</th>
-              <th style="color: #ec4899;">DRAGON</th>
-            </tr>
-          </thead>
-          <tbody>
-            <tr>
-              <td>Полёт в лобби и регионах (/fly)</td>
-              <td><span class="badge-cross">—</span></td>
-              <td><span class="badge-check">✔</span></td>
-              <td><span class="badge-check">✔</span></td>
-              <td><span class="badge-check">✔</span></td>
-              <td><span class="badge-check">✔</span></td>
-            </tr>
-            <tr>
-              <td>Бесплатная починка вещей (/repair all)</td>
-              <td><span class="badge-cross">—</span></td>
-              <td>КД 6 ч.</td>
-              <td>КД 3 ч.</td>
-              <td>КД 1 ч.</td>
-              <td><span class="badge-check">КД 30 мин.</span></td>
-            </tr>
-            <tr>
-              <td>Смотреть инвентари других (/invsee)</td>
-              <td><span class="badge-cross">—</span></td>
-              <td><span class="badge-cross">—</span></td>
-              <td><span class="badge-cross">—</span></td>
-              <td><span class="badge-check">✔</span></td>
-              <td><span class="badge-check">✔</span></td>
-            </tr>
-            <tr>
-              <td>Восстановление сытости и сердец (/feed, /heal)</td>
-              <td>/feed</td>
-              <td>/feed, /heal</td>
-              <td>/feed, /heal</td>
-              <td>/feed, /heal</td>
-              <td><span class="badge-check">Без задержки</span></td>
-            </tr>
-            <tr>
-              <td>Количество приватов региона</td>
-              <td>3 привата</td>
-              <td>5 приватов</td>
-              <td>7 приватов</td>
-              <td>10 приватов</td>
-              <td><span class="badge-check">15 приватов</span></td>
-            </tr>
-            <tr>
-              <td>Выдача временного статуса другу (/grant)</td>
-              <td><span class="badge-cross">—</span></td>
-              <td><span class="badge-cross">—</span></td>
-              <td><span class="badge-cross">—</span></td>
-              <td>1 раз в неделю</td>
-              <td><span class="badge-check">3 раза в неделю</span></td>
-            </tr>
-          </tbody>
-        </table>
-      </div>
-    </section>
-
-    <!-- Start Playing Guide -->
-    <section class="steps-section" id="start">
-      <div class="section-head">
-        <h2 class="section-title">КАК НАЧАТЬ ИГРАТЬ?</h2>
-        <p class="section-sub">Подключение к ReallyWorld займёт не более пары минут</p>
-      </div>
-
-      <div class="steps-grid">
-        <div class="step-card">
-          <div class="step-num">1</div>
-          <h4>Скачай Minecraft</h4>
-          <p>Подойдёт любой лаунчер (TLauncher, Legacy, Prism или официальный). Рекомендуемая версия: <strong>1.16.5</strong> или <strong>1.20+</strong>.</p>
-        </div>
-
-        <div class="step-card">
-          <div class="step-num">2</div>
-          <h4>Добавь наш сервер</h4>
-          <p>В главном меню нажми «Сетевая игра» ➔ «Добавить» и вставь адрес: <strong>mc.reallyworld.me</strong>.</p>
-        </div>
-
-        <div class="step-card">
-          <div class="step-num">3</div>
-          <h4>Зарегистрируйся</h4>
-          <p>При первом входе введи в чат пароль для защиты: <code>/register [твой_пароль] [повтор]</code> и наслаждайся игрой!</p>
-        </div>
-      </div>
-    </section>
-  </main>
-
-  <!-- Checkout Modal -->
-  <div class="modal-overlay" id="checkoutModal">
-    <div class="checkout-modal">
-      <button class="modal-close" onclick="closeModal()">✕</button>
-
-      <div class="checkout-header">
-        <div class="checkout-avatar-wrap">
-          <img id="modalAvatar" src="https://minotar.net/avatar/Steve/64" alt="Skin">
-        </div>
-        <div class="checkout-title">
-          <h3 id="modalProductName">DRAGON</h3>
-          <p id="modalProductPrice">1 299 ₽ / навсегда</p>
-        </div>
-      </div>
-
-      <div class="form-group">
-        <label class="form-label">Никнейм на сервере</label>
-        <input type="text" class="form-input" id="playerNick" placeholder="Введите ваш точный ник..." oninput="updatePlayerAvatar(this.value)">
-      </div>
-
-      <div class="form-group">
-        <label class="form-label">Промокод (если есть)</label>
-        <div class="promo-input-group">
-          <input type="text" class="form-input" id="promoCode" placeholder="DOMER, RW2026...">
-          <button class="promo-btn" type="button" onclick="applyPromo()">Применить</button>
-        </div>
-        <div class="promo-status" id="promoStatus"></div>
-      </div>
-
-      <div class="form-group">
-        <label class="form-label">Способ оплаты</label>
-        <div class="payments-grid">
-          <div class="payment-option active" onclick="selectPayment(this, 'sbp')">
-            <span>⚡ СБП</span>
-            <small>0% комиссия</small>
-          </div>
-          <div class="payment-option" onclick="selectPayment(this, 'card')">
-            <span>💳 Карты МИР</span>
-            <small>РФ и СНГ</small>
-          </div>
-          <div class="payment-option" onclick="selectPayment(this, 'crypto')">
-            <span>💎 TG / Crypto</span>
-            <small>USDT, TON</small>
-          </div>
-        </div>
-      </div>
-
-      <div class="checkout-summary">
-        <div class="summary-line">
-          <span>Товар:</span>
-          <span id="summaryItemName">DRAGON</span>
-        </div>
-        <div class="summary-line">
-          <span>Скидка по промокоду:</span>
-          <span id="summaryDiscount">0%</span>
-        </div>
-        <div class="summary-line total">
-          <span>К оплате:</span>
-          <span id="summaryFinalPrice" style="color: #34d399;">1 299 ₽</span>
-        </div>
-      </div>
-
-      <button class="btn-pay-submit" onclick="submitPurchase()">
-        Перейти к безопасной оплате
-      </button>
+  <div id="gameScreen">
+    <div class="hud">
+      <div class="hud-badge">⏱ Время: <span id="timeVal">00:00</span></div>
+      <div class="hud-badge best-badge">🏆 Рекорд: <span id="bestTimeVal">--:--</span></div>
+      <div class="hud-badge lava-badge" id="lavaIndicator">🔥 Лава спит...</div>
+      <button class="hud-btn" id="exitMenuBtn">В меню</button>
     </div>
+    <canvas id="mazeCanvas"></canvas>
   </div>
 
-  <!-- Toast -->
-  <div class="toast" id="toast">
-    <svg width="20" height="20" viewBox="0 0 24 24" fill="#34d399"><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm-2 15l-5-5 1.41-1.41L10 14.17l7.59-7.59L19 8l-9 9z"/></svg>
-    <span id="toastMsg">Скопировано!</span>
+  <canvas id="fireworksCanvas"></canvas>
+
+  <!-- Окно победы -->
+  <div id="winModal" class="modal">
+    <h2>🎉 ТЫ СБЕЖАЛ! 🎉</h2>
+    <p id="winStats" class="modal-text">Лабиринт успешно пройден!</p>
+    <button class="btn-again" id="playAgainBtn">Играть снова</button>
   </div>
 
-  <!-- Footer -->
-  <footer>
-    <div class="container">
-      <div class="footer-grid">
-        <div>
-          <div class="logo-area" style="margin-bottom: 12px;">
-            <div class="logo-icon" style="width: 36px; height: 36px;">
-              <svg viewBox="0 0 24 24"><path d="M12 2L2 7l10 5 10-5-10-5zM2 17l10 5 10-5M2 12l10 5 10-5"/></svg>
-            </div>
-            <span class="logo-title" style="font-size: 18px;">REALLYWORLD</span>
-          </div>
-          <p class="footer-desc">
-            Сервер ReallyWorld не связан с Mojang AB или Microsoft Corporation. Все покупки являются добровольным пожертвованием на развитие проекта.
-          </p>
-        </div>
-
-        <div class="footer-col">
-          <h5>Навигация</h5>
-          <ul>
-            <li><a href="#shop">Магазин</a></li>
-            <li><a href="#compare">Привилегии</a></li>
-            <li><a href="#start">Как начать играть</a></li>
-            <li><a href="https://forum.reallyworld.ru" target="_blank">Форум проекта</a></li>
-          </ul>
-        </div>
-
-        <div class="footer-col">
-          <h5>Контакты и медиа</h5>
-          <ul>
-            <li><a href="https://vk.com/reallyworld" target="_blank">Группа ВКонтакте</a></li>
-            <li><a href="https://t.me/reallyworld_official" target="_blank">Канал в Telegram</a></li>
-            <li><a href="https://t.me/reallyworld_official_bot" target="_blank">Бот привязки (@reallyworld)</a></li>
-            <li><a href="https://youtube.com" target="_blank">YouTube-канал Domer Grief</a></li>
-          </ul>
-        </div>
-
-        <div class="footer-col">
-          <h5>Документы</h5>
-          <ul>
-            <li><a href="#" onclick="alert('Договор публичной оферты ReallyWorld: все услуги предоставляются виртуально на бессрочной основе.'); return false;">Публичная оферта</a></li>
-            <li><a href="#" onclick="alert('Политика конфиденциальности: персональные данные не передаются третьим лицам.'); return false;">Конфиденциальность</a></li>
-            <li><a href="#" onclick="alert('Служба поддержки: support@reallyworld.me'); return false;">Техническая поддержка</a></li>
-          </ul>
-        </div>
-      </div>
-
-      <div class="footer-bottom">
-        <div>© 2018–2026 ReallyWorld Project. Все права защищены. Создано с любовью к гриферству.</div>
-        <div>IP сервера: <strong>mc.reallyworld.me</strong></div>
-      </div>
-    </div>
-  </footer>
+  <!-- Окно гибели от лавы -->
+  <div id="deathModal" class="modal">
+    <h2>💀 ТЕБЯ НАГНАЛА ЛАВА! 💀</h2>
+    <p id="deathStats" class="modal-text">Жар поглотил коридоры. Не останавливайся ни на секунду!</p>
+    <button class="btn-retry" id="retryBtn">Попробовать заново</button>
+  </div>
 
   <script>
-    // Data Structure for ReallyWorld Shop
-    const shopProducts = {
-      ranks: [
-        {
-          id: 'dragon',
-          name: 'DRAGON',
-          sub: 'Самый мощный донат проекта',
-          price: 1299,
-          oldPrice: 2499,
-          badge: 'ХИТ ПРОДАЖ',
-          glow: 'rgba(236, 72, 153, 0.4)',
-          features: [
-            'Все команды привилегий ниже',
-            '/fly (Полёт во всех мирах)',
-            '/repair all (Починка без лимитов)',
-            '/invsee (Просмотр инвентарей)',
-            'Кит Dragon с топ сферами и броней',
-            'Доступ к закрытым ивентам'
-          ]
-        },
-        {
-          id: 'imperator',
-          name: 'IMPERATOR',
-          sub: 'Владыка гриферских серверов',
-          price: 899,
-          oldPrice: 1599,
-          badge: '-45%',
-          glow: 'rgba(168, 85, 247, 0.4)',
-          features: [
-            '/fly в лобби и регионах',
-            '/repair all (КД 1 час)',
-            '/heal и /feed без задержки',
-            '/near (Поиск игроков поблизости)',
-            '10 приватов регионов',
-            'Эксклюзивный чат-префикс'
-          ]
-        },
-        {
-          id: 'magister',
-          name: 'MAGISTER',
-          sub: 'Ультимативные возможности',
-          price: 549,
-          oldPrice: 999,
-          badge: 'ПОПУЛЯРНОЕ',
-          glow: 'rgba(59, 130, 246, 0.4)',
-          features: [
-            '/repair (починка руки)',
-            '/workbench и /enderchest',
-            '/god в мирных зонах',
-            'Кит Magister (зелья, чары 5)',
-            '7 приватов регионов'
-          ]
-        },
-        {
-          id: 'overlord',
-          name: 'OVERLORD',
-          sub: 'Лидер и гроза кланов',
-          price: 349,
-          oldPrice: 650,
-          glow: 'rgba(245, 158, 11, 0.35)',
-          features: [
-            '/feed (утоление голода)',
-            '/hat (блок на голову)',
-            '/crafting (верстак)',
-            'Кит Overlord каждые 24ч',
-            '5 точек дома (/sethome)'
-          ]
-        },
-        {
-          id: 'titan',
-          name: 'TITAN',
-          sub: 'Надёжная броня и преимущества',
-          price: 199,
-          oldPrice: 390,
-          features: [
-            '/back (возврат на место смерти)',
-            '/feed восстанавливать сытость',
-            'Кит Titan (алмазная броня)',
-            '4 точки дома (/sethome)'
-          ]
-        },
-        {
-          id: 'hero',
-          name: 'HERO',
-          sub: 'Отличный быстрый старт',
-          price: 99,
-          oldPrice: 190,
-          features: [
-            'Цветной чат & префикс',
-            '/workbench (переносной верстак)',
-            'Кит Hero со стартовыми ресурсами',
-            '3 точки дома'
-          ]
+    // Аудио эффекты на Web Audio API
+    const AudioEngine = {
+      ctx: null,
+      init() {
+        if (!this.ctx) {
+          const AudioContext = window.AudioContext || window.webkitAudioContext;
+          if (AudioContext) this.ctx = new AudioContext();
         }
-      ],
-      rilliks: [
-        {
-          id: 'ril_500',
-          name: '500 Рилликов',
-          sub: 'Донат-валюта на покупки в игре',
-          price: 199,
-          oldPrice: 250,
-          badge: '+10% БОНУС',
-          features: ['Покупка в /shop', 'Мгновенное начисление', 'Не сгорают после вайпа']
-        },
-        {
-          id: 'ril_1500',
-          name: '1 500 Рилликов',
-          sub: 'Популярный набор валюты',
-          price: 499,
-          oldPrice: 750,
-          badge: '+25% БОНУС',
-          features: ['Хватит на фулл сет сфер', 'Ускоренная прокачка клана', 'Бессрочный баланс']
-        },
-        {
-          id: 'ril_4000',
-          name: '4 000 Рилликов',
-          sub: 'Максимальный набор магната',
-          price: 1199,
-          oldPrice: 2000,
-          badge: '+40% БОНУС',
-          features: ['Любые предметы на аукционе', 'Покупка титулов и префиксов', 'Приоритет в техподдержке']
-        }
-      ],
-      cases: [
-        {
-          id: 'case_donate',
-          name: 'Кейс с донатом',
-          sub: 'Шанс выбить DRAGON за копейки',
-          price: 49,
-          oldPrice: 99,
-          badge: 'РУЛЕТКА',
-          features: ['Шанс на Dragon 15%', 'Шанс на Imperator 30%', 'Гарантированный ранг от Hero']
-        },
-        {
-          id: 'case_spheres',
-          name: 'Сфера Титана',
-          sub: 'Даёт суперсилы и баффы в PvP',
-          price: 149,
-          oldPrice: 249,
-          features: ['Скорость II и Сила II', 'Регенерация сердец в бою', 'Не выпадает при первой смерти']
-        }
-      ],
-      services: [
-        {
-          id: 'unban',
-          name: 'Разбан аккаунта',
-          sub: 'Снятие блокировки на всех грифах',
-          price: 299,
-          oldPrice: 450,
-          features: ['Мгновенный авто-анбан', 'Восстановление доступа к базам', 'Сохранение всех предметов']
-        },
-        {
-          id: 'unmute',
-          name: 'Размут чата',
-          sub: 'Снятие ограничений общения',
-          price: 99,
-          oldPrice: 150,
-          features: ['Снятие мута навсегда', 'Доступ ко всем чатам и ЛС']
-        }
-      ]
+      },
+      playWin() {
+        if (!this.ctx) return;
+        const notes = [440, 554, 659, 880];
+        notes.forEach((freq, idx) => {
+          const osc = this.ctx.createOscillator();
+          const gain = this.ctx.createGain();
+          osc.type = 'sine';
+          osc.frequency.setValueAtTime(freq, this.ctx.currentTime + idx * 0.12);
+          gain.gain.setValueAtTime(0.18, this.ctx.currentTime + idx * 0.12);
+          gain.gain.linearRampToValueAtTime(0.01, this.ctx.currentTime + idx * 0.12 + 0.35);
+          osc.connect(gain);
+          gain.connect(this.ctx.destination);
+          osc.start(this.ctx.currentTime + idx * 0.12);
+          osc.stop(this.ctx.currentTime + idx * 0.12 + 0.35);
+        });
+      },
+      playDeath() {
+        if (!this.ctx) return;
+        const osc = this.ctx.createOscillator();
+        const gain = this.ctx.createGain();
+        osc.type = 'sawtooth';
+        osc.frequency.setValueAtTime(160, this.ctx.currentTime);
+        osc.frequency.exponentialRampToValueAtTime(35, this.ctx.currentTime + 0.55);
+        gain.gain.setValueAtTime(0.28, this.ctx.currentTime);
+        gain.gain.linearRampToValueAtTime(0.01, this.ctx.currentTime + 0.55);
+        osc.connect(gain);
+        gain.connect(this.ctx.destination);
+        osc.start();
+        osc.stop(this.ctx.currentTime + 0.55);
+      }
     };
 
-    let currentCategory = 'ranks';
-    let selectedItem = null;
-    let discountPercent = 0;
+    // ФОН: НЕОНОВАЯ ДОРОГА
+    const bgCanvas = document.getElementById('bgCanvas');
+    const bgCtx = bgCanvas.getContext('2d');
+    let bgTime = 0;
 
-    // Web Audio synthesizer for gamer clicks
-    function playUiSound(freq = 600, type = 'sine') {
-      try {
-        const audioCtx = new (window.AudioContext || window.webkitAudioContext)();
-        const osc = audioCtx.createOscillator();
-        const gain = audioCtx.createGain();
-        osc.type = type;
-        osc.frequency.setValueAtTime(freq, audioCtx.currentTime);
-        gain.gain.setValueAtTime(0.08, audioCtx.currentTime);
-        gain.gain.exponentialRampToValueAtTime(0.001, audioCtx.currentTime + 0.12);
-        osc.connect(gain);
-        gain.connect(audioCtx.destination);
-        osc.start();
-        osc.stop(audioCtx.currentTime + 0.13);
-      } catch (e) {}
+    function resizeBg() {
+      bgCanvas.width = window.innerWidth;
+      bgCanvas.height = window.innerHeight;
     }
+    window.addEventListener('resize', resizeBg);
+    resizeBg();
 
-    // Render Products
-    function renderProducts() {
-      const container = document.getElementById('productsGrid');
-      const items = shopProducts[currentCategory] || [];
-      
-      container.innerHTML = items.map(item => `
-        <div class="product-card ${item.badge ? 'badge-top' : ''}" data-badge="${item.badge || ''}">
-          <div class="card-glow" style="--glow-color: ${item.glow || 'rgba(168, 85, 247, 0.25)'};"></div>
-          
-          <div class="product-icon-wrap">
-            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-              <polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/>
-            </svg>
-          </div>
+    function drawBackground() {
+      const w = bgCanvas.width;
+      const h = bgCanvas.height;
+      bgTime += 0.035;
 
-          <h3 class="product-name">${item.name}</h3>
-          <p class="product-sub">${item.sub}</p>
+      const skyGrad = bgCtx.createLinearGradient(0, 0, 0, h);
+      skyGrad.addColorStop(0, '#040212');
+      skyGrad.addColorStop(0.5, '#1e0436');
+      skyGrad.addColorStop(1, '#000000');
+      bgCtx.fillStyle = skyGrad;
+      bgCtx.fillRect(0, 0, w, h);
 
-          <ul class="product-features">
-            ${item.features.map(f => `
-              <li>
-                <svg viewBox="0 0 24 24" fill="currentColor"><path d="M9 16.17L4.83 12l-1.42 1.41L9 19 21 7l-1.41-1.41z"/></svg>
-                <span>${f}</span>
-              </li>
-            `).join('')}
-          </ul>
+      const horizonY = h * 0.44;
+      const sunGrad = bgCtx.createLinearGradient(0, horizonY - 130, 0, horizonY);
+      sunGrad.addColorStop(0, '#ff007f');
+      sunGrad.addColorStop(1, '#ffe600');
+      bgCtx.fillStyle = sunGrad;
+      bgCtx.beginPath();
+      bgCtx.arc(w / 2, horizonY, 115, Math.PI, 0, false);
+      bgCtx.fill();
 
-          <div class="price-row">
-            <span class="price-current">${item.price} ₽</span>
-            ${item.oldPrice ? `<span class="price-old">${item.oldPrice} ₽</span>` : ''}
-          </div>
-
-          <button class="btn-buy" onclick="openCheckout('${item.id}')">
-            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M6 2L3 6v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2V6l-3-4z"/><line x1="3" y1="6" x2="21" y2="6"/><path d="M16 10a4 4 0 0 1-8 0"/></svg>
-            Купить сейчас
-          </button>
-        </div>
-      `).join('');
-    }
-
-    // Switch Category Tabs
-    function switchCategory(cat) {
-      playUiSound(540);
-      currentCategory = cat;
-      document.querySelectorAll('.shop-tab').forEach(b => b.classList.remove('active'));
-      event.currentTarget.classList.add('active');
-      renderProducts();
-    }
-
-    // Copy IP
-    function copyServerIP() {
-      playUiSound(880);
-      const ip = document.getElementById('serverIp').innerText;
-      navigator.clipboard.writeText(ip).then(() => {
-        showToast(`IP скопирован: ${ip}`);
-        const btn = document.getElementById('copyBtn');
-        btn.innerHTML = `✔ Скопировано!`;
-        setTimeout(() => {
-          btn.innerHTML = `<svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><rect x="9" y="9" width="13" height="13" rx="2" ry="2"></rect><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"></path></svg> Скопировать IP`;
-        }, 2200);
-      });
-    }
-
-    // Toast Notice
-    function showToast(msg) {
-      const toast = document.getElementById('toast');
-      document.getElementById('toastMsg').innerText = msg;
-      toast.classList.add('show');
-      setTimeout(() => toast.classList.remove('show'), 2800);
-    }
-
-    // Checkout Modal Logic
-    function openCheckout(productId) {
-      playUiSound(720);
-      let found = null;
-      for (const k in shopProducts) {
-        const item = shopProducts[k].find(p => p.id === productId);
-        if (item) { found = item; break; }
+      bgCtx.strokeStyle = 'rgba(0, 240, 255, 0.4)';
+      bgCtx.lineWidth = 1.5;
+      for (let x = -w; x <= w * 2; x += 90) {
+        bgCtx.beginPath();
+        bgCtx.moveTo(w / 2, horizonY);
+        bgCtx.lineTo(x, h);
+        bgCtx.stroke();
       }
-      if (!found) return;
 
-      selectedItem = found;
-      discountPercent = 0;
+      const gridOffset = (bgTime * 65) % 40;
+      for (let y = horizonY; y <= h; y += 40) {
+        const curY = y + gridOffset;
+        if (curY > horizonY && curY <= h) {
+          bgCtx.beginPath();
+          bgCtx.moveTo(0, curY);
+          bgCtx.lineTo(w, curY);
+          bgCtx.stroke();
+        }
+      }
 
-      document.getElementById('modalProductName').innerText = found.name;
-      document.getElementById('modalProductPrice').innerText = `${found.price} ₽`;
-      document.getElementById('summaryItemName').innerText = found.name;
-      document.getElementById('summaryDiscount').innerText = '0%';
-      document.getElementById('summaryFinalPrice').innerText = `${found.price} ₽`;
-      document.getElementById('promoCode').value = '';
-      document.getElementById('promoStatus').innerText = '';
+      // Спорткар
+      const carX = w / 2;
+      const carY = h * 0.72;
 
-      document.getElementById('checkoutModal').classList.add('active');
+      const glowGrad = bgCtx.createRadialGradient(carX, carY + 36, 15, carX, carY + 36, 130);
+      glowGrad.addColorStop(0, 'rgba(0, 240, 255, 0.95)');
+      glowGrad.addColorStop(0.5, 'rgba(255, 0, 128, 0.55)');
+      glowGrad.addColorStop(1, 'rgba(0, 0, 0, 0)');
+      bgCtx.fillStyle = glowGrad;
+      bgCtx.beginPath();
+      bgCtx.ellipse(carX, carY + 36, 145, 32, 0, 0, Math.PI * 2);
+      bgCtx.fill();
+
+      bgCtx.fillStyle = '#0f1124';
+      bgCtx.beginPath();
+      bgCtx.roundRect(carX - 100, carY - 25, 200, 60, [16, 16, 6, 6]);
+      bgCtx.fill();
+      bgCtx.strokeStyle = '#00f0ff';
+      bgCtx.lineWidth = 2;
+      bgCtx.stroke();
+
+      bgCtx.fillStyle = '#060714';
+      bgCtx.beginPath();
+      bgCtx.moveTo(carX - 65, carY - 25);
+      bgCtx.lineTo(carX - 45, carY - 65);
+      bgCtx.lineTo(carX + 45, carY - 65);
+      bgCtx.lineTo(carX + 65, carY - 25);
+      bgCtx.closePath();
+      bgCtx.fill();
+      bgCtx.strokeStyle = '#ff007f';
+      bgCtx.stroke();
+
+      bgCtx.fillStyle = '#1e0533';
+      bgCtx.fillRect(carX - 110, carY - 50, 220, 8);
+      bgCtx.fillStyle = '#00f0ff';
+      bgCtx.fillRect(carX - 70, carY - 42, 6, 17);
+      bgCtx.fillRect(carX + 64, carY - 42, 6, 17);
+
+      bgCtx.shadowColor = '#ff0055';
+      bgCtx.shadowBlur = 22;
+      bgCtx.fillStyle = '#ff0055';
+      bgCtx.fillRect(carX - 90, carY - 5, 180, 8);
+      bgCtx.fillStyle = '#fff';
+      bgCtx.fillRect(carX - 85, carY - 3, 170, 4);
+      bgCtx.shadowBlur = 0;
+
+      const flamePulse = Math.sin(bgTime * 22) * 8;
+      const drawFlame = (fx) => {
+        bgCtx.shadowColor = '#00f0ff';
+        bgCtx.shadowBlur = 18;
+        bgCtx.fillStyle = '#00f0ff';
+        bgCtx.beginPath();
+        bgCtx.moveTo(fx - 6, carY + 32);
+        bgCtx.lineTo(fx + 6, carY + 32);
+        bgCtx.lineTo(fx, carY + 46 + flamePulse);
+        bgCtx.closePath();
+        bgCtx.fill();
+        bgCtx.shadowBlur = 0;
+      };
+      drawFlame(carX - 45);
+      drawFlame(carX + 45);
+
+      requestAnimationFrame(drawBackground);
+    }
+    drawBackground();
+
+    // ЛОГИКА ЛАБИРИНТА, ИГРОКА И ЛАВЫ
+    const mazeCanvas = document.getElementById('mazeCanvas');
+    const mazeCtx = mazeCanvas.getContext('2d');
+    const menuScreen = document.getElementById('menuScreen');
+    const gameScreen = document.getElementById('gameScreen');
+    const startBtn = document.getElementById('startBtn');
+    const winModal = document.getElementById('winModal');
+    const deathModal = document.getElementById('deathModal');
+    const playAgainBtn = document.getElementById('playAgainBtn');
+    const retryBtn = document.getElementById('retryBtn');
+    const exitMenuBtn = document.getElementById('exitMenuBtn');
+    const bestTimeVal = document.getElementById('bestTimeVal');
+    const lavaIndicator = document.getElementById('lavaIndicator');
+
+    let mazeSize = 27;
+    let baseLavaSpeed = 2.6; // блоков в секунду
+    let cellSize = 18;
+    let maze = [];
+    let lavaDistances = []; // дистанция по коридорам от старта (1,1)
+    let goal = { x: 1, y: 1 };
+    let gameActive = false;
+    let startTime = 0;
+    let elapsedSeconds = 0;
+    let gameAnimFrame = null;
+    let lavaWave = 0; // текущая волна лавы в блоках
+
+    // Игрок с глазками
+    const player = {
+      x: 0,
+      y: 0,
+      radius: 6,
+      speed: 130,
+      lookX: 0,
+      lookY: 0,
+      blinkTimer: 0
+    };
+
+    const keys = {
+      up: false,
+      down: false,
+      left: false,
+      right: false
+    };
+
+    function formatTime(sec) {
+      const m = String(Math.floor(sec / 60)).padStart(2, '0');
+      const s = String(sec % 60).padStart(2, '0');
+      return `${m}:${s}`;
     }
 
-    function closeModal() {
-      playUiSound(400);
-      document.getElementById('checkoutModal').classList.remove('active');
+    function updateBestTimeDisplay() {
+      const record = localStorage.getItem('cyber_best_' + mazeSize);
+      bestTimeVal.textContent = record ? formatTime(parseInt(record, 10)) : '--:--';
     }
 
-    // Real-time Minecraft skin loader by Nickname
-    let skinTimeout = null;
-    function updatePlayerAvatar(nick) {
-      clearTimeout(skinTimeout);
-      skinTimeout = setTimeout(() => {
-        const clean = nick.trim() || 'Steve';
-        document.getElementById('modalAvatar').src = `https://minotar.net/avatar/${encodeURIComponent(clean)}/64`;
-      }, 400);
+    document.querySelectorAll('.diff-btn').forEach(btn => {
+      btn.addEventListener('click', () => {
+        document.querySelectorAll('.diff-btn').forEach(b => b.classList.remove('active'));
+        btn.classList.add('active');
+        mazeSize = parseInt(btn.dataset.size, 10);
+        baseLavaSpeed = parseFloat(btn.dataset.speed);
+        updateBestTimeDisplay();
+      });
+    });
+
+    // Генерация лабиринта (DFS)
+    function generateMaze(size) {
+      const grid = Array.from({ length: size }, () => Array(size).fill(1));
+      const stack = [[1, 1]];
+      grid[1][1] = 0;
+
+      while (stack.length > 0) {
+        const [cx, cy] = stack[stack.length - 1];
+        const dirs = [[0, -2], [0, 2], [-2, 0], [2, 0]];
+        dirs.sort(() => Math.random() - 0.5);
+
+        let moved = false;
+        for (const [dx, dy] of dirs) {
+          const nx = cx + dx;
+          const ny = cy + dy;
+          if (nx > 0 && nx < size - 1 && ny > 0 && ny < size - 1 && grid[ny][nx] === 1) {
+            grid[cy + dy / 2][cx + dx / 2] = 0;
+            grid[ny][nx] = 0;
+            stack.push([nx, ny]);
+            moved = true;
+            break;
+          }
+        }
+        if (!moved) stack.pop();
+      }
+      return grid;
     }
 
-    // Promo Code Engine
-    function applyPromo() {
-      playUiSound(650);
-      const code = document.getElementById('promoCode').value.trim().toUpperCase();
-      const statusEl = document.getElementById('promoStatus');
-      
-      const promos = {
-        'DOMER': 15,
-        'FANZI': 10,
-        'RW2026': 20,
-        'GRIEF': 10
+    // Расчёт пути лавы от точки старта (BFS)
+    function computeLavaDistances() {
+      lavaDistances = Array.from({ length: mazeSize }, () => Array(mazeSize).fill(-1));
+      const queue = [[1, 1, 0]];
+      lavaDistances[1][1] = 0;
+
+      while (queue.length > 0) {
+        const [cx, cy, dist] = queue.shift();
+        const dirs = [[0, -1], [0, 1], [-1, 0], [1, 0]];
+        for (const [dx, dy] of dirs) {
+          const nx = cx + dx;
+          const ny = cy + dy;
+          if (nx >= 0 && nx < mazeSize && ny >= 0 && ny < mazeSize) {
+            if (maze[ny][nx] === 0 && lavaDistances[ny][nx] === -1) {
+              lavaDistances[ny][nx] = dist + 1;
+              queue.push([nx, ny, dist + 1]);
+            }
+          }
+        }
+      }
+    }
+
+    function setupCanvasSize() {
+      const maxAvailable = Math.min(window.innerHeight - 150, window.innerWidth - 40, 580);
+      cellSize = Math.floor(maxAvailable / mazeSize);
+      mazeCanvas.width = mazeSize * cellSize;
+      mazeCanvas.height = mazeSize * cellSize;
+      player.radius = cellSize * 0.32;
+      player.speed = cellSize * 7.5;
+    }
+
+    // Проверка столкновений со стенами
+    function collidesWithWall(x, y, r) {
+      const minX = Math.floor((x - r) / cellSize);
+      const maxX = Math.floor((x + r) / cellSize);
+      const minY = Math.floor((y - r) / cellSize);
+      const maxY = Math.floor((y + r) / cellSize);
+
+      for (let cy = minY; cy <= maxY; cy++) {
+        for (let cx = minX; cx <= maxX; cx++) {
+          if (cy < 0 || cy >= mazeSize || cx < 0 || cx >= mazeSize || maze[cy][cx] === 1) {
+            const rx = cx * cellSize;
+            const ry = cy * cellSize;
+            const closestX = Math.max(rx, Math.min(x, rx + cellSize));
+            const closestY = Math.max(ry, Math.min(y, ry + cellSize));
+            const distX = x - closestX;
+            const distY = y - closestY;
+            if ((distX * distX + distY * distY) < (r * r)) {
+              return true;
+            }
+          }
+        }
+      }
+      return false;
+    }
+
+    // Проверка касания лавы
+    function collidesWithLava(px, py, r) {
+      const minX = Math.max(0, Math.floor((px - r) / cellSize));
+      const maxX = Math.min(mazeSize - 1, Math.floor((px + r) / cellSize));
+      const minY = Math.max(0, Math.floor((py - r) / cellSize));
+      const maxY = Math.min(mazeSize - 1, Math.floor((py + r) / cellSize));
+
+      for (let cy = minY; cy <= maxY; cy++) {
+        for (let cx = minX; cx <= maxX; cx++) {
+          const cellDist = lavaDistances[cy][cx];
+          if (cellDist !== -1 && cellDist <= lavaWave) {
+            // Клетка заполнена лавой
+            const rx = cx * cellSize;
+            const ry = cy * cellSize;
+            const closestX = Math.max(rx, Math.min(px, rx + cellSize));
+            const closestY = Math.max(ry, Math.min(py, ry + cellSize));
+            const distX = px - closestX;
+            const distY = py - closestY;
+            if ((distX * distX + distY * distY) < (r * r)) {
+              return true;
+            }
+          }
+        }
+      }
+      return false;
+    }
+
+    // Рисование игрока с глазками
+    function drawPlayer() {
+      const { x, y, radius, lookX, lookY, blinkTimer } = player;
+
+      mazeCtx.shadowColor = '#00f0ff';
+      mazeCtx.shadowBlur = 16;
+      mazeCtx.fillStyle = '#00f0ff';
+      mazeCtx.beginPath();
+      mazeCtx.arc(x, y, radius, 0, Math.PI * 2);
+      mazeCtx.fill();
+      mazeCtx.shadowBlur = 0;
+
+      // Глазки
+      const eyeOffsetX = radius * 0.36;
+      const eyeOffsetY = -radius * 0.12;
+      const eyeSize = radius * 0.28;
+      const pupilSize = eyeSize * 0.55;
+      const isBlinking = (blinkTimer % 180 > 172);
+
+      const drawEye = (ex) => {
+        if (isBlinking) {
+          mazeCtx.strokeStyle = '#05111e';
+          mazeCtx.lineWidth = 1.6;
+          mazeCtx.beginPath();
+          mazeCtx.moveTo(ex - eyeSize, y + eyeOffsetY);
+          mazeCtx.lineTo(ex + eyeSize, y + eyeOffsetY);
+          mazeCtx.stroke();
+        } else {
+          mazeCtx.fillStyle = '#ffffff';
+          mazeCtx.beginPath();
+          mazeCtx.arc(ex, y + eyeOffsetY, eyeSize, 0, Math.PI * 2);
+          mazeCtx.fill();
+
+          mazeCtx.fillStyle = '#05111e';
+          mazeCtx.beginPath();
+          mazeCtx.arc(
+            ex + lookX * (eyeSize * 0.45),
+            y + eyeOffsetY + lookY * (eyeSize * 0.45),
+            pupilSize,
+            0,
+            Math.PI * 2
+          );
+          mazeCtx.fill();
+        }
       };
 
-      if (promos[code]) {
-        discountPercent = promos[code];
-        statusEl.className = 'promo-status success';
-        statusEl.innerText = `Промокод применён! Скидка -${discountPercent}%`;
+      drawEye(x - eyeOffsetX);
+      drawEye(x + eyeOffsetX);
+    }
+
+    // Отрисовка сцены (стены, лава, портал, герой)
+    function renderGame(timeNow) {
+      mazeCtx.clearRect(0, 0, mazeCanvas.width, mazeCanvas.height);
+
+      const pulse = Math.sin(timeNow * 0.008) * 0.15 + 0.85;
+
+      // Проход по сетке
+      for (let cy = 0; cy < mazeSize; cy++) {
+        for (let cx = 0; cx < mazeSize; cx++) {
+          const isWall = (maze[cy][cx] === 1);
+          const cellLavaDist = lavaDistances[cy][cx];
+
+          if (isWall) {
+            mazeCtx.fillStyle = '#141828';
+            mazeCtx.fillRect(cx * cellSize, cy * cellSize, cellSize, cellSize);
+            mazeCtx.strokeStyle = 'rgba(0, 240, 255, 0.2)';
+            mazeCtx.strokeRect(cx * cellSize, cy * cellSize, cellSize, cellSize);
+          } else if (cellLavaDist !== -1 && cellLavaDist <= lavaWave) {
+            // Лава
+            const isFrontier = Math.abs(cellLavaDist - lavaWave) < 1.5;
+            mazeCtx.fillStyle = isFrontier ? `rgba(255, 120, 20, ${pulse})` : '#e62200';
+            mazeCtx.fillRect(cx * cellSize, cy * cellSize, cellSize, cellSize);
+
+            // Огненные прожилки лавы
+            mazeCtx.fillStyle = '#ffbb00';
+            mazeCtx.fillRect(cx * cellSize + 3, cy * cellSize + 3, cellSize - 6, cellSize - 6);
+          }
+        }
+      }
+
+      // Золотой портал выхода
+      const portalRadius = cellSize * 0.38;
+      const goalCenterX = (goal.x + 0.5) * cellSize;
+      const goalCenterY = (goal.y + 0.5) * cellSize;
+
+      mazeCtx.fillStyle = '#facc15';
+      mazeCtx.shadowColor = '#facc15';
+      mazeCtx.shadowBlur = 18;
+      mazeCtx.beginPath();
+      mazeCtx.arc(goalCenterX, goalCenterY, portalRadius, 0, Math.PI * 2);
+      mazeCtx.fill();
+      mazeCtx.shadowBlur = 0;
+
+      // Игрок
+      drawPlayer();
+    }
+
+    let lastTime = performance.now();
+
+    function updateGameLoop(now) {
+      if (!gameActive) return;
+
+      const dt = Math.min((now - lastTime) / 1000, 0.1);
+      lastTime = now;
+
+      const totalElapsed = (now - startTime) / 1000;
+      elapsedSeconds = Math.floor(totalElapsed);
+      document.getElementById('timeVal').textContent = formatTime(elapsedSeconds);
+
+      // Логика лавы: 2 секунды форы игроку
+      const gracePeriod = 2.0;
+      if (totalElapsed > gracePeriod) {
+        lavaWave = (totalElapsed - gracePeriod) * baseLavaSpeed;
+        lavaIndicator.textContent = '🔥 ЛАВА БЛИЗКО!';
+        lavaIndicator.style.color = '#ff3300';
       } else {
-        discountPercent = 0;
-        statusEl.className = 'promo-status error';
-        statusEl.innerText = 'Недействительный промокод';
+        lavaWave = -1;
+        const remainingGrace = (gracePeriod - totalElapsed).toFixed(1);
+        lavaIndicator.textContent = `⏳ Лава через ${remainingGrace}с`;
+        lavaIndicator.style.color = '#38bdf8';
       }
 
-      // Recalculate
-      if (selectedItem) {
-        const finalPrice = Math.round(selectedItem.price * (1 - discountPercent / 100));
-        document.getElementById('summaryDiscount').innerText = `${discountPercent}%`;
-        document.getElementById('summaryFinalPrice').innerText = `${finalPrice} ₽`;
+      // Плавное передвижение
+      let moveX = 0;
+      let moveY = 0;
+      if (keys.up) moveY -= 1;
+      if (keys.down) moveY += 1;
+      if (keys.left) moveX -= 1;
+      if (keys.right) moveX += 1;
+
+      if (moveX !== 0 || moveY !== 0) {
+        const len = Math.hypot(moveX, moveY);
+        const normX = moveX / len;
+        const normY = moveY / len;
+
+        player.lookX = normX;
+        player.lookY = normY;
+
+        const stepX = normX * player.speed * dt;
+        const stepY = normY * player.speed * dt;
+
+        // Скольжение вдоль стен
+        if (!collidesWithWall(player.x + stepX, player.y, player.radius)) {
+          player.x += stepX;
+        }
+        if (!collidesWithWall(player.x, player.y + stepY, player.radius)) {
+          player.y += stepY;
+        }
       }
-    }
 
-    function selectPayment(el, method) {
-      playUiSound(500);
-      document.querySelectorAll('.payment-option').forEach(p => p.classList.remove('active'));
-      el.classList.add('active');
-    }
+      player.blinkTimer++;
 
-    function submitPurchase() {
-      const nick = document.getElementById('playerNick').value.trim();
-      if (!nick) {
-        alert('Пожалуйста, укажите ваш никнейм на сервере!');
-        document.getElementById('playerNick').focus();
+      // Проверка гибели от лавы
+      if (collidesWithLava(player.x, player.y, player.radius)) {
+        onDeath();
         return;
       }
 
-      playUiSound(980);
-      if (typeof confetti === 'function') {
-        confetti({
-          particleCount: 100,
-          spread: 70,
-          origin: { y: 0.6 }
+      // Проверка победы (касание портала)
+      const goalDist = Math.hypot(
+        player.x - (goal.x + 0.5) * cellSize,
+        player.y - (goal.y + 0.5) * cellSize
+      );
+
+      if (goalDist < cellSize * 0.5) {
+        onVictory();
+        return;
+      }
+
+      renderGame(now);
+      gameAnimFrame = requestAnimationFrame(updateGameLoop);
+    }
+
+    function onVictory() {
+      gameActive = false;
+      AudioEngine.playWin();
+
+      const prevRecord = localStorage.getItem('cyber_best_' + mazeSize);
+      let recordMessage = '';
+      if (!prevRecord || elapsedSeconds < parseInt(prevRecord, 10)) {
+        localStorage.setItem('cyber_best_' + mazeSize, elapsedSeconds);
+        updateBestTimeDisplay();
+        recordMessage = `<br><span style="color:#facc15; font-weight:bold;">🔥 НОВЫЙ РЕКОРД: ${formatTime(elapsedSeconds)}!</span>`;
+      }
+
+      document.getElementById('winStats').innerHTML = 
+        `Время побега: <b>${formatTime(elapsedSeconds)}</b>${recordMessage}`;
+      winModal.style.display = 'flex';
+      launchFireworks();
+    }
+
+    function onDeath() {
+      gameActive = false;
+      AudioEngine.playDeath();
+
+      // Рисуем вспышку гибели
+      mazeCtx.fillStyle = 'rgba(255, 30, 0, 0.4)';
+      mazeCtx.fillRect(0, 0, mazeCanvas.width, mazeCanvas.height);
+
+      document.getElementById('deathStats').innerHTML = 
+        `Ты продержался: <b>${formatTime(elapsedSeconds)}</b>.<br>Не сбавляй темп и держись подальше от огня!`;
+      deathModal.style.display = 'flex';
+    }
+
+    function startNewGame() {
+      AudioEngine.init();
+      setupCanvasSize();
+      updateBestTimeDisplay();
+
+      maze = generateMaze(mazeSize);
+      computeLavaDistances();
+
+      player.x = (1 + 0.5) * cellSize;
+      player.y = (1 + 0.5) * cellSize;
+      player.lookX = 0;
+      player.lookY = 0;
+      goal = { x: mazeSize - 2, y: mazeSize - 2 };
+
+      keys.up = keys.down = keys.left = keys.right = false;
+
+      startTime = performance.now();
+      lastTime = performance.now();
+      elapsedSeconds = 0;
+      lavaWave = -1;
+      gameActive = true;
+
+      document.getElementById('timeVal').textContent = '00:00';
+      menuScreen.style.display = 'none';
+      winModal.style.display = 'none';
+      deathModal.style.display = 'none';
+      gameScreen.style.display = 'flex';
+
+      cancelAnimationFrame(gameAnimFrame);
+      gameAnimFrame = requestAnimationFrame(updateGameLoop);
+    }
+
+    startBtn.addEventListener('click', startNewGame);
+    playAgainBtn.addEventListener('click', startNewGame);
+    retryBtn.addEventListener('click', startNewGame);
+
+    exitMenuBtn.addEventListener('click', () => {
+      gameActive = false;
+      cancelAnimationFrame(gameAnimFrame);
+      gameScreen.style.display = 'none';
+      winModal.style.display = 'none';
+      deathModal.style.display = 'none';
+      menuScreen.style.display = 'flex';
+    });
+
+    // Обработка клавиш (плавное удержание)
+    window.addEventListener('keydown', (e) => {
+      if (['ArrowUp', 'KeyW'].includes(e.code)) { keys.up = true; e.preventDefault(); }
+      if (['ArrowDown', 'KeyS'].includes(e.code)) { keys.down = true; e.preventDefault(); }
+      if (['ArrowLeft', 'KeyA'].includes(e.code)) { keys.left = true; e.preventDefault(); }
+      if (['ArrowRight', 'KeyD'].includes(e.code)) { keys.right = true; e.preventDefault(); }
+    });
+
+    window.addEventListener('keyup', (e) => {
+      if (['ArrowUp', 'KeyW'].includes(e.code)) keys.up = false;
+      if (['ArrowDown', 'KeyS'].includes(e.code)) keys.down = false;
+      if (['ArrowLeft', 'KeyA'].includes(e.code)) keys.left = false;
+      if (['ArrowRight', 'KeyD'].includes(e.code)) keys.right = false;
+    });
+
+    // Салют при победе
+    const fwCanvas = document.getElementById('fireworksCanvas');
+    const fwCtx = fwCanvas.getContext('2d');
+    let particles = [];
+    let fireworksInterval = null;
+
+    function resizeFw() {
+      fwCanvas.width = window.innerWidth;
+      fwCanvas.height = window.innerHeight;
+    }
+    window.addEventListener('resize', resizeFw);
+    resizeFw();
+
+    function createFirework() {
+      const sx = Math.random() * (fwCanvas.width * 0.8) + fwCanvas.width * 0.1;
+      const sy = Math.random() * (fwCanvas.height * 0.5) + fwCanvas.height * 0.1;
+      const colors = ['#00f0ff', '#ff007f', '#facc15', '#38ef7d', '#ffffff', '#a855f7'];
+
+      for (let i = 0; i < 65; i++) {
+        const angle = Math.random() * Math.PI * 2;
+        const speed = Math.random() * 6.5 + 2;
+        particles.push({
+          x: sx,
+          y: sy,
+          vx: Math.cos(angle) * speed,
+          vy: Math.sin(angle) * speed,
+          color: colors[Math.floor(Math.random() * colors.length)],
+          alpha: 1,
+          decay: Math.random() * 0.02 + 0.015
         });
       }
-
-      const finalPrice = Math.round(selectedItem.price * (1 - discountPercent / 100));
-      alert(`Заказ оформлен!\nТовар: ${selectedItem.name}\nНикнейм: ${nick}\nК оплате: ${finalPrice} ₽\n\nВ реальной версии откроется платёжный шлюз СБП / Банковских карт.`);
-      closeModal();
     }
 
-    // Live Feed Stream Generator
-    const demoBuyers = ['DomerGrief', 'MrLololoshka', 'EvgenBro', 'VapeClientPro', 'Killer2007', 'Steve_Pro', 'DarkAngel', 'FluffyCat', 'ShadowFiend'];
-    const demoItems = ['DRAGON', 'IMPERATOR', 'MAGISTER', '500 Рилликов', 'Кейс с донатом', 'OVERLORD'];
+    function animateFireworks() {
+      fwCtx.clearRect(0, 0, fwCanvas.width, fwCanvas.height);
 
-    function initLiveFeed() {
-      const ticker = document.getElementById('feedTicker');
-      function addFeedItem(nick, item) {
-        const el = document.createElement('div');
-        el.className = 'feed-item';
-        el.innerHTML = `
-          <img src="https://minotar.net/avatar/${encodeURIComponent(nick)}/32" alt="${nick}">
-          <span class="feed-nick">${nick}</span>
-          <span style="color: var(--text-muted)">купил</span>
-          <span class="feed-item-title">${item}</span>
-          <span class="feed-time">только что</span>
-        `;
-        ticker.prepend(el);
-        if (ticker.children.length > 10) {
-          ticker.removeChild(ticker.lastChild);
+      for (let i = particles.length - 1; i >= 0; i--) {
+        const p = particles[i];
+        p.x += p.vx;
+        p.y += p.vy;
+        p.vy += 0.08;
+        p.alpha -= p.decay;
+
+        if (p.alpha <= 0) {
+          particles.splice(i, 1);
+        } else {
+          fwCtx.fillStyle = p.color;
+          fwCtx.globalAlpha = p.alpha;
+          fwCtx.beginPath();
+          fwCtx.arc(p.x, p.y, 3.2, 0, Math.PI * 2);
+          fwCtx.fill();
         }
       }
+      fwCtx.globalAlpha = 1;
 
-      // Prepopulate
-      for (let i = 0; i < 6; i++) {
-        const n = demoBuyers[Math.floor(Math.random() * demoBuyers.length)];
-        const it = demoItems[Math.floor(Math.random() * demoItems.length)];
-        addFeedItem(n, it);
+      if (!gameActive && winModal.style.display === 'flex') {
+        requestAnimationFrame(animateFireworks);
+      } else {
+        fwCtx.clearRect(0, 0, fwCanvas.width, fwCanvas.height);
       }
-
-      // Interval simulator
-      setInterval(() => {
-        const n = demoBuyers[Math.floor(Math.random() * demoBuyers.length)];
-        const it = demoItems[Math.floor(Math.random() * demoItems.length)];
-        addFeedItem(n, it);
-      }, 7000);
     }
 
-    // Online Counter Fluctuation
-    function initOnlineCounter() {
-      const el = document.getElementById('liveOnline');
-      setInterval(() => {
-        const delta = Math.floor(Math.random() * 11) - 5;
-        let cur = parseInt(el.innerText.replace(/\s/g, ''), 10) + delta;
-        el.innerText = cur.toLocaleString('ru-RU');
-      }, 4500);
-    }
+    function launchFireworks() {
+      particles = [];
+      createFirework();
+      createFirework();
+      animateFireworks();
 
-    // Init
-    document.addEventListener('DOMContentLoaded', () => {
-      renderProducts();
-      initLiveFeed();
-      initOnlineCounter();
-    });
+      clearInterval(fireworksInterval);
+      fireworksInterval = setInterval(() => {
+        if (!gameActive && winModal.style.display === 'flex') {
+          createFirework();
+        } else {
+          clearInterval(fireworksInterval);
+        }
+      }, 650);
+    }
   </script>
 </body>
 </html>
