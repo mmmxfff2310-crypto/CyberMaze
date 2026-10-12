@@ -2,8 +2,8 @@
 <html lang="ru">
 <head>
   <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Cyber Maze: Lava Escape</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+  <title>Cyber Maze: Monster & Lava Escape</title>
   <style>
     * {
       box-sizing: border-box;
@@ -11,6 +11,8 @@
       padding: 0;
       font-family: 'Segoe UI', -apple-system, BlinkMacSystemFont, Roboto, sans-serif;
       user-select: none;
+      -webkit-user-select: none;
+      touch-action: none;
     }
 
     body {
@@ -32,68 +34,100 @@
       z-index: 1;
     }
 
-    #menuScreen {
+    .screen {
       position: relative;
       z-index: 2;
       display: flex;
       flex-direction: column;
       align-items: center;
-      background: rgba(10, 10, 26, 0.78);
+      background: rgba(10, 10, 26, 0.92);
       backdrop-filter: blur(14px);
-      padding: 44px 60px;
+      padding: 24px 28px;
       border-radius: 24px;
       border: 1px solid rgba(0, 240, 255, 0.4);
       box-shadow: 0 0 50px rgba(0, 240, 255, 0.25), inset 0 0 25px rgba(255, 0, 127, 0.2);
       text-align: center;
-      animation: float 4s ease-in-out infinite;
-    }
-
-    @keyframes float {
-      0%, 100% { transform: translateY(0); }
-      50% { transform: translateY(-7px); }
+      max-width: 92vw;
     }
 
     h1 {
-      font-size: 3.2rem;
-      letter-spacing: 5px;
+      font-size: 2.3rem;
+      letter-spacing: 3px;
       background: linear-gradient(135deg, #00f0ff 0%, #ff007f 100%);
       -webkit-background-clip: text;
       -webkit-text-fill-color: transparent;
-      margin-bottom: 8px;
+      margin-bottom: 6px;
       text-transform: uppercase;
       font-weight: 900;
       filter: drop-shadow(0 0 20px rgba(255, 0, 127, 0.4));
     }
 
-    p.subtitle {
-      color: #94a3b8;
-      font-size: 1.05rem;
-      margin-bottom: 24px;
-      letter-spacing: 1px;
+    .wins-badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      background: rgba(250, 204, 21, 0.15);
+      border: 1px solid #facc15;
+      color: #facc15;
+      padding: 6px 16px;
+      border-radius: 20px;
+      font-weight: 800;
+      margin-bottom: 16px;
+      font-size: 1rem;
+      box-shadow: 0 0 15px rgba(250, 204, 21, 0.25);
     }
 
-    .warning-text {
-      color: #ff5533;
-      font-size: 0.95rem;
-      font-weight: bold;
-      margin-bottom: 24px;
-      text-shadow: 0 0 10px rgba(255, 68, 0, 0.6);
-    }
-
-    .difficulty-row {
+    .mode-select {
       display: flex;
-      gap: 12px;
-      margin-bottom: 28px;
+      gap: 10px;
+      margin-bottom: 16px;
+      width: 100%;
+    }
+
+    .mode-btn {
+      flex: 1;
+      padding: 12px;
+      border-radius: 14px;
+      font-size: 0.9rem;
+      font-weight: 800;
+      cursor: pointer;
+      border: 1px solid #334155;
+      background: rgba(30, 41, 59, 0.7);
+      color: #94a3b8;
+      transition: all 0.2s;
+    }
+
+    .mode-btn.active {
+      background: rgba(255, 0, 127, 0.25);
+      border-color: #ff007f;
+      color: #fff;
+      box-shadow: 0 0 20px rgba(255, 0, 127, 0.4);
+    }
+
+    .novelty-tag {
+      background: #ff0055;
+      color: #fff;
+      font-size: 0.65rem;
+      padding: 2px 6px;
+      border-radius: 6px;
+      text-transform: uppercase;
+      margin-left: 4px;
+    }
+
+    .diff-row {
+      display: flex;
+      gap: 8px;
+      margin-bottom: 18px;
     }
 
     .diff-btn {
       background: rgba(30, 41, 59, 0.8);
       border: 1px solid #334155;
       color: #94a3b8;
-      padding: 8px 18px;
-      border-radius: 20px;
+      padding: 7px 12px;
+      border-radius: 16px;
       cursor: pointer;
-      font-size: 0.9rem;
+      font-size: 0.8rem;
       font-weight: 600;
       transition: all 0.2s;
     }
@@ -102,27 +136,42 @@
       background: rgba(0, 240, 255, 0.2);
       border-color: #00f0ff;
       color: #00f0ff;
-      box-shadow: 0 0 15px rgba(0, 240, 255, 0.3);
     }
 
-    .btn-start {
+    .menu-actions {
+      display: flex;
+      gap: 10px;
+      width: 100%;
+    }
+
+    .btn-main {
+      flex: 2;
       background: linear-gradient(90deg, #ff007f, #00f0ff);
       color: #fff;
       border: none;
-      padding: 16px 54px;
-      font-size: 1.3rem;
+      padding: 14px;
+      font-size: 1.1rem;
       font-weight: 800;
-      border-radius: 50px;
+      border-radius: 40px;
       cursor: pointer;
+      letter-spacing: 1px;
       text-transform: uppercase;
-      letter-spacing: 2px;
-      box-shadow: 0 0 30px rgba(255, 0, 127, 0.6);
-      transition: all 0.3s;
+      box-shadow: 0 0 25px rgba(255, 0, 127, 0.5);
     }
 
-    .btn-start:hover {
-      transform: scale(1.06);
-      box-shadow: 0 0 45px rgba(0, 240, 255, 0.85);
+    .btn-shop {
+      flex: 1;
+      background: rgba(15, 23, 42, 0.85);
+      border: 1px solid #facc15;
+      color: #facc15;
+      border-radius: 40px;
+      font-weight: bold;
+      cursor: pointer;
+      font-size: 0.95rem;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 4px;
     }
 
     #gameScreen {
@@ -131,7 +180,8 @@
       display: none;
       flex-direction: column;
       align-items: center;
-      gap: 14px;
+      gap: 8px;
+      max-height: 100vh;
     }
 
     .hud {
@@ -139,57 +189,174 @@
       justify-content: space-between;
       align-items: center;
       width: 100%;
-      max-width: 620px;
+      max-width: 520px;
       background: rgba(15, 23, 42, 0.88);
-      backdrop-filter: blur(8px);
-      padding: 10px 24px;
-      border-radius: 14px;
+      padding: 8px 14px;
+      border-radius: 12px;
       border: 1px solid #334155;
-      font-size: 0.95rem;
+      font-size: 0.85rem;
       font-weight: 600;
-      box-shadow: 0 0 20px rgba(0, 240, 255, 0.15);
     }
 
     .hud-badge {
       display: flex;
       align-items: center;
-      gap: 6px;
-      color: #38bdf8;
-    }
-
-    .best-badge {
-      color: #facc15;
-      text-shadow: 0 0 8px rgba(250, 204, 21, 0.4);
-    }
-
-    .lava-badge {
-      color: #ff5533;
-      text-shadow: 0 0 10px rgba(255, 68, 0, 0.6);
-      font-weight: 800;
+      gap: 4px;
     }
 
     .hud-btn {
       background: #1e293b;
       border: 1px solid #475569;
       color: #e2e8f0;
-      padding: 6px 14px;
-      border-radius: 8px;
+      padding: 4px 10px;
+      border-radius: 6px;
       cursor: pointer;
-      font-size: 0.85rem;
-      font-weight: bold;
-      transition: background 0.2s;
-    }
-
-    .hud-btn:hover {
-      background: #334155;
     }
 
     #mazeCanvas {
       background: #080a14;
       border: 2px solid #00f0ff;
-      border-radius: 14px;
-      box-shadow: 0 0 35px rgba(0, 240, 255, 0.35);
+      border-radius: 12px;
+      box-shadow: 0 0 25px rgba(0, 240, 255, 0.35);
     }
+
+    #mobileControls {
+      display: grid;
+      grid-template-columns: repeat(3, 58px);
+      grid-template-rows: repeat(2, 50px);
+      gap: 6px;
+      margin-top: 4px;
+    }
+
+    .dpad-btn {
+      background: rgba(15, 23, 42, 0.75);
+      border: 1px solid rgba(0, 240, 255, 0.4);
+      border-radius: 12px;
+      color: #00f0ff;
+      font-size: 1.4rem;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      cursor: pointer;
+    }
+
+    .dpad-btn:active, .dpad-btn.active {
+      background: rgba(0, 240, 255, 0.3);
+      transform: scale(0.95);
+    }
+
+    #dpadUp { grid-column: 2; grid-row: 1; }
+    #dpadLeft { grid-column: 1; grid-row: 2; }
+    #dpadDown { grid-column: 2; grid-row: 2; }
+    #dpadRight { grid-column: 3; grid-row: 2; }
+
+    #shopModal {
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+      z-index: 30;
+      display: none;
+      flex-direction: column;
+      align-items: center;
+      background: rgba(10, 10, 28, 0.98);
+      backdrop-filter: blur(16px);
+      padding: 24px 20px;
+      border-radius: 24px;
+      border: 2px solid #facc15;
+      width: 90vw;
+      max-width: 440px;
+      box-shadow: 0 0 50px rgba(250, 204, 21, 0.4);
+    }
+
+    .skins-grid {
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
+      gap: 12px;
+      width: 100%;
+      margin: 16px 0;
+    }
+
+    .skin-card {
+      background: #111827;
+      border: 1px solid #374151;
+      padding: 10px;
+      border-radius: 14px;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 6px;
+    }
+
+    .skin-card.selected {
+      border-color: #38ef7d;
+      box-shadow: 0 0 15px rgba(56, 239, 125, 0.4);
+    }
+
+    .skin-preview {
+      width: 38px;
+      height: 38px;
+      border-radius: 50%;
+    }
+
+    .skin-name {
+      font-size: 0.85rem;
+      font-weight: 700;
+    }
+
+    .skin-btn {
+      width: 100%;
+      padding: 6px;
+      border-radius: 8px;
+      font-size: 0.75rem;
+      font-weight: 800;
+      cursor: pointer;
+      border: none;
+    }
+
+    .skin-btn.buy { background: #facc15; color: #000; }
+    .skin-btn.equip { background: #3b82f6; color: #fff; }
+    .skin-btn.active { background: #10b981; color: #fff; }
+
+    .modal {
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+      z-index: 25;
+      display: none;
+      flex-direction: column;
+      align-items: center;
+      background: rgba(10, 10, 28, 0.96);
+      backdrop-filter: blur(14px);
+      padding: 28px;
+      border-radius: 20px;
+      text-align: center;
+      width: 86vw;
+      max-width: 420px;
+    }
+
+    #winModal { border: 2px solid #38ef7d; box-shadow: 0 0 45px rgba(56, 239, 125, 0.5); }
+    #winModal h2 { font-size: 1.8rem; color: #38ef7d; margin-bottom: 8px; font-weight: 900; }
+
+    #deathModal { border: 2px solid #ff2200; box-shadow: 0 0 45px rgba(255, 34, 0, 0.6); }
+    #deathModal h2 { font-size: 1.7rem; color: #ff3b30; margin-bottom: 8px; font-weight: 900; }
+
+    .modal-text { font-size: 0.95rem; color: #e2e8f0; margin-bottom: 18px; line-height: 1.5; }
+
+    .btn-modal {
+      color: #fff;
+      border: none;
+      padding: 12px 30px;
+      font-size: 1rem;
+      font-weight: 800;
+      border-radius: 30px;
+      cursor: pointer;
+      text-transform: uppercase;
+    }
+
+    .btn-again { background: linear-gradient(90deg, #11998e, #38ef7d); color: #03140b; }
+    .btn-retry { background: linear-gradient(90deg, #ff416c, #ff4b2b); }
 
     #fireworksCanvas {
       position: absolute;
@@ -200,187 +367,228 @@
       z-index: 10;
       pointer-events: none;
     }
-
-    /* Модальные окна победы и гибели */
-    .modal {
-      position: absolute;
-      top: 50%;
-      left: 50%;
-      transform: translate(-50%, -50%);
-      z-index: 20;
-      display: none;
-      flex-direction: column;
-      align-items: center;
-      background: rgba(10, 10, 28, 0.96);
-      backdrop-filter: blur(14px);
-      padding: 42px 64px;
-      border-radius: 26px;
-      text-align: center;
-      animation: popIn 0.35s cubic-bezier(0.175, 0.885, 0.32, 1.275);
-    }
-
-    @keyframes popIn {
-      from { transform: translate(-50%, -50%) scale(0.7); opacity: 0; }
-      to { transform: translate(-50%, -50%) scale(1); opacity: 1; }
-    }
-
-    #winModal {
-      border: 2px solid #38ef7d;
-      box-shadow: 0 0 70px rgba(56, 239, 125, 0.6);
-    }
-
-    #winModal h2 {
-      font-size: 2.4rem;
-      color: #38ef7d;
-      margin-bottom: 12px;
-      text-shadow: 0 0 25px rgba(56, 239, 125, 0.7);
-      text-transform: uppercase;
-      font-weight: 900;
-    }
-
-    #deathModal {
-      border: 2px solid #ff2200;
-      box-shadow: 0 0 70px rgba(255, 34, 0, 0.75);
-    }
-
-    #deathModal h2 {
-      font-size: 2.4rem;
-      color: #ff3b30;
-      margin-bottom: 12px;
-      text-shadow: 0 0 25px rgba(255, 59, 48, 0.8);
-      text-transform: uppercase;
-      font-weight: 900;
-    }
-
-    .modal-text {
-      font-size: 1.15rem;
-      color: #e2e8f0;
-      margin-bottom: 26px;
-      line-height: 1.6;
-    }
-
-    .btn-again {
-      background: linear-gradient(90deg, #11998e, #38ef7d);
-      color: #03140b;
-      border: none;
-      padding: 15px 42px;
-      font-size: 1.15rem;
-      font-weight: 800;
-      border-radius: 35px;
-      cursor: pointer;
-      box-shadow: 0 0 25px rgba(56, 239, 125, 0.5);
-      transition: all 0.2s;
-      text-transform: uppercase;
-      letter-spacing: 1px;
-    }
-
-    .btn-retry {
-      background: linear-gradient(90deg, #ff416c, #ff4b2b);
-      color: #fff;
-      border: none;
-      padding: 15px 42px;
-      font-size: 1.15rem;
-      font-weight: 800;
-      border-radius: 35px;
-      cursor: pointer;
-      box-shadow: 0 0 25px rgba(255, 75, 43, 0.6);
-      transition: all 0.2s;
-      text-transform: uppercase;
-      letter-spacing: 1px;
-    }
-
-    .btn-again:hover, .btn-retry:hover {
-      transform: scale(1.05);
-    }
   </style>
 </head>
 <body>
 
   <canvas id="bgCanvas"></canvas>
 
-  <div id="menuScreen">
+  <div id="menuScreen" class="screen">
     <h1>CYBER MAZE</h1>
-    <p class="subtitle">Управление: Удерживайте стрелки или WASD для плавной езды</p>
-    <p class="warning-text">⚠️ БЕГИ: Лава начнёт заливать лабиринт сзади!</p>
-    
-    <div class="difficulty-row">
-      <button class="diff-btn" data-size="19" data-speed="2.3">Быстрый (19x19)</button>
-      <button class="diff-btn active" data-size="27" data-speed="2.6">Большой (27x27)</button>
-      <button class="diff-btn" data-size="33" data-speed="3.1">Гигант (33x33)</button>
+    <div class="wins-badge">🏆 Побед: <span id="menuWinsCount">0</span></div>
+
+    <div class="mode-select">
+      <button class="mode-btn active" id="modeLavaBtn">🔥 Побег от Лавы</button>
+      <button class="mode-btn" id="modeMonsterBtn">
+        👾 Монстр <span class="novelty-tag">Новинка!</span>
+      </button>
     </div>
 
-    <button class="btn-start" id="startBtn">НАЧАТЬ ИГРУ</button>
+    <div class="diff-row" id="lavaDiffRow">
+      <button class="diff-btn" data-size="19" data-speed="2.6">Компакт (19x19)</button>
+      <button class="diff-btn active" data-size="25" data-speed="3.0">Сложный (25x25)</button>
+      <button class="diff-btn" data-size="31" data-speed="3.4">Кошмар (31x31)</button>
+    </div>
+
+    <p id="monsterInfo" style="display:none; color:#a78bfa; font-size:0.85rem; margin-bottom:16px;">
+      Уровень <span id="curMonsterLvl">1</span> • Монстр спавнится на другом краю!
+    </p>
+
+    <div class="menu-actions">
+      <button class="btn-main" id="startBtn">ИГРАТЬ</button>
+      <button class="btn-shop" id="openShopBtn">🛒 Скины</button>
+    </div>
   </div>
 
   <div id="gameScreen">
     <div class="hud">
-      <div class="hud-badge">⏱ Время: <span id="timeVal">00:00</span></div>
-      <div class="hud-badge best-badge">🏆 Рекорд: <span id="bestTimeVal">--:--</span></div>
-      <div class="hud-badge lava-badge" id="lavaIndicator">🔥 Лава спит...</div>
-      <button class="hud-btn" id="exitMenuBtn">В меню</button>
+      <div class="hud-badge">⏱ <span id="timeVal">00:00</span></div>
+      <div class="hud-badge" style="color:#facc15;">🏆 <span id="hudWinsVal">0</span></div>
+      <div class="hud-badge" id="dangerIndicator">🔥 Лава спит...</div>
+      <button class="hud-btn" id="exitMenuBtn">Меню</button>
     </div>
+
     <canvas id="mazeCanvas"></canvas>
+
+    <div id="mobileControls">
+      <div class="dpad-btn" id="dpadUp">▲</div>
+      <div class="dpad-btn" id="dpadLeft">◀</div>
+      <div class="dpad-btn" id="dpadDown">▼</div>
+      <div class="dpad-btn" id="dpadRight">▶</div>
+    </div>
+  </div>
+
+  <div id="shopModal">
+    <h2 style="color:#facc15; font-size:1.4rem;">🛍 МАГАЗИН ШАРИКОВ</h2>
+    <div class="wins-badge" style="margin-top:8px;">Твои победы: <span id="shopWinsCount">0</span></div>
+    <div class="skins-grid" id="skinsContainer"></div>
+    <button class="btn-modal btn-retry" id="closeShopBtn" style="padding:8px 24px; font-size:0.85rem;">Закрыть</button>
   </div>
 
   <canvas id="fireworksCanvas"></canvas>
 
-  <!-- Окно победы -->
   <div id="winModal" class="modal">
-    <h2>🎉 ТЫ СБЕЖАЛ! 🎉</h2>
-    <p id="winStats" class="modal-text">Лабиринт успешно пройден!</p>
-    <button class="btn-again" id="playAgainBtn">Играть снова</button>
+    <h2>🎉 ПОБЕДА! 🎉</h2>
+    <p id="winStats" class="modal-text">Лабиринт пройден!</p>
+    <button class="btn-modal btn-again" id="playAgainBtn">Следующий уровень</button>
   </div>
 
-  <!-- Окно гибели от лавы -->
   <div id="deathModal" class="modal">
-    <h2>💀 ТЕБЯ НАГНАЛА ЛАВА! 💀</h2>
-    <p id="deathStats" class="modal-text">Жар поглотил коридоры. Не останавливайся ни на секунду!</p>
-    <button class="btn-retry" id="retryBtn">Попробовать заново</button>
+    <h2 id="deathTitle">💀 ТЫ ПОГИБ!</h2>
+    <p id="deathStats" class="modal-text">Коридоры поглотили тебя.</p>
+    <button class="btn-modal btn-retry" id="retryBtn">Реванш</button>
   </div>
 
   <script>
-    // Аудио эффекты на Web Audio API
+    let totalWins = parseInt(localStorage.getItem('cyber_wins') || '0', 10);
+    let unlockedSkins = JSON.parse(localStorage.getItem('cyber_unlocked_skins') || '["cyan"]');
+    let activeSkinId = localStorage.getItem('cyber_active_skin') || 'cyan';
+
+    const SKINS = [
+      { id: 'cyan', name: 'Кибер Неон', cost: 0, color: '#00f0ff', glow: '#00f0ff' },
+      { id: 'emerald', name: 'Изумруд', cost: 10, color: '#10b981', glow: '#34d399' },
+      { id: 'solar', name: 'Солнечный', cost: 20, color: '#f59e0b', glow: '#fbbf24' },
+      { id: 'ruby', name: 'Тёмный Рубин', cost: 35, color: '#ef4444', glow: '#f87171' },
+      { id: 'amethyst', name: 'Аметист', cost: 50, color: '#a855f7', glow: '#c084fc' }
+    ];
+
+    function saveProgress() {
+      localStorage.setItem('cyber_wins', totalWins);
+      localStorage.setItem('cyber_unlocked_skins', JSON.stringify(unlockedSkins));
+      localStorage.setItem('cyber_active_skin', activeSkinId);
+      updateWinsDisplay();
+    }
+
+    function updateWinsDisplay() {
+      document.getElementById('menuWinsCount').textContent = totalWins;
+      document.getElementById('hudWinsVal').textContent = totalWins;
+      document.getElementById('shopWinsCount').textContent = totalWins;
+    }
+
     const AudioEngine = {
       ctx: null,
+      musicTimer: null,
+      bassStep: 0,
+      scale: [220, 246.94, 261.63, 293.66, 329.63, 349.23, 392.00, 440],
+
       init() {
-        if (!this.ctx) {
-          const AudioContext = window.AudioContext || window.webkitAudioContext;
-          if (AudioContext) this.ctx = new AudioContext();
+        try {
+          if (!this.ctx) {
+            const AudioContext = window.AudioContext || window.webkitAudioContext;
+            if (AudioContext) this.ctx = new AudioContext();
+          }
+          if (this.ctx && this.ctx.state === 'suspended') {
+            this.ctx.resume();
+          }
+        } catch (e) {}
+      },
+
+      startMusic(isMonsterMode = false) {
+        this.stopMusic();
+        this.bassStep = 0;
+        const stepTime = isMonsterMode ? 140 : 125;
+
+        this.musicTimer = setInterval(() => {
+          if (!this.ctx) return;
+          try {
+            const t = this.ctx.currentTime;
+            if (this.bassStep % 2 === 0) {
+              const rootFreqs = isMonsterMode ? [73.42, 69.30, 65.41, 61.74] : [110, 110, 98, 87.31];
+              const noteIndex = Math.floor((this.bassStep / 8) % rootFreqs.length);
+              const freq = rootFreqs[noteIndex];
+
+              const osc = this.ctx.createOscillator();
+              const gain = this.ctx.createGain();
+              const filter = this.ctx.createBiquadFilter();
+
+              osc.type = isMonsterMode ? 'sawtooth' : 'triangle';
+              osc.frequency.setValueAtTime(freq, t);
+
+              filter.type = 'lowpass';
+              filter.frequency.setValueAtTime(isMonsterMode ? 320 : 500, t);
+              filter.frequency.exponentialRampToValueAtTime(80, t + 0.16);
+
+              gain.gain.setValueAtTime(0.1, t);
+              gain.gain.exponentialRampToValueAtTime(0.001, t + 0.18);
+
+              osc.connect(filter);
+              filter.connect(gain);
+              gain.connect(this.ctx.destination);
+
+              osc.start(t);
+              osc.stop(t + 0.2);
+            }
+
+            if (Math.random() > 0.4) {
+              const arpIndex = (this.bassStep * 3) % this.scale.length;
+              const freq = this.scale[arpIndex] * (isMonsterMode ? 1.5 : 2);
+
+              const oscLead = this.ctx.createOscillator();
+              const gainLead = this.ctx.createGain();
+
+              oscLead.type = 'sine';
+              oscLead.frequency.setValueAtTime(freq, t);
+
+              gainLead.gain.setValueAtTime(0.03, t);
+              gainLead.gain.exponentialRampToValueAtTime(0.0001, t + 0.18);
+
+              oscLead.connect(gainLead);
+              gainLead.connect(this.ctx.destination);
+
+              oscLead.start(t);
+              oscLead.stop(t + 0.2);
+            }
+            this.bassStep++;
+          } catch(e) {}
+        }, stepTime);
+      },
+
+      stopMusic() {
+        if (this.musicTimer) {
+          clearInterval(this.musicTimer);
+          this.musicTimer = null;
         }
       },
+
       playWin() {
+        this.stopMusic();
         if (!this.ctx) return;
-        const notes = [440, 554, 659, 880];
-        notes.forEach((freq, idx) => {
+        try {
+          const notes = [440, 554, 659, 880];
+          notes.forEach((freq, idx) => {
+            const osc = this.ctx.createOscillator();
+            const gain = this.ctx.createGain();
+            osc.type = 'sine';
+            osc.frequency.setValueAtTime(freq, this.ctx.currentTime + idx * 0.12);
+            gain.gain.setValueAtTime(0.18, this.ctx.currentTime + idx * 0.12);
+            gain.gain.linearRampToValueAtTime(0.01, this.ctx.currentTime + idx * 0.12 + 0.35);
+            osc.connect(gain);
+            gain.connect(this.ctx.destination);
+            osc.start(this.ctx.currentTime + idx * 0.12);
+            osc.stop(this.ctx.currentTime + idx * 0.12 + 0.35);
+          });
+        } catch(e) {}
+      },
+
+      playDeath() {
+        this.stopMusic();
+        if (!this.ctx) return;
+        try {
           const osc = this.ctx.createOscillator();
           const gain = this.ctx.createGain();
-          osc.type = 'sine';
-          osc.frequency.setValueAtTime(freq, this.ctx.currentTime + idx * 0.12);
-          gain.gain.setValueAtTime(0.18, this.ctx.currentTime + idx * 0.12);
-          gain.gain.linearRampToValueAtTime(0.01, this.ctx.currentTime + idx * 0.12 + 0.35);
+          osc.type = 'sawtooth';
+          osc.frequency.setValueAtTime(140, this.ctx.currentTime);
+          osc.frequency.exponentialRampToValueAtTime(30, this.ctx.currentTime + 0.55);
+          gain.gain.setValueAtTime(0.28, this.ctx.currentTime);
+          gain.gain.linearRampToValueAtTime(0.01, this.ctx.currentTime + 0.55);
           osc.connect(gain);
           gain.connect(this.ctx.destination);
-          osc.start(this.ctx.currentTime + idx * 0.12);
-          osc.stop(this.ctx.currentTime + idx * 0.12 + 0.35);
-        });
-      },
-      playDeath() {
-        if (!this.ctx) return;
-        const osc = this.ctx.createOscillator();
-        const gain = this.ctx.createGain();
-        osc.type = 'sawtooth';
-        osc.frequency.setValueAtTime(160, this.ctx.currentTime);
-        osc.frequency.exponentialRampToValueAtTime(35, this.ctx.currentTime + 0.55);
-        gain.gain.setValueAtTime(0.28, this.ctx.currentTime);
-        gain.gain.linearRampToValueAtTime(0.01, this.ctx.currentTime + 0.55);
-        osc.connect(gain);
-        gain.connect(this.ctx.destination);
-        osc.start();
-        osc.stop(this.ctx.currentTime + 0.55);
+          osc.start();
+          osc.stop(this.ctx.currentTime + 0.55);
+        } catch(e) {}
       }
     };
 
-    // ФОН: НЕОНОВАЯ ДОРОГА
     const bgCanvas = document.getElementById('bgCanvas');
     const bgCtx = bgCanvas.getContext('2d');
     let bgTime = 0;
@@ -405,25 +613,25 @@
       bgCtx.fillRect(0, 0, w, h);
 
       const horizonY = h * 0.44;
-      const sunGrad = bgCtx.createLinearGradient(0, horizonY - 130, 0, horizonY);
+      const sunGrad = bgCtx.createLinearGradient(0, horizonY - 100, 0, horizonY);
       sunGrad.addColorStop(0, '#ff007f');
       sunGrad.addColorStop(1, '#ffe600');
       bgCtx.fillStyle = sunGrad;
       bgCtx.beginPath();
-      bgCtx.arc(w / 2, horizonY, 115, Math.PI, 0, false);
+      bgCtx.arc(w / 2, horizonY, 80, Math.PI, 0, false);
       bgCtx.fill();
 
-      bgCtx.strokeStyle = 'rgba(0, 240, 255, 0.4)';
-      bgCtx.lineWidth = 1.5;
-      for (let x = -w; x <= w * 2; x += 90) {
+      bgCtx.strokeStyle = 'rgba(0, 240, 255, 0.35)';
+      bgCtx.lineWidth = 1;
+      for (let x = -w; x <= w * 2; x += 80) {
         bgCtx.beginPath();
         bgCtx.moveTo(w / 2, horizonY);
         bgCtx.lineTo(x, h);
         bgCtx.stroke();
       }
 
-      const gridOffset = (bgTime * 65) % 40;
-      for (let y = horizonY; y <= h; y += 40) {
+      const gridOffset = (bgTime * 65) % 35;
+      for (let y = horizonY; y <= h; y += 35) {
         const curY = y + gridOffset;
         if (curY > horizonY && curY <= h) {
           bgCtx.beginPath();
@@ -433,138 +641,45 @@
         }
       }
 
-      // Спорткар
-      const carX = w / 2;
-      const carY = h * 0.72;
-
-      const glowGrad = bgCtx.createRadialGradient(carX, carY + 36, 15, carX, carY + 36, 130);
-      glowGrad.addColorStop(0, 'rgba(0, 240, 255, 0.95)');
-      glowGrad.addColorStop(0.5, 'rgba(255, 0, 128, 0.55)');
-      glowGrad.addColorStop(1, 'rgba(0, 0, 0, 0)');
-      bgCtx.fillStyle = glowGrad;
-      bgCtx.beginPath();
-      bgCtx.ellipse(carX, carY + 36, 145, 32, 0, 0, Math.PI * 2);
-      bgCtx.fill();
-
-      bgCtx.fillStyle = '#0f1124';
-      bgCtx.beginPath();
-      bgCtx.roundRect(carX - 100, carY - 25, 200, 60, [16, 16, 6, 6]);
-      bgCtx.fill();
-      bgCtx.strokeStyle = '#00f0ff';
-      bgCtx.lineWidth = 2;
-      bgCtx.stroke();
-
-      bgCtx.fillStyle = '#060714';
-      bgCtx.beginPath();
-      bgCtx.moveTo(carX - 65, carY - 25);
-      bgCtx.lineTo(carX - 45, carY - 65);
-      bgCtx.lineTo(carX + 45, carY - 65);
-      bgCtx.lineTo(carX + 65, carY - 25);
-      bgCtx.closePath();
-      bgCtx.fill();
-      bgCtx.strokeStyle = '#ff007f';
-      bgCtx.stroke();
-
-      bgCtx.fillStyle = '#1e0533';
-      bgCtx.fillRect(carX - 110, carY - 50, 220, 8);
-      bgCtx.fillStyle = '#00f0ff';
-      bgCtx.fillRect(carX - 70, carY - 42, 6, 17);
-      bgCtx.fillRect(carX + 64, carY - 42, 6, 17);
-
-      bgCtx.shadowColor = '#ff0055';
-      bgCtx.shadowBlur = 22;
-      bgCtx.fillStyle = '#ff0055';
-      bgCtx.fillRect(carX - 90, carY - 5, 180, 8);
-      bgCtx.fillStyle = '#fff';
-      bgCtx.fillRect(carX - 85, carY - 3, 170, 4);
-      bgCtx.shadowBlur = 0;
-
-      const flamePulse = Math.sin(bgTime * 22) * 8;
-      const drawFlame = (fx) => {
-        bgCtx.shadowColor = '#00f0ff';
-        bgCtx.shadowBlur = 18;
-        bgCtx.fillStyle = '#00f0ff';
-        bgCtx.beginPath();
-        bgCtx.moveTo(fx - 6, carY + 32);
-        bgCtx.lineTo(fx + 6, carY + 32);
-        bgCtx.lineTo(fx, carY + 46 + flamePulse);
-        bgCtx.closePath();
-        bgCtx.fill();
-        bgCtx.shadowBlur = 0;
-      };
-      drawFlame(carX - 45);
-      drawFlame(carX + 45);
-
       requestAnimationFrame(drawBackground);
     }
     drawBackground();
 
-    // ЛОГИКА ЛАБИРИНТА, ИГРОКА И ЛАВЫ
-    const mazeCanvas = document.getElementById('mazeCanvas');
-    const mazeCtx = mazeCanvas.getContext('2d');
-    const menuScreen = document.getElementById('menuScreen');
-    const gameScreen = document.getElementById('gameScreen');
-    const startBtn = document.getElementById('startBtn');
-    const winModal = document.getElementById('winModal');
-    const deathModal = document.getElementById('deathModal');
-    const playAgainBtn = document.getElementById('playAgainBtn');
-    const retryBtn = document.getElementById('retryBtn');
-    const exitMenuBtn = document.getElementById('exitMenuBtn');
-    const bestTimeVal = document.getElementById('bestTimeVal');
-    const lavaIndicator = document.getElementById('lavaIndicator');
-
-    let mazeSize = 27;
-    let baseLavaSpeed = 2.6; // блоков в секунду
+    let currentMode = 'lava';
+    let monsterLevel = 1;
+    let mazeSize = 25;
+    let baseLavaSpeed = 3.0;
     let cellSize = 18;
     let maze = [];
-    let lavaDistances = []; // дистанция по коридорам от старта (1,1)
+    let lavaDistances = [];
     let goal = { x: 1, y: 1 };
     let gameActive = false;
     let startTime = 0;
     let elapsedSeconds = 0;
     let gameAnimFrame = null;
-    let lavaWave = 0; // текущая волна лавы в блоках
+    let lavaWave = -1;
+    let lavaSparks = [];
 
-    // Игрок с глазками
     const player = {
       x: 0,
       y: 0,
       radius: 6,
-      speed: 130,
+      speed: 105,
       lookX: 0,
       lookY: 0,
       blinkTimer: 0
     };
 
-    const keys = {
-      up: false,
-      down: false,
-      left: false,
-      right: false
+    const monster = {
+      x: 0,
+      y: 0,
+      radius: 8,
+      speed: 75,
+      jawPulse: 0
     };
 
-    function formatTime(sec) {
-      const m = String(Math.floor(sec / 60)).padStart(2, '0');
-      const s = String(sec % 60).padStart(2, '0');
-      return `${m}:${s}`;
-    }
+    const keys = { up: false, down: false, left: false, right: false };
 
-    function updateBestTimeDisplay() {
-      const record = localStorage.getItem('cyber_best_' + mazeSize);
-      bestTimeVal.textContent = record ? formatTime(parseInt(record, 10)) : '--:--';
-    }
-
-    document.querySelectorAll('.diff-btn').forEach(btn => {
-      btn.addEventListener('click', () => {
-        document.querySelectorAll('.diff-btn').forEach(b => b.classList.remove('active'));
-        btn.classList.add('active');
-        mazeSize = parseInt(btn.dataset.size, 10);
-        baseLavaSpeed = parseFloat(btn.dataset.speed);
-        updateBestTimeDisplay();
-      });
-    });
-
-    // Генерация лабиринта (DFS)
     function generateMaze(size) {
       const grid = Array.from({ length: size }, () => Array(size).fill(1));
       const stack = [[1, 1]];
@@ -589,10 +704,20 @@
         }
         if (!moved) stack.pop();
       }
+
+      for (let y = 2; y < size - 2; y += 2) {
+        for (let x = 2; x < size - 2; x += 2) {
+          if (grid[y][x] === 1 && Math.random() < 0.22) {
+            grid[y][x] = 0;
+          }
+        }
+      }
+
+      grid[1][1] = 0;
+      grid[size - 2][size - 2] = 0;
       return grid;
     }
 
-    // Расчёт пути лавы от точки старта (BFS)
     function computeLavaDistances() {
       lavaDistances = Array.from({ length: mazeSize }, () => Array(mazeSize).fill(-1));
       const queue = [[1, 1, 0]];
@@ -605,7 +730,7 @@
           const nx = cx + dx;
           const ny = cy + dy;
           if (nx >= 0 && nx < mazeSize && ny >= 0 && ny < mazeSize) {
-            if (maze[ny][nx] === 0 && lavaDistances[ny][nx] === -1) {
+            if (maze[ny] && maze[ny][nx] === 0 && lavaDistances[ny][nx] === -1) {
               lavaDistances[ny][nx] = dist + 1;
               queue.push([nx, ny, dist + 1]);
             }
@@ -614,16 +739,69 @@
       }
     }
 
+    function findMonsterPath(startX, startY, targetX, targetY) {
+      if (startX < 0 || startY < 0 || startX >= mazeSize || startY >= mazeSize) return null;
+      if (targetX < 0 || targetY < 0 || targetX >= mazeSize || targetY >= mazeSize) return null;
+
+      const q = [[startX, startY]];
+      const visited = Array.from({ length: mazeSize }, () => Array(mazeSize).fill(null));
+      visited[startY][startX] = { x: startX, y: startY };
+
+      let reached = false;
+      while (q.length > 0) {
+        const [cx, cy] = q.shift();
+        if (cx === targetX && cy === targetY) {
+          reached = true;
+          break;
+        }
+
+        const dirs = [[0, 1], [0, -1], [1, 0], [-1, 0]];
+        for (const [dx, dy] of dirs) {
+          const nx = cx + dx;
+          const ny = cy + dy;
+          if (nx >= 0 && nx < mazeSize && ny >= 0 && ny < mazeSize) {
+            if (maze[ny] && maze[ny][nx] === 0 && !visited[ny][nx]) {
+              visited[ny][nx] = { x: cx, y: cy };
+              q.push([nx, ny]);
+            }
+          }
+        }
+      }
+
+      if (!reached || !visited[targetY][targetX]) return null;
+
+      let curr = { x: targetX, y: targetY };
+      const fullPath = [];
+      while (!(curr.x === startX && curr.y === startY)) {
+        fullPath.push(curr);
+        curr = visited[curr.y][curr.x];
+        if (!curr) return null;
+      }
+      return fullPath.reverse()[0] || null;
+    }
+
+    const mazeCanvas = document.getElementById('mazeCanvas');
+    const mazeCtx = mazeCanvas.getContext('2d');
+
     function setupCanvasSize() {
-      const maxAvailable = Math.min(window.innerHeight - 150, window.innerWidth - 40, 580);
+      const isMobile = window.innerWidth <= 600;
+      const maxAvailable = isMobile 
+        ? Math.min(window.innerHeight - 230, window.innerWidth - 30) 
+        : Math.min(window.innerHeight - 170, window.innerWidth - 40, 520);
+
       cellSize = Math.floor(maxAvailable / mazeSize);
       mazeCanvas.width = mazeSize * cellSize;
       mazeCanvas.height = mazeSize * cellSize;
       player.radius = cellSize * 0.32;
-      player.speed = cellSize * 7.5;
+      player.speed = cellSize * 5.2;
+
+      monster.radius = cellSize * 0.38;
+      // Честная скорость монстра (чуть медленнее игрока)
+      const monsterSpeedRatio = Math.min(0.85, 0.68 + (monsterLevel * 0.02));
+      monster.speed = player.speed * monsterSpeedRatio;
+      lavaSparks = [];
     }
 
-    // Проверка столкновений со стенами
     function collidesWithWall(x, y, r) {
       const minX = Math.floor((x - r) / cellSize);
       const maxX = Math.floor((x + r) / cellSize);
@@ -632,24 +810,22 @@
 
       for (let cy = minY; cy <= maxY; cy++) {
         for (let cx = minX; cx <= maxX; cx++) {
-          if (cy < 0 || cy >= mazeSize || cx < 0 || cx >= mazeSize || maze[cy][cx] === 1) {
+          if (cy < 0 || cy >= mazeSize || cx < 0 || cx >= mazeSize || (maze[cy] && maze[cy][cx] === 1)) {
             const rx = cx * cellSize;
             const ry = cy * cellSize;
             const closestX = Math.max(rx, Math.min(x, rx + cellSize));
             const closestY = Math.max(ry, Math.min(y, ry + cellSize));
             const distX = x - closestX;
             const distY = y - closestY;
-            if ((distX * distX + distY * distY) < (r * r)) {
-              return true;
-            }
+            if ((distX * distX + distY * distY) < (r * r)) return true;
           }
         }
       }
       return false;
     }
 
-    // Проверка касания лавы
     function collidesWithLava(px, py, r) {
+      if (currentMode !== 'lava' || lavaWave < 0) return false;
       const minX = Math.max(0, Math.floor((px - r) / cellSize));
       const maxX = Math.min(mazeSize - 1, Math.floor((px + r) / cellSize));
       const minY = Math.max(0, Math.floor((py - r) / cellSize));
@@ -657,37 +833,32 @@
 
       for (let cy = minY; cy <= maxY; cy++) {
         for (let cx = minX; cx <= maxX; cx++) {
-          const cellDist = lavaDistances[cy][cx];
-          if (cellDist !== -1 && cellDist <= lavaWave) {
-            // Клетка заполнена лавой
+          if (lavaDistances[cy] && lavaDistances[cy][cx] !== -1 && lavaDistances[cy][cx] <= lavaWave) {
             const rx = cx * cellSize;
             const ry = cy * cellSize;
             const closestX = Math.max(rx, Math.min(px, rx + cellSize));
             const closestY = Math.max(ry, Math.min(py, ry + cellSize));
             const distX = px - closestX;
             const distY = py - closestY;
-            if ((distX * distX + distY * distY) < (r * r)) {
-              return true;
-            }
+            if ((distX * distX + distY * distY) < (r * r)) return true;
           }
         }
       }
       return false;
     }
 
-    // Рисование игрока с глазками
     function drawPlayer() {
+      const skin = SKINS.find(s => s.id === activeSkinId) || SKINS[0];
       const { x, y, radius, lookX, lookY, blinkTimer } = player;
 
-      mazeCtx.shadowColor = '#00f0ff';
-      mazeCtx.shadowBlur = 16;
-      mazeCtx.fillStyle = '#00f0ff';
+      mazeCtx.shadowColor = skin.glow;
+      mazeCtx.shadowBlur = 14;
+      mazeCtx.fillStyle = skin.color;
       mazeCtx.beginPath();
       mazeCtx.arc(x, y, radius, 0, Math.PI * 2);
       mazeCtx.fill();
       mazeCtx.shadowBlur = 0;
 
-      // Глазки
       const eyeOffsetX = radius * 0.36;
       const eyeOffsetY = -radius * 0.12;
       const eyeSize = radius * 0.28;
@@ -710,13 +881,7 @@
 
           mazeCtx.fillStyle = '#05111e';
           mazeCtx.beginPath();
-          mazeCtx.arc(
-            ex + lookX * (eyeSize * 0.45),
-            y + eyeOffsetY + lookY * (eyeSize * 0.45),
-            pupilSize,
-            0,
-            Math.PI * 2
-          );
+          mazeCtx.arc(ex + lookX * (eyeSize * 0.45), y + eyeOffsetY + lookY * (eyeSize * 0.45), pupilSize, 0, Math.PI * 2);
           mazeCtx.fill();
         }
       };
@@ -725,37 +890,120 @@
       drawEye(x + eyeOffsetX);
     }
 
-    // Отрисовка сцены (стены, лава, портал, герой)
-    function renderGame(timeNow) {
-      mazeCtx.clearRect(0, 0, mazeCanvas.width, mazeCanvas.height);
+    function drawMonster(timeNow) {
+      if (currentMode !== 'monster') return;
+      const { x, y, radius } = monster;
+      monster.jawPulse += 0.08;
+      const breath = Math.sin(monster.jawPulse) * 1.5;
 
-      const pulse = Math.sin(timeNow * 0.008) * 0.15 + 0.85;
+      mazeCtx.shadowColor = '#ff0033';
+      mazeCtx.shadowBlur = 16;
+      mazeCtx.fillStyle = '#1c040d';
+      mazeCtx.beginPath();
+      mazeCtx.arc(x, y, radius + breath, 0, Math.PI * 2);
+      mazeCtx.fill();
 
-      // Проход по сетке
+      mazeCtx.fillStyle = '#ff0055';
+      for (let i = 0; i < 4; i++) {
+        const ang = (i * Math.PI / 2) + (timeNow * 0.003);
+        const sx = x + Math.cos(ang) * (radius * 1.15);
+        const sy = y + Math.sin(ang) * (radius * 1.15);
+        mazeCtx.beginPath();
+        mazeCtx.arc(sx, sy, radius * 0.25, 0, Math.PI * 2);
+        mazeCtx.fill();
+      }
+
+      mazeCtx.fillStyle = '#ff1100';
+      const eyeSpacing = radius * 0.45;
+      mazeCtx.beginPath();
+      mazeCtx.arc(x - eyeSpacing, y - radius * 0.15, radius * 0.25, 0, Math.PI * 2);
+      mazeCtx.arc(x + eyeSpacing, y - radius * 0.15, radius * 0.25, 0, Math.PI * 2);
+      mazeCtx.fill();
+
+      mazeCtx.fillStyle = '#ffffff';
+      mazeCtx.beginPath();
+      mazeCtx.arc(x - eyeSpacing, y - radius * 0.15, radius * 0.1, 0, Math.PI * 2);
+      mazeCtx.arc(x + eyeSpacing, y - radius * 0.15, radius * 0.1, 0, Math.PI * 2);
+      mazeCtx.fill();
+      mazeCtx.shadowBlur = 0;
+    }
+
+    function drawRealisticLava(timeNow) {
+      const pulse = Math.sin(timeNow * 0.006) * 0.2 + 0.8;
+
       for (let cy = 0; cy < mazeSize; cy++) {
         for (let cx = 0; cx < mazeSize; cx++) {
-          const isWall = (maze[cy][cx] === 1);
-          const cellLavaDist = lavaDistances[cy][cx];
+          if (!lavaDistances[cy]) continue;
+          const cellDist = lavaDistances[cy][cx];
+          if (cellDist !== -1 && cellDist <= lavaWave) {
+            const rx = cx * cellSize;
+            const ry = cy * cellSize;
 
-          if (isWall) {
-            mazeCtx.fillStyle = '#141828';
-            mazeCtx.fillRect(cx * cellSize, cy * cellSize, cellSize, cellSize);
-            mazeCtx.strokeStyle = 'rgba(0, 240, 255, 0.2)';
-            mazeCtx.strokeRect(cx * cellSize, cy * cellSize, cellSize, cellSize);
-          } else if (cellLavaDist !== -1 && cellLavaDist <= lavaWave) {
-            // Лава
-            const isFrontier = Math.abs(cellLavaDist - lavaWave) < 1.5;
-            mazeCtx.fillStyle = isFrontier ? `rgba(255, 120, 20, ${pulse})` : '#e62200';
-            mazeCtx.fillRect(cx * cellSize, cy * cellSize, cellSize, cellSize);
+            const grad = mazeCtx.createRadialGradient(
+              rx + cellSize / 2, ry + cellSize / 2, 2,
+              rx + cellSize / 2, ry + cellSize / 2, cellSize
+            );
+            grad.addColorStop(0, '#fff382');
+            grad.addColorStop(0.35, '#ff6600');
+            grad.addColorStop(0.8, '#c70d00');
+            grad.addColorStop(1, '#660000');
 
-            // Огненные прожилки лавы
-            mazeCtx.fillStyle = '#ffbb00';
-            mazeCtx.fillRect(cx * cellSize + 3, cy * cellSize + 3, cellSize - 6, cellSize - 6);
+            mazeCtx.fillStyle = grad;
+            mazeCtx.fillRect(rx, ry, cellSize, cellSize);
+
+            if (Math.abs(cellDist - lavaWave) < 1.4) {
+              mazeCtx.fillStyle = `rgba(255, 235, 130, ${pulse * 0.6})`;
+              mazeCtx.fillRect(rx + 2, ry + 2, cellSize - 4, cellSize - 4);
+
+              if (Math.random() < 0.03) {
+                lavaSparks.push({
+                  x: rx + Math.random() * cellSize,
+                  y: ry + Math.random() * cellSize,
+                  vx: (Math.random() - 0.5) * 18,
+                  vy: -Math.random() * 20 - 8,
+                  life: 1.0
+                });
+              }
+            }
           }
         }
       }
 
-      // Золотой портал выхода
+      for (let i = lavaSparks.length - 1; i >= 0; i--) {
+        const sp = lavaSparks[i];
+        sp.x += sp.vx * 0.016;
+        sp.y += sp.vy * 0.016;
+        sp.life -= 0.03;
+
+        if (sp.life <= 0) {
+          lavaSparks.splice(i, 1);
+        } else {
+          mazeCtx.fillStyle = `rgba(255, 220, 50, ${sp.life})`;
+          mazeCtx.beginPath();
+          mazeCtx.arc(sp.x, sp.y, 1.6, 0, Math.PI * 2);
+          mazeCtx.fill();
+        }
+      }
+    }
+
+    function renderGame(timeNow) {
+      mazeCtx.clearRect(0, 0, mazeCanvas.width, mazeCanvas.height);
+
+      for (let cy = 0; cy < mazeSize; cy++) {
+        for (let cx = 0; cx < mazeSize; cx++) {
+          if (maze[cy] && maze[cy][cx] === 1) {
+            mazeCtx.fillStyle = '#141828';
+            mazeCtx.fillRect(cx * cellSize, cy * cellSize, cellSize, cellSize);
+            mazeCtx.strokeStyle = 'rgba(0, 240, 255, 0.2)';
+            mazeCtx.strokeRect(cx * cellSize, cy * cellSize, cellSize, cellSize);
+          }
+        }
+      }
+
+      if (currentMode === 'lava') {
+        drawRealisticLava(timeNow);
+      }
+
       const portalRadius = cellSize * 0.38;
       const goalCenterX = (goal.x + 0.5) * cellSize;
       const goalCenterY = (goal.y + 0.5) * cellSize;
@@ -768,7 +1016,7 @@
       mazeCtx.fill();
       mazeCtx.shadowBlur = 0;
 
-      // Игрок
+      drawMonster(timeNow);
       drawPlayer();
     }
 
@@ -784,20 +1032,60 @@
       elapsedSeconds = Math.floor(totalElapsed);
       document.getElementById('timeVal').textContent = formatTime(elapsedSeconds);
 
-      // Логика лавы: 2 секунды форы игроку
-      const gracePeriod = 2.0;
-      if (totalElapsed > gracePeriod) {
-        lavaWave = (totalElapsed - gracePeriod) * baseLavaSpeed;
-        lavaIndicator.textContent = '🔥 ЛАВА БЛИЗКО!';
-        lavaIndicator.style.color = '#ff3300';
+      if (currentMode === 'lava') {
+        const gracePeriod = 1.4;
+        if (totalElapsed > gracePeriod) {
+          lavaWave = (totalElapsed - gracePeriod) * baseLavaSpeed;
+          document.getElementById('dangerIndicator').textContent = '🔥 ЛАВА БЛИЗКО!';
+          document.getElementById('dangerIndicator').style.color = '#ff3300';
+        } else {
+          lavaWave = -1;
+          const rem = (gracePeriod - totalElapsed).toFixed(1);
+          document.getElementById('dangerIndicator').textContent = `⏳ Лава: ${rem}с`;
+          document.getElementById('dangerIndicator').style.color = '#38bdf8';
+        }
+
+        if (collidesWithLava(player.x, player.y, player.radius)) {
+          onDeath('lava');
+          return;
+        }
       } else {
-        lavaWave = -1;
-        const remainingGrace = (gracePeriod - totalElapsed).toFixed(1);
-        lavaIndicator.textContent = `⏳ Лава через ${remainingGrace}с`;
-        lavaIndicator.style.color = '#38bdf8';
+        const monsterGrace = 2.0; // 2 секунды форы в начале
+        if (totalElapsed < monsterGrace) {
+          const rem = (monsterGrace - totalElapsed).toFixed(1);
+          document.getElementById('dangerIndicator').textContent = `⏳ Монстр спит: ${rem}с`;
+          document.getElementById('dangerIndicator').style.color = '#38bdf8';
+        } else {
+          document.getElementById('dangerIndicator').textContent = `👾 Охота! (Ур. ${monsterLevel})`;
+          document.getElementById('dangerIndicator').style.color = '#ff3300';
+
+          const pCellX = Math.floor(player.x / cellSize);
+          const pCellY = Math.floor(player.y / cellSize);
+          const mCellX = Math.floor(monster.x / cellSize);
+          const mCellY = Math.floor(monster.y / cellSize);
+
+          const nextStep = findMonsterPath(mCellX, mCellY, pCellX, pCellY);
+          if (nextStep) {
+            const targetWorldX = (nextStep.x + 0.5) * cellSize;
+            const targetWorldY = (nextStep.y + 0.5) * cellSize;
+            const mdx = targetWorldX - monster.x;
+            const mdy = targetWorldY - monster.y;
+            const dist = Math.hypot(mdx, mdy);
+
+            if (dist > 1) {
+              monster.x += (mdx / dist) * monster.speed * dt;
+              monster.y += (mdy / dist) * monster.speed * dt;
+            }
+          }
+        }
+
+        const catchDist = Math.hypot(player.x - monster.x, player.y - monster.y);
+        if (catchDist < (player.radius + monster.radius * 0.75)) {
+          onDeath('monster');
+          return;
+        }
       }
 
-      // Плавное передвижение
       let moveX = 0;
       let moveY = 0;
       if (keys.up) moveY -= 1;
@@ -816,29 +1104,13 @@
         const stepX = normX * player.speed * dt;
         const stepY = normY * player.speed * dt;
 
-        // Скольжение вдоль стен
-        if (!collidesWithWall(player.x + stepX, player.y, player.radius)) {
-          player.x += stepX;
-        }
-        if (!collidesWithWall(player.x, player.y + stepY, player.radius)) {
-          player.y += stepY;
-        }
+        if (!collidesWithWall(player.x + stepX, player.y, player.radius)) player.x += stepX;
+        if (!collidesWithWall(player.x, player.y + stepY, player.radius)) player.y += stepY;
       }
 
       player.blinkTimer++;
 
-      // Проверка гибели от лавы
-      if (collidesWithLava(player.x, player.y, player.radius)) {
-        onDeath();
-        return;
-      }
-
-      // Проверка победы (касание портала)
-      const goalDist = Math.hypot(
-        player.x - (goal.x + 0.5) * cellSize,
-        player.y - (goal.y + 0.5) * cellSize
-      );
-
+      const goalDist = Math.hypot(player.x - (goal.x + 0.5) * cellSize, player.y - (goal.y + 0.5) * cellSize);
       if (goalDist < cellSize * 0.5) {
         onVictory();
         return;
@@ -852,46 +1124,101 @@
       gameActive = false;
       AudioEngine.playWin();
 
-      const prevRecord = localStorage.getItem('cyber_best_' + mazeSize);
-      let recordMessage = '';
-      if (!prevRecord || elapsedSeconds < parseInt(prevRecord, 10)) {
-        localStorage.setItem('cyber_best_' + mazeSize, elapsedSeconds);
-        updateBestTimeDisplay();
-        recordMessage = `<br><span style="color:#facc15; font-weight:bold;">🔥 НОВЫЙ РЕКОРД: ${formatTime(elapsedSeconds)}!</span>`;
+      totalWins++;
+      saveProgress();
+
+      let levelText = '';
+      if (currentMode === 'monster') {
+        monsterLevel++;
+        document.getElementById('curMonsterLvl').textContent = monsterLevel;
+        levelText = `<br><span style="color:#a78bfa; font-weight:bold;">Открыт уровень ${monsterLevel}!</span>`;
       }
 
       document.getElementById('winStats').innerHTML = 
-        `Время побега: <b>${formatTime(elapsedSeconds)}</b>${recordMessage}`;
-      winModal.style.display = 'flex';
+        `Лабиринт пройден за <b>${formatTime(elapsedSeconds)}</b>!<br>` +
+        `<span style="color:#facc15; font-weight:800;">+1 Победа зачислена! 🏆</span>${levelText}`;
+
+      document.getElementById('winModal').style.display = 'flex';
       launchFireworks();
     }
 
-    function onDeath() {
+    function onDeath(cause) {
       gameActive = false;
       AudioEngine.playDeath();
 
-      // Рисуем вспышку гибели
-      mazeCtx.fillStyle = 'rgba(255, 30, 0, 0.4)';
-      mazeCtx.fillRect(0, 0, mazeCanvas.width, mazeCanvas.height);
+      if (cause === 'monster') {
+        document.getElementById('deathTitle').textContent = '👾 МОНСТР ДОГНАЛ ТЕБЯ!';
+        document.getElementById('deathStats').innerHTML = 
+          `Ты продержался: <b>${formatTime(elapsedSeconds)}</b> на уровне ${monsterLevel}.<br>Не задерживайся в тупиках!`;
+      } else {
+        document.getElementById('deathTitle').textContent = '💀 ТЕБЯ НАГНАЛА ЛАВА!';
+        document.getElementById('deathStats').innerHTML = 
+          `Ты продержался: <b>${formatTime(elapsedSeconds)}</b>.<br>Жар раскалённой магмы поглотил выход!`;
+      }
 
-      document.getElementById('deathStats').innerHTML = 
-        `Ты продержался: <b>${formatTime(elapsedSeconds)}</b>.<br>Не сбавляй темп и держись подальше от огня!`;
-      deathModal.style.display = 'flex';
+      document.getElementById('deathModal').style.display = 'flex';
+    }
+
+    function formatTime(sec) {
+      const m = String(Math.floor(sec / 60)).padStart(2, '0');
+      const s = String(sec % 60).padStart(2, '0');
+      return `${m}:${s}`;
     }
 
     function startNewGame() {
       AudioEngine.init();
+      AudioEngine.startMusic(currentMode === 'monster');
+
+      if (currentMode === 'monster') {
+        mazeSize = Math.min(35, 17 + (monsterLevel - 1) * 2);
+        if (mazeSize % 2 === 0) mazeSize++;
+      }
+
       setupCanvasSize();
-      updateBestTimeDisplay();
+      updateWinsDisplay();
 
       maze = generateMaze(mazeSize);
-      computeLavaDistances();
 
+      if (currentMode === 'lava') {
+        computeLavaDistances();
+      }
+
+      // Игрок стартует в левом верхнем углу (1, 1)
       player.x = (1 + 0.5) * cellSize;
       player.y = (1 + 0.5) * cellSize;
       player.lookX = 0;
       player.lookY = 0;
       goal = { x: mazeSize - 2, y: mazeSize - 2 };
+
+      // СПАВН МОНСТРА НА ДРУГОМ КОНЦЕ КАРТЫ:
+      // Ищем свободную клетку в нижнем правом квадранте, удаленную от игрока
+      if (currentMode === 'monster') {
+        let spawnCandidates = [];
+        const minSpawnDist = Math.floor(mazeSize * 0.65);
+
+        for (let y = 1; y < mazeSize - 1; y++) {
+          for (let x = 1; x < mazeSize - 1; x++) {
+            if (maze[y][x] === 0) {
+              const distFromPlayer = Math.hypot(x - 1, y - 1);
+              if (distFromPlayer >= minSpawnDist) {
+                spawnCandidates.push({ x, y, dist: distFromPlayer });
+              }
+            }
+          }
+        }
+
+        // Выбираем самую удаленную от игрока точку
+        if (spawnCandidates.length > 0) {
+          spawnCandidates.sort((a, b) => b.dist - a.dist);
+          const chosen = spawnCandidates[0];
+          monster.x = (chosen.x + 0.5) * cellSize;
+          monster.y = (chosen.y + 0.5) * cellSize;
+        } else {
+          // Запасная точка возле финиша
+          monster.x = (mazeSize - 2 + 0.5) * cellSize;
+          monster.y = (mazeSize - 2 + 0.5) * cellSize;
+        }
+      }
 
       keys.up = keys.down = keys.left = keys.right = false;
 
@@ -902,29 +1229,112 @@
       gameActive = true;
 
       document.getElementById('timeVal').textContent = '00:00';
-      menuScreen.style.display = 'none';
-      winModal.style.display = 'none';
-      deathModal.style.display = 'none';
-      gameScreen.style.display = 'flex';
+      document.getElementById('menuScreen').style.display = 'none';
+      document.getElementById('winModal').style.display = 'none';
+      document.getElementById('deathModal').style.display = 'none';
+      document.getElementById('shopModal').style.display = 'none';
+      document.getElementById('gameScreen').style.display = 'flex';
 
       cancelAnimationFrame(gameAnimFrame);
       gameAnimFrame = requestAnimationFrame(updateGameLoop);
     }
 
-    startBtn.addEventListener('click', startNewGame);
-    playAgainBtn.addEventListener('click', startNewGame);
-    retryBtn.addEventListener('click', startNewGame);
+    function renderShop() {
+      const container = document.getElementById('skinsContainer');
+      container.innerHTML = '';
 
-    exitMenuBtn.addEventListener('click', () => {
-      gameActive = false;
-      cancelAnimationFrame(gameAnimFrame);
-      gameScreen.style.display = 'none';
-      winModal.style.display = 'none';
-      deathModal.style.display = 'none';
-      menuScreen.style.display = 'flex';
+      SKINS.forEach(skin => {
+        const isUnlocked = unlockedSkins.includes(skin.id);
+        const isActive = activeSkinId === skin.id;
+
+        const card = document.createElement('div');
+        card.className = `skin-card ${isActive ? 'selected' : ''}`;
+
+        let btnHtml = '';
+        if (isActive) {
+          btnHtml = `<button class="skin-btn active">Выбран</button>`;
+        } else if (isUnlocked) {
+          btnHtml = `<button class="skin-btn equip" onclick="equipSkin('${skin.id}')">Надеть</button>`;
+        } else {
+          const canBuy = totalWins >= skin.cost;
+          btnHtml = `<button class="skin-btn buy" ${canBuy ? '' : 'disabled style="opacity:0.5;"'} onclick="buySkin('${skin.id}', ${skin.cost})">Купить (${skin.cost} 🏆)</button>`;
+        }
+
+        card.innerHTML = `
+          <div class="skin-preview" style="background:${skin.color}; box-shadow:0 0 12px ${skin.glow};"></div>
+          <div class="skin-name">${skin.name}</div>
+          ${btnHtml}
+        `;
+        container.appendChild(card);
+      });
+      updateWinsDisplay();
+    }
+
+    window.equipSkin = function(id) {
+      activeSkinId = id;
+      saveProgress();
+      renderShop();
+    };
+
+    window.buySkin = function(id, cost) {
+      if (totalWins >= cost && !unlockedSkins.includes(id)) {
+        totalWins -= cost;
+        unlockedSkins.push(id);
+        activeSkinId = id;
+        saveProgress();
+        renderShop();
+      }
+    };
+
+    document.getElementById('startBtn').addEventListener('click', startNewGame);
+    document.getElementById('playAgainBtn').addEventListener('click', startNewGame);
+    document.getElementById('retryBtn').addEventListener('click', startNewGame);
+
+    document.getElementById('openShopBtn').addEventListener('click', () => {
+      renderShop();
+      document.getElementById('shopModal').style.display = 'flex';
     });
 
-    // Обработка клавиш (плавное удержание)
+    document.getElementById('closeShopBtn').addEventListener('click', () => {
+      document.getElementById('shopModal').style.display = 'none';
+    });
+
+    document.getElementById('exitMenuBtn').addEventListener('click', () => {
+      gameActive = false;
+      AudioEngine.stopMusic();
+      cancelAnimationFrame(gameAnimFrame);
+      document.getElementById('gameScreen').style.display = 'none';
+      document.getElementById('winModal').style.display = 'none';
+      document.getElementById('deathModal').style.display = 'none';
+      document.getElementById('menuScreen').style.display = 'flex';
+      updateWinsDisplay();
+    });
+
+    document.getElementById('modeLavaBtn').addEventListener('click', () => {
+      currentMode = 'lava';
+      document.getElementById('modeLavaBtn').classList.add('active');
+      document.getElementById('modeMonsterBtn').classList.remove('active');
+      document.getElementById('lavaDiffRow').style.display = 'flex';
+      document.getElementById('monsterInfo').style.display = 'none';
+    });
+
+    document.getElementById('modeMonsterBtn').addEventListener('click', () => {
+      currentMode = 'monster';
+      document.getElementById('modeMonsterBtn').classList.add('active');
+      document.getElementById('modeLavaBtn').classList.remove('active');
+      document.getElementById('lavaDiffRow').style.display = 'none';
+      document.getElementById('monsterInfo').style.display = 'block';
+    });
+
+    document.querySelectorAll('.diff-btn').forEach(btn => {
+      btn.addEventListener('click', () => {
+        document.querySelectorAll('.diff-btn').forEach(b => b.classList.remove('active'));
+        btn.classList.add('active');
+        mazeSize = parseInt(btn.dataset.size, 10);
+        baseLavaSpeed = parseFloat(btn.dataset.speed);
+      });
+    });
+
     window.addEventListener('keydown', (e) => {
       if (['ArrowUp', 'KeyW'].includes(e.code)) { keys.up = true; e.preventDefault(); }
       if (['ArrowDown', 'KeyS'].includes(e.code)) { keys.down = true; e.preventDefault(); }
@@ -939,7 +1349,31 @@
       if (['ArrowRight', 'KeyD'].includes(e.code)) keys.right = false;
     });
 
-    // Салют при победе
+    function bindDpad(btnId, dirKey) {
+      const el = document.getElementById(btnId);
+      const press = (e) => {
+        e.preventDefault();
+        keys[dirKey] = true;
+        el.classList.add('active');
+        AudioEngine.init();
+      };
+      const release = (e) => {
+        e.preventDefault();
+        keys[dirKey] = false;
+        el.classList.remove('active');
+      };
+
+      el.addEventListener('pointerdown', press);
+      el.addEventListener('pointerup', release);
+      el.addEventListener('pointercancel', release);
+      el.addEventListener('pointerleave', release);
+    }
+
+    bindDpad('dpadUp', 'up');
+    bindDpad('dpadDown', 'down');
+    bindDpad('dpadLeft', 'left');
+    bindDpad('dpadRight', 'right');
+
     const fwCanvas = document.getElementById('fireworksCanvas');
     const fwCtx = fwCanvas.getContext('2d');
     let particles = [];
@@ -957,9 +1391,9 @@
       const sy = Math.random() * (fwCanvas.height * 0.5) + fwCanvas.height * 0.1;
       const colors = ['#00f0ff', '#ff007f', '#facc15', '#38ef7d', '#ffffff', '#a855f7'];
 
-      for (let i = 0; i < 65; i++) {
+      for (let i = 0; i < 60; i++) {
         const angle = Math.random() * Math.PI * 2;
-        const speed = Math.random() * 6.5 + 2;
+        const speed = Math.random() * 6 + 2;
         particles.push({
           x: sx,
           y: sy,
@@ -988,13 +1422,13 @@
           fwCtx.fillStyle = p.color;
           fwCtx.globalAlpha = p.alpha;
           fwCtx.beginPath();
-          fwCtx.arc(p.x, p.y, 3.2, 0, Math.PI * 2);
+          fwCtx.arc(p.x, p.y, 3, 0, Math.PI * 2);
           fwCtx.fill();
         }
       }
       fwCtx.globalAlpha = 1;
 
-      if (!gameActive && winModal.style.display === 'flex') {
+      if (!gameActive && document.getElementById('winModal').style.display === 'flex') {
         requestAnimationFrame(animateFireworks);
       } else {
         fwCtx.clearRect(0, 0, fwCanvas.width, fwCanvas.height);
@@ -1009,13 +1443,15 @@
 
       clearInterval(fireworksInterval);
       fireworksInterval = setInterval(() => {
-        if (!gameActive && winModal.style.display === 'flex') {
+        if (!gameActive && document.getElementById('winModal').style.display === 'flex') {
           createFirework();
         } else {
           clearInterval(fireworksInterval);
         }
       }, 650);
     }
+
+    updateWinsDisplay();
   </script>
 </body>
 </html>
