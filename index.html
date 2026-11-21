@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>MSK Clock & Rutube 4K</title>
+  <title>MSK Clock & YouTube 4K</title>
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Rubik:wght@600;700&display=swap" rel="stylesheet">
@@ -20,12 +20,29 @@
       width: 100%;
       height: 100%;
       overflow: hidden;
-      background: radial-gradient(circle at 30% 20%, #1a2436 0%, #090d16 60%, #04060a 100%);
+      background: #060911;
       font-family: -apple-system, BlinkMacSystemFont, 'Inter', sans-serif;
       color: #ffffff;
     }
 
-    /* Фоновый 4K плеер Rutube */
+    /* Запасной живой фон на случай, если YouTube не загрузился */
+    .fallback-bg {
+      position: fixed;
+      inset: 0;
+      z-index: 0;
+      background:
+        radial-gradient(circle at 20% 25%, rgba(37, 99, 235, 0.35), transparent 50%),
+        radial-gradient(circle at 80% 70%, rgba(16, 185, 129, 0.25), transparent 55%),
+        linear-gradient(135deg, #070b14 0%, #10192d 50%, #06080f 100%);
+      animation: ambientShift 14s ease-in-out infinite alternate;
+    }
+
+    @keyframes ambientShift {
+      0% { filter: hue-rotate(0deg) brightness(0.95); }
+      100% { filter: hue-rotate(25deg) brightness(1.08); }
+    }
+
+    /* Фоновый 4K плеер YouTube (> 50 мин) */
     .video-bg {
       position: fixed;
       top: 50%;
@@ -33,7 +50,7 @@
       width: 100vw;
       height: 100vh;
       transform: translate(-50%, -50%);
-      z-index: 0;
+      z-index: 1;
       pointer-events: none;
       overflow: hidden;
     }
@@ -48,58 +65,89 @@
       min-height: 56.25vw;
       transform: translate(-50%, -50%);
       border: none;
-      filter: brightness(0.85) contrast(1.05);
+      filter: brightness(0.86) contrast(1.06);
+      transition: opacity 0.4s ease;
     }
 
+    /* Мягкое затемнение для читаемости */
     .vignette {
       position: fixed;
       inset: 0;
-      background: radial-gradient(circle at center, rgba(0, 0, 0, 0.1) 0%, rgba(0, 0, 0, 0.65) 100%);
-      z-index: 1;
+      background: radial-gradient(circle at center, rgba(0, 0, 0, 0.12) 0%, rgba(0, 0, 0, 0.62) 100%);
+      z-index: 2;
       pointer-events: none;
     }
 
-    .top-center-stage {
+    /* ТАЙМЕР В ПРАВОМ ВЕРХНЕМ УГЛУ (чуть больше) */
+    .top-right-timer {
       position: fixed;
-      top: 14%;
-      left: 50%;
-      transform: translateX(-50%);
-      z-index: 3;
+      top: 26px;
+      right: 32px;
+      z-index: 5;
       display: flex;
       flex-direction: column;
-      align-items: center;
-      text-align: center;
-      width: max-content;
-      max-width: 94vw;
+      align-items: flex-end;
+      text-align: right;
+      gap: 10px;
     }
 
     .timer-controls {
-      margin-bottom: 14px;
       display: none;
       align-items: center;
       gap: 8px;
       flex-wrap: wrap;
-      justify-content: center;
-      background: rgba(20, 24, 32, 0.48);
+      justify-content: flex-end;
+      background: rgba(18, 22, 32, 0.52);
       backdrop-filter: blur(20px) saturate(180%);
       -webkit-backdrop-filter: blur(20px) saturate(180%);
-      padding: 8px 16px;
+      padding: 8px 14px;
       border-radius: 999px;
-      border: 1px solid rgba(255, 255, 255, 0.24);
+      border: 1px solid rgba(255, 255, 255, 0.25);
       box-shadow: 0 10px 30px rgba(0, 0, 0, 0.35);
+      max-width: 92vw;
     }
 
     .timer-controls.active {
       display: flex;
-      animation: fadeIn 0.25s ease;
+      animation: fadeIn 0.22s ease;
     }
 
     .timer-label {
-      font-size: 13px;
-      font-weight: 600;
+      font-size: 12px;
+      font-weight: 700;
       letter-spacing: 1px;
-      color: rgba(255, 255, 255, 0.7);
-      margin-right: 4px;
+      color: rgba(255, 255, 255, 0.72);
+    }
+
+    /* Увеличенные цифры таймера в правом верхнем углу */
+    .active-timer-display {
+      display: none;
+      font-family: -apple-system, BlinkMacSystemFont, 'Rubik', sans-serif;
+      font-size: clamp(2.6rem, 6vw, 4.8rem);
+      font-weight: 700;
+      line-height: 1;
+      letter-spacing: -0.03em;
+      font-variant-numeric: tabular-nums;
+      background: linear-gradient(
+        180deg,
+        rgba(255, 255, 255, 0.94) 0%,
+        rgba(255, 255, 255, 0.44) 100%
+      );
+      -webkit-background-clip: text;
+      background-clip: text;
+      color: transparent;
+      -webkit-text-stroke: 1.5px rgba(255, 255, 255, 0.38);
+      filter: drop-shadow(0 10px 28px rgba(0, 0, 0, 0.48));
+      animation: fadeIn 0.22s ease;
+    }
+
+    .active-timer-display.visible {
+      display: block;
+    }
+
+    .active-timer-display.done {
+      -webkit-text-stroke: 1.5px rgba(74, 222, 128, 0.9);
+      animation: pulseDone 1s infinite alternate;
     }
 
     .glass-btn {
@@ -122,12 +170,12 @@
     }
 
     .glass-btn.primary {
-      background: rgba(74, 222, 128, 0.3);
+      background: rgba(74, 222, 128, 0.32);
       border-color: rgba(74, 222, 128, 0.65);
     }
 
     .timer-input {
-      width: 62px;
+      width: 60px;
       padding: 6px 8px;
       border-radius: 999px;
       border: 1px solid rgba(255, 255, 255, 0.25);
@@ -138,39 +186,10 @@
       outline: none;
     }
 
-    .active-timer-display {
-      display: none;
-      font-family: -apple-system, BlinkMacSystemFont, 'Rubik', sans-serif;
-      font-size: clamp(4rem, 11vw, 8.5rem);
-      font-weight: 700;
-      line-height: 1;
-      letter-spacing: -0.03em;
-      font-variant-numeric: tabular-nums;
-      background: linear-gradient(
-        180deg,
-        rgba(255, 255, 255, 0.92) 0%,
-        rgba(255, 255, 255, 0.42) 100%
-      );
-      -webkit-background-clip: text;
-      background-clip: text;
-      color: transparent;
-      -webkit-text-stroke: 1.5px rgba(255, 255, 255, 0.35);
-      filter: drop-shadow(0 12px 35px rgba(0, 0, 0, 0.45));
-      animation: fadeIn 0.25s ease;
-    }
-
-    .active-timer-display.visible {
-      display: block;
-    }
-
-    .active-timer-display.done {
-      -webkit-text-stroke: 1.5px rgba(74, 222, 128, 0.85);
-      animation: pulseDone 1s infinite alternate;
-    }
-
+    /* ОЧЕНЬ БОЛЬШОЕ ВРЕМЯ ПО МСК СКРАЮ ВНИЗУ СЛЕВА */
     .bottom-left-clock {
       position: fixed;
-      left: 28px;
+      left: 30px;
       bottom: 24px;
       z-index: 4;
       display: flex;
@@ -181,36 +200,37 @@
 
     .iphone-clock {
       font-family: -apple-system, BlinkMacSystemFont, 'Rubik', sans-serif;
-      font-size: clamp(4.2rem, 9.5vw, 7.2rem);
+      font-size: clamp(6.5rem, 16vw, 13.5rem);
       font-weight: 700;
-      line-height: 0.95;
+      line-height: 0.92;
       letter-spacing: -0.04em;
       font-variant-numeric: tabular-nums;
       
       background: linear-gradient(
         180deg,
-        rgba(255, 255, 255, 0.9) 0%,
+        rgba(255, 255, 255, 0.92) 0%,
         rgba(255, 255, 255, 0.38) 100%
       );
       -webkit-background-clip: text;
       background-clip: text;
       color: transparent;
-      -webkit-text-stroke: 1.5px rgba(255, 255, 255, 0.35);
-      filter: drop-shadow(0 10px 28px rgba(0, 0, 0, 0.45));
+      -webkit-text-stroke: 2px rgba(255, 255, 255, 0.38);
+      filter: drop-shadow(0 14px 36px rgba(0, 0, 0, 0.5));
     }
 
     .sub-info {
-      margin-top: 8px;
-      font-size: clamp(0.8rem, 1.15vw, 1rem);
+      margin-top: 10px;
+      font-size: clamp(0.9rem, 1.35vw, 1.15rem);
       font-weight: 600;
       letter-spacing: 0.08em;
-      color: rgba(255, 255, 255, 0.78);
-      text-shadow: 0 2px 12px rgba(0, 0, 0, 0.6);
+      color: rgba(255, 255, 255, 0.8);
+      text-shadow: 0 2px 12px rgba(0, 0, 0, 0.65);
     }
 
+    /* Кнопка часов скраю справа */
     .side-toggle-btn {
       position: fixed;
-      right: 28px;
+      right: 30px;
       top: 50%;
       transform: translateY(-50%);
       z-index: 10;
@@ -244,9 +264,10 @@
       height: 26px;
     }
 
+    /* Переключатель YouTube 4K (> 50 мин) справа внизу */
     .bg-switcher {
       position: fixed;
-      right: 24px;
+      right: 26px;
       bottom: 24px;
       z-index: 10;
       display: flex;
@@ -254,11 +275,11 @@
       flex-wrap: wrap;
       justify-content: flex-end;
       align-items: center;
-      max-width: 56vw;
+      max-width: 52vw;
     }
 
-    .rutube-url-input {
-      width: 205px;
+    .yt-url-input {
+      width: 195px;
       padding: 6px 12px;
       border-radius: 999px;
       border: 1px solid rgba(255, 255, 255, 0.25);
@@ -267,16 +288,14 @@
       color: #fff;
       font-size: 12px;
       outline: none;
-      transition: border-color 0.2s ease;
     }
 
-    .rutube-url-input::placeholder {
+    .yt-url-input::placeholder {
       color: rgba(255, 255, 255, 0.55);
     }
 
-    .rutube-url-input.error {
+    .yt-url-input.error {
       border-color: #f87171;
-      box-shadow: 0 0 10px rgba(248, 113, 113, 0.45);
     }
 
     @keyframes fadeIn {
@@ -290,6 +309,10 @@
     }
 
     @media (max-width: 768px) {
+      .top-right-timer {
+        top: 18px;
+        right: 18px;
+      }
       .bottom-left-clock {
         left: 18px;
         bottom: 95px;
@@ -312,18 +335,23 @@
 </head>
 <body>
 
+  <!-- Запасной живой фон (не даст экрану быть пустым/серым) -->
+  <div class="fallback-bg"></div>
+
+  <!-- Фоновое 4K видео YouTube (> 50 мин) -->
   <div class="video-bg">
     <iframe
       id="bgFrame"
-      src="https://rutube.ru/play/embed/b3e24b7c3298c4f41f57d8499f080747/?autoStart=true&mute=true"
-      allow="clipboard-write; autoplay"
+      src="https://www.youtube.com/embed/LXb3EKWsInQ?autoplay=1&mute=1&controls=0&loop=1&playlist=LXb3EKWsInQ&playsinline=1&rel=0&showinfo=0&iv_load_policy=3&vq=hd2160"
+      allow="autoplay; encrypted-media"
       allowfullscreen>
     </iframe>
   </div>
 
   <div class="vignette"></div>
 
-  <section class="top-center-stage">
+  <!-- Таймер в правом верхнем углу (чуть больше) -->
+  <section class="top-right-timer">
     <div id="timerControls" class="timer-controls">
       <span class="timer-label">ТАЙМЕР:</span>
       <button class="glass-btn" onclick="setPreset(5)">5 мин</button>
@@ -339,11 +367,13 @@
     <div id="activeTimerDisplay" class="active-timer-display">25:00</div>
   </section>
 
+  <!-- Очень большое время по МСК скраю внизу слева -->
   <div class="bottom-left-clock">
     <div id="mainDisplay" class="iphone-clock">00:00</div>
     <div id="subInfo" class="sub-info">МОСКВА (MSK) • ЗАГРУЗКА...</div>
   </div>
 
+  <!-- Кнопка часов скраю справа -->
   <button class="side-toggle-btn" id="modeToggleBtn" title="Открыть / скрыть таймер" onclick="toggleTimerPanel()">
     <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
       <circle cx="12" cy="13" r="8"></circle>
@@ -353,12 +383,13 @@
     </svg>
   </button>
 
+  <!-- Переключатель YouTube 4K (> 50 мин) + полный экран справа внизу -->
   <div class="bg-switcher">
-    <button class="glass-btn" onclick="changeRutube('b3e24b7c3298c4f41f57d8499f080747')">4K Природа (1ч+)</button>
-    <button class="glass-btn" onclick="changeRutube('6129152950929a087665301f530f0146')">4K Ночной город</button>
-    <button class="glass-btn" onclick="changeRutube('2044577928496e179144583c92313904')">4K Океан</button>
-    <input type="text" id="customRutubeUrl" class="rutube-url-input" placeholder="Ссылка или ID Rutube..." onkeydown="if(event.key==='Enter') applyCustomRutube()" />
-    <button class="glass-btn" onclick="applyCustomRutube()">ОК</button>
+    <button class="glass-btn" onclick="changeYouTube('LXb3EKWsInQ')">4K Природа (1ч+)</button>
+    <button class="glass-btn" onclick="changeYouTube('1-5G6p4207Q')">4K Ночь (1ч+)</button>
+    <button class="glass-btn" onclick="changeYouTube('eKFTSSKCzWA')">4K Вода (1ч+)</button>
+    <input type="text" id="customYtUrl" class="yt-url-input" placeholder="Ссылка или ID YouTube..." onkeydown="if(event.key==='Enter') applyCustomYouTube()" />
+    <button class="glass-btn" onclick="applyCustomYouTube()">ОК</button>
     <button class="glass-btn" onclick="toggleFullscreen()" title="На весь экран">⛶</button>
   </div>
 
@@ -374,7 +405,8 @@
     const timerControls = document.getElementById('timerControls');
     const startPauseBtn = document.getElementById('startPauseBtn');
     const activeTimerDisplay = document.getElementById('activeTimerDisplay');
-    const rutubeInput = document.getElementById('customRutubeUrl');
+    const ytInput = document.getElementById('customYtUrl');
+    const bgFrame = document.getElementById('bgFrame');
 
     function playSpaChime() {
       try {
@@ -508,38 +540,42 @@
       }
     }
 
-    // Универсальное извлечение ID видео Rutube (32 hex-символа из любой ссылки или ID)
-    function extractRutubeId(input) {
+    function extractYouTubeId(input) {
       if (!input) return null;
       const clean = input.trim();
-      const hexMatch = clean.match(/[a-fA-F0-9]{32}/);
-      return hexMatch ? hexMatch[0] : null;
+      const match = clean.match(/(?:youtube\.com\/(?:watch\?v=|embed\/|shorts\/|live\/)|youtu\.be\/)([a-zA-Z0-9_-]{11})/);
+      if (match) return match[1];
+      if (/^[a-zA-Z0-9_-]{11}$/.test(clean)) return clean;
+      return null;
     }
 
-    function changeRutube(videoId) {
-      const id = extractRutubeId(videoId);
+    function changeYouTube(videoId) {
+      const id = extractYouTubeId(videoId);
       if (!id) return false;
-      const frame = document.getElementById('bgFrame');
-      frame.src = `https://rutube.ru/play/embed/${id}/?autoStart=true&mute=true`;
-      rutubeInput.classList.remove('error');
+      bgFrame.style.opacity = '0';
+      bgFrame.src = `https://www.youtube.com/embed/${id}?autoplay=1&mute=1&controls=0&loop=1&playlist=${id}&playsinline=1&rel=0&showinfo=0&iv_load_policy=3&vq=hd2160`;
+      setTimeout(() => {
+        bgFrame.style.opacity = '1';
+      }, 350);
+      ytInput.classList.remove('error');
       try {
-        localStorage.setItem('spa_rutube_id', id);
+        localStorage.setItem('msk_yt_id', id);
       } catch (e) {}
       return true;
     }
 
-    function applyCustomRutube() {
-      const raw = rutubeInput.value.trim();
-      const id = extractRutubeId(raw);
+    function applyCustomYouTube() {
+      const raw = ytInput.value.trim();
+      const id = extractYouTubeId(raw);
       if (!id) {
-        rutubeInput.classList.add('error');
-        rutubeInput.value = '';
-        rutubeInput.placeholder = 'Нужна ссылка Rutube (32 символа)';
+        ytInput.classList.add('error');
+        ytInput.value = '';
+        ytInput.placeholder = 'Нужна ссылка или ID YouTube';
         return;
       }
-      changeRutube(id);
-      rutubeInput.value = '';
-      rutubeInput.placeholder = 'Ссылка или ID Rutube...';
+      changeYouTube(id);
+      ytInput.value = '';
+      ytInput.placeholder = 'Ссылка или ID YouTube...';
     }
 
     function toggleFullscreen() {
@@ -551,9 +587,9 @@
     }
 
     try {
-      const savedId = localStorage.getItem('spa_rutube_id');
-      if (savedId && extractRutubeId(savedId)) {
-        changeRutube(savedId);
+      const savedId = localStorage.getItem('msk_yt_id');
+      if (savedId && extractYouTubeId(savedId)) {
+        changeYouTube(savedId);
       }
     } catch (e) {}
 
