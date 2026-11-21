@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Spa Granted — MSK Clock & Timer</title>
+  <title>Spa Granted — MSK Clock & Rutube 4K</title>
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Rubik:wght@600;700&display=swap" rel="stylesheet">
@@ -20,12 +20,12 @@
       width: 100%;
       height: 100%;
       overflow: hidden;
-      background-color: #05070a;
+      background: radial-gradient(circle at 30% 20%, #1a2436 0%, #090d16 60%, #04060a 100%);
       font-family: -apple-system, BlinkMacSystemFont, 'Inter', sans-serif;
       color: #ffffff;
     }
 
-    /* Фоновое 4K видео (> 50 мин) */
+    /* Фоновый 4K плеер Rutube */
     .video-bg {
       position: fixed;
       top: 50%;
@@ -42,8 +42,8 @@
       position: absolute;
       top: 50%;
       left: 50%;
-      width: 115vw;
-      height: 115vh;
+      width: 118vw;
+      height: 118vh;
       min-width: 177.77vh;
       min-height: 56.25vw;
       transform: translate(-50%, -50%);
@@ -55,7 +55,7 @@
     .vignette {
       position: fixed;
       inset: 0;
-      background: radial-gradient(circle at center, rgba(0, 0, 0, 0.12) 0%, rgba(0, 0, 0, 0.65) 100%);
+      background: radial-gradient(circle at center, rgba(0, 0, 0, 0.14) 0%, rgba(0, 0, 0, 0.65) 100%);
       z-index: 1;
       pointer-events: none;
     }
@@ -101,7 +101,7 @@
       box-shadow: 0 0 10px #4ade80;
     }
 
-    /* Панель управления таймером ВЫШЕ времени */
+    /* Панель управления таймером ВЫШЕ времени (как на 2 фото) */
     .timer-controls {
       margin-bottom: 16px;
       display: none;
@@ -133,6 +133,8 @@
 
     .glass-btn {
       background: rgba(255, 255, 255, 0.14);
+      backdrop-filter: blur(14px);
+      -webkit-backdrop-filter: blur(14px);
       border: 1px solid rgba(255, 255, 255, 0.25);
       color: #fff;
       padding: 6px 12px;
@@ -243,7 +245,7 @@
       text-shadow: 0 2px 12px rgba(0, 0, 0, 0.5);
     }
 
-    /* Кнопка часов скраю экрана */
+    /* Кнопка часов скраю справа */
     .side-toggle-btn {
       position: fixed;
       right: 28px;
@@ -280,15 +282,32 @@
       height: 26px;
     }
 
-    /* Кнопки смены 4K фона внизу слева */
+    /* Переключатель Rutube 4K скраю внизу слева (как на 1 фото) */
     .bg-switcher {
       position: fixed;
-      left: 24px;
-      bottom: 24px;
+      left: 22px;
+      bottom: 22px;
       z-index: 10;
       display: flex;
       gap: 8px;
       flex-wrap: wrap;
+      align-items: center;
+    }
+
+    .rutube-url-input {
+      width: 190px;
+      padding: 6px 12px;
+      border-radius: 999px;
+      border: 1px solid rgba(255, 255, 255, 0.25);
+      background: rgba(0, 0, 0, 0.38);
+      backdrop-filter: blur(14px);
+      color: #fff;
+      font-size: 12px;
+      outline: none;
+    }
+
+    .rutube-url-input::placeholder {
+      color: rgba(255, 255, 255, 0.55);
     }
 
     @keyframes fadeIn {
@@ -310,17 +329,20 @@
       .side-toggle-btn:hover {
         transform: scale(1.06);
       }
+      .bg-switcher {
+        bottom: 90px;
+      }
     }
   </style>
 </head>
 <body>
 
-  <!-- Фоновое 4K видео (> 50 минут) -->
+  <!-- Фоновое 4K видео с RUTUBE -->
   <div class="video-bg">
     <iframe
       id="bgFrame"
-      src="https://www.youtube.com/embed/eKFTSSKCzWA?autoplay=1&mute=1&controls=0&loop=1&playlist=eKFTSSKCzWA&playsinline=1&rel=0&showinfo=0&iv_load_policy=3&vq=hd2160"
-      allow="autoplay; encrypted-media"
+      src="https://rutube.ru/play/embed/b3e24b7c3298c4f41f57d8499f080747/?autoStart=true&mute=true"
+      allow="clipboard-write; autoplay"
       allowfullscreen>
     </iframe>
   </div>
@@ -335,7 +357,7 @@
       <span>Spa Granted</span>
     </div>
 
-    <!-- Панель настройки таймера (открывается по кнопке часов скраю) -->
+    <!-- Панель настройки таймера ВЫШЕ времени (как на 2 фото) -->
     <div id="timerControls" class="timer-controls">
       <span class="timer-label">ТАЙМЕР:</span>
       <button class="glass-btn" onclick="setPreset(5)">5 мин</button>
@@ -360,7 +382,7 @@
     <div id="subInfo" class="sub-info">МОСКВА (MSK) • ЗАГРУЗКА...</div>
   </main>
 
-  <!-- Кнопка часов скраю экрана -->
+  <!-- Кнопка часов скраю справа -->
   <button class="side-toggle-btn" id="modeToggleBtn" title="Настроить таймер" onclick="toggleTimerPanel()">
     <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
       <circle cx="12" cy="13" r="8"></circle>
@@ -370,11 +392,13 @@
     </svg>
   </button>
 
-  <!-- Переключатель 4K сцен (> 50 мин) -->
+  <!-- Кнопки 4K сцен Rutube скраю внизу слева (как на 1 фото) -->
   <div class="bg-switcher">
-    <button class="glass-btn" onclick="changeVideo('1-5G6p4207Q')">4K Ночной Токио (1ч+)</button>
-    <button class="glass-btn" onclick="changeVideo('eKFTSSKCzWA')">4K Природа и вода (1ч+)</button>
-    <button class="glass-btn" onclick="changeVideo('jfKfPfyJRdk')">4K Атмосфера</button>
+    <button class="glass-btn" onclick="changeRutube('b3e24b7c3298c4f41f57d8499f080747')">4K Природа (1ч+)</button>
+    <button class="glass-btn" onclick="changeRutube('6129152950929a087665301f530f0146')">4K Ночной город</button>
+    <button class="glass-btn" onclick="changeRutube('2044577928496e179144583c92313904')">4K Океан и релакс</button>
+    <input type="text" id="customRutubeUrl" class="rutube-url-input" placeholder="Ссылка на видео Rutube..." />
+    <button class="glass-btn" onclick="applyCustomRutube()">ОК</button>
   </div>
 
   <script>
@@ -426,7 +450,6 @@
         renderTimer();
       } else {
         timerControls.classList.remove('active');
-        // Если таймер не запущен, прячем плашку над часами при закрытии меню
         if (!timerRunning && timerSeconds === initialSeconds) {
           activeTimerPill.classList.remove('visible');
         }
@@ -506,10 +529,19 @@
       }
     }
 
-    // Смена 4K видео на фоне
-    function changeVideo(videoId) {
+    // Смена видео по ID Rutube
+    function changeRutube(videoId) {
       const frame = document.getElementById('bgFrame');
-      frame.src = `https://www.youtube.com/embed/${videoId}?autoplay=1&mute=1&controls=0&loop=1&playlist=${videoId}&playsinline=1&rel=0&showinfo=0&iv_load_policy=3&vq=hd2160`;
+      frame.src = `https://rutube.ru/play/embed/${videoId}/?autoStart=true&mute=true`;
+    }
+
+    // Вставка любой ссылки с Rutube (например https://rutube.ru/video/xxxx/)
+    function applyCustomRutube() {
+      const raw = document.getElementById('customRutubeUrl').value.trim();
+      if (!raw) return;
+      const match = raw.match(/(?:video\/|embed\/)([a-zA-Z0-9]+)/);
+      const id = match ? match[1] : raw;
+      changeRutube(id);
     }
 
     updateMoscowClock();
