@@ -4,10 +4,9 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Spa Granted — MSK Clock & Timer</title>
-  <!-- Шрифт в стиле iOS Lock Screen (Rounded Display) -->
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&family=SF+Pro+Display:wght@700&family=Rubik:wght@600;700&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Rubik:wght@600;700&display=swap" rel="stylesheet">
   
   <style>
     * {
@@ -26,7 +25,7 @@
       color: #ffffff;
     }
 
-    /* Фоновый плеер (4K видео > 50 мин) */
+    /* Фоновое 4K видео (> 50 мин) */
     .video-bg {
       position: fixed;
       top: 50%;
@@ -45,7 +44,7 @@
       left: 50%;
       width: 115vw;
       height: 115vh;
-      min-width: 177.77vh; /* 16:9 пропорции на весь экран без рамок */
+      min-width: 177.77vh;
       min-height: 56.25vw;
       transform: translate(-50%, -50%);
       border: none;
@@ -61,7 +60,7 @@
       pointer-events: none;
     }
 
-    /* Центральный блок с часами */
+    /* Центральный блок */
     .center-stage {
       position: relative;
       z-index: 2;
@@ -74,7 +73,7 @@
       text-align: center;
     }
 
-    /* Плашка "Spa Granted" над временем */
+    /* Плашка "Spa Granted" */
     .status-badge {
       display: inline-flex;
       align-items: center;
@@ -102,53 +101,21 @@
       box-shadow: 0 0 10px #4ade80;
     }
 
-    /* Прозрачный шрифт как на iPhone Lock Screen */
-    .iphone-clock {
-      font-family: -apple-system, BlinkMacSystemFont, 'Rubik', sans-serif;
-      font-size: clamp(5.5rem, 17vw, 13.5rem);
-      font-weight: 700;
-      line-height: 0.95;
-      letter-spacing: -0.04em;
-      font-variant-numeric: tabular-nums;
-      
-      /* Эффект полупрозрачного стекла на цифрах */
-      background: linear-gradient(
-        180deg,
-        rgba(255, 255, 255, 0.88) 0%,
-        rgba(255, 255, 255, 0.36) 100%
-      );
-      -webkit-background-clip: text;
-      background-clip: text;
-      color: transparent;
-      -webkit-text-stroke: 1.5px rgba(255, 255, 255, 0.35);
-      filter: drop-shadow(0 12px 35px rgba(0, 0, 0, 0.38));
-      transition: transform 0.3s ease;
-    }
-
-    /* Дата и пометка МСК снизу */
-    .sub-info {
-      margin-top: 14px;
-      font-size: clamp(0.95rem, 1.5vw, 1.2rem);
-      font-weight: 500;
-      letter-spacing: 0.08em;
-      color: rgba(255, 255, 255, 0.72);
-      text-shadow: 0 2px 12px rgba(0, 0, 0, 0.5);
-    }
-
-    /* Панель управления таймером (появляется при переключении) */
+    /* Панель управления таймером ВЫШЕ времени */
     .timer-controls {
-      margin-top: 24px;
+      margin-bottom: 16px;
       display: none;
       align-items: center;
-      gap: 10px;
+      gap: 8px;
       flex-wrap: wrap;
       justify-content: center;
       background: rgba(20, 24, 32, 0.45);
-      backdrop-filter: blur(20px);
-      -webkit-backdrop-filter: blur(20px);
-      padding: 10px 16px;
-      border-radius: 20px;
-      border: 1px solid rgba(255, 255, 255, 0.2);
+      backdrop-filter: blur(20px) saturate(180%);
+      -webkit-backdrop-filter: blur(20px) saturate(180%);
+      padding: 8px 16px;
+      border-radius: 999px;
+      border: 1px solid rgba(255, 255, 255, 0.24);
+      box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
     }
 
     .timer-controls.active {
@@ -156,13 +123,21 @@
       animation: fadeIn 0.25s ease;
     }
 
+    .timer-label {
+      font-size: 13px;
+      font-weight: 600;
+      letter-spacing: 1px;
+      color: rgba(255, 255, 255, 0.7);
+      margin-right: 4px;
+    }
+
     .glass-btn {
       background: rgba(255, 255, 255, 0.14);
       border: 1px solid rgba(255, 255, 255, 0.25);
       color: #fff;
-      padding: 8px 14px;
-      border-radius: 12px;
-      font-size: 14px;
+      padding: 6px 12px;
+      border-radius: 999px;
+      font-size: 13px;
       font-weight: 600;
       cursor: pointer;
       transition: all 0.2s ease;
@@ -174,20 +149,98 @@
     }
 
     .glass-btn.primary {
-      background: rgba(74, 222, 128, 0.28);
-      border-color: rgba(74, 222, 128, 0.6);
+      background: rgba(74, 222, 128, 0.3);
+      border-color: rgba(74, 222, 128, 0.65);
     }
 
     .timer-input {
-      width: 68px;
-      padding: 8px;
-      border-radius: 12px;
+      width: 62px;
+      padding: 6px 8px;
+      border-radius: 999px;
       border: 1px solid rgba(255, 255, 255, 0.25);
       background: rgba(0, 0, 0, 0.35);
       color: #fff;
-      font-size: 14px;
+      font-size: 13px;
       text-align: center;
       outline: none;
+    }
+
+    /* Контейнер для часов + мини-таймера чуть выше скраю */
+    .clock-wrapper {
+      position: relative;
+      display: inline-block;
+    }
+
+    /* Активный таймер чуть выше времени скраю (справа над цифрами) */
+    .active-timer-pill {
+      position: absolute;
+      top: -28px;
+      right: 4px;
+      display: none;
+      align-items: center;
+      gap: 8px;
+      padding: 6px 14px;
+      border-radius: 999px;
+      background: rgba(255, 255, 255, 0.16);
+      backdrop-filter: blur(20px) saturate(180%);
+      -webkit-backdrop-filter: blur(20px) saturate(180%);
+      border: 1px solid rgba(255, 255, 255, 0.35);
+      box-shadow: 0 8px 24px rgba(0, 0, 0, 0.35);
+      font-family: -apple-system, BlinkMacSystemFont, 'Rubik', sans-serif;
+      font-size: clamp(1rem, 2vw, 1.35rem);
+      font-weight: 700;
+      font-variant-numeric: tabular-nums;
+      color: #ffffff;
+      z-index: 3;
+      animation: fadeIn 0.25s ease;
+    }
+
+    .active-timer-pill.visible {
+      display: inline-flex;
+    }
+
+    .timer-pulse {
+      width: 8px;
+      height: 8px;
+      border-radius: 50%;
+      background: #38bdf8;
+      box-shadow: 0 0 10px #38bdf8;
+    }
+
+    .active-timer-pill.finished .timer-pulse {
+      background: #f87171;
+      box-shadow: 0 0 10px #f87171;
+    }
+
+    /* Прозрачный шрифт как на iPhone Lock Screen */
+    .iphone-clock {
+      font-family: -apple-system, BlinkMacSystemFont, 'Rubik', sans-serif;
+      font-size: clamp(5.5rem, 17vw, 13.5rem);
+      font-weight: 700;
+      line-height: 0.95;
+      letter-spacing: -0.04em;
+      font-variant-numeric: tabular-nums;
+      
+      background: linear-gradient(
+        180deg,
+        rgba(255, 255, 255, 0.88) 0%,
+        rgba(255, 255, 255, 0.36) 100%
+      );
+      -webkit-background-clip: text;
+      background-clip: text;
+      color: transparent;
+      -webkit-text-stroke: 1.5px rgba(255, 255, 255, 0.35);
+      filter: drop-shadow(0 12px 35px rgba(0, 0, 0, 0.38));
+    }
+
+    /* Дата и пометка МСК снизу */
+    .sub-info {
+      margin-top: 14px;
+      font-size: clamp(0.95rem, 1.5vw, 1.2rem);
+      font-weight: 500;
+      letter-spacing: 0.08em;
+      color: rgba(255, 255, 255, 0.72);
+      text-shadow: 0 2px 12px rgba(0, 0, 0, 0.5);
     }
 
     /* Кнопка часов скраю экрана */
@@ -227,7 +280,7 @@
       height: 26px;
     }
 
-    /* Кнопка смены 4K фона внизу слева */
+    /* Кнопки смены 4K фона внизу слева */
     .bg-switcher {
       position: fixed;
       left: 24px;
@@ -235,6 +288,7 @@
       z-index: 10;
       display: flex;
       gap: 8px;
+      flex-wrap: wrap;
     }
 
     @keyframes fadeIn {
@@ -243,6 +297,10 @@
     }
 
     @media (max-width: 600px) {
+      .active-timer-pill {
+        top: -34px;
+        right: 0;
+      }
       .side-toggle-btn {
         right: 16px;
         top: auto;
@@ -261,7 +319,7 @@
   <div class="video-bg">
     <iframe
       id="bgFrame"
-      src="https://www.youtube.com/embed/LXb3EKWsInQ?autoplay=1&mute=1&controls=0&loop=1&playlist=LXb3EKWsInQ&playsinline=1&rel=0&showinfo=0&iv_load_policy=3&vq=hd2160"
+      src="https://www.youtube.com/embed/eKFTSSKCzWA?autoplay=1&mute=1&controls=0&loop=1&playlist=eKFTSSKCzWA&playsinline=1&rel=0&showinfo=0&iv_load_policy=3&vq=hd2160"
       allow="autoplay; encrypted-media"
       allowfullscreen>
     </iframe>
@@ -271,16 +329,15 @@
 
   <!-- Основной экран -->
   <main class="center-stage">
+    <!-- Надпись Spa Granted -->
     <div class="status-badge">
       <span class="status-dot"></span>
       <span>Spa Granted</span>
     </div>
 
-    <div id="mainDisplay" class="iphone-clock">00:00</div>
-    <div id="subInfo" class="sub-info">МОСКВА (MSK) • ЗАГРУЗКА...</div>
-
-    <!-- Управление таймером -->
+    <!-- Панель настройки таймера (открывается по кнопке часов скраю) -->
     <div id="timerControls" class="timer-controls">
+      <span class="timer-label">ТАЙМЕР:</span>
       <button class="glass-btn" onclick="setPreset(5)">5 мин</button>
       <button class="glass-btn" onclick="setPreset(15)">15 мин</button>
       <button class="glass-btn" onclick="setPreset(25)">25 мин</button>
@@ -290,11 +347,21 @@
       <button id="startPauseBtn" class="glass-btn primary" onclick="toggleTimer()">Старт</button>
       <button class="glass-btn" onclick="resetTimer()">Сброс</button>
     </div>
+
+    <!-- Блок времени МСК + таймер чуть выше скраю -->
+    <div class="clock-wrapper">
+      <div id="activeTimerPill" class="active-timer-pill">
+        <span class="timer-pulse"></span>
+        <span id="timerText">25:00</span>
+      </div>
+      <div id="mainDisplay" class="iphone-clock">00:00</div>
+    </div>
+
+    <div id="subInfo" class="sub-info">МОСКВА (MSK) • ЗАГРУЗКА...</div>
   </main>
 
-  <!-- Кнопка переключения (Часы / Таймер) скраю -->
-  <button class="side-toggle-btn" id="modeToggleBtn" title="Переключить: Часы МСК / Таймер" onclick="toggleMode()">
-    <!-- Иконка часов / таймера -->
+  <!-- Кнопка часов скраю экрана -->
+  <button class="side-toggle-btn" id="modeToggleBtn" title="Настроить таймер" onclick="toggleTimerPanel()">
     <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
       <circle cx="12" cy="13" r="8"></circle>
       <path d="M12 9v4l2.5 2.5"></path>
@@ -311,8 +378,8 @@
   </div>
 
   <script>
-    let isTimerMode = false;
-    let timerSeconds = 25 * 60; // По умолчанию 25 минут
+    let panelOpen = false;
+    let timerSeconds = 25 * 60;
     let initialSeconds = 25 * 60;
     let timerRunning = false;
     let timerInterval = null;
@@ -321,46 +388,48 @@
     const subInfo = document.getElementById('subInfo');
     const timerControls = document.getElementById('timerControls');
     const startPauseBtn = document.getElementById('startPauseBtn');
+    const activeTimerPill = document.getElementById('activeTimerPill');
+    const timerText = document.getElementById('timerText');
 
-    // Обновление времени по Москве (Europe/Moscow)
+    // Обновление времени строго по МСК (Europe/Moscow)
     function updateMoscowClock() {
-      if (isTimerMode) return;
-
       const now = new Date();
-      const timeOptions = {
+      const timeStr = new Intl.DateTimeFormat('ru-RU', {
         timeZone: 'Europe/Moscow',
         hour: '2-digit',
         minute: '2-digit',
         hour12: false
-      };
-      const secOptions = {
+      }).format(now);
+
+      const secStr = new Intl.DateTimeFormat('ru-RU', {
         timeZone: 'Europe/Moscow',
         second: '2-digit'
-      };
-      const dateOptions = {
+      }).format(now);
+
+      const dateStr = new Intl.DateTimeFormat('ru-RU', {
         timeZone: 'Europe/Moscow',
         weekday: 'long',
         day: 'numeric',
         month: 'long'
-      };
-
-      const timeStr = new Intl.DateTimeFormat('ru-RU', timeOptions).format(now);
-      const secStr = new Intl.DateTimeFormat('ru-RU', secOptions).format(now);
-      const dateStr = new Intl.DateTimeFormat('ru-RU', dateOptions).format(now);
+      }).format(now);
 
       mainDisplay.textContent = timeStr;
-      subInfo.textContent = `МСК • ${dateStr.toUpperCase()} • ${secStr} СЕК`;
+      subInfo.textContent = `МОСКВА (MSK) • ${dateStr.toUpperCase()} • ${secStr} СЕК`;
     }
 
-    // Переключение между часами МСК и таймером
-    function toggleMode() {
-      isTimerMode = !isTimerMode;
-      if (isTimerMode) {
+    // Открыть / закрыть панель настройки таймера
+    function toggleTimerPanel() {
+      panelOpen = !panelOpen;
+      if (panelOpen) {
         timerControls.classList.add('active');
+        activeTimerPill.classList.add('visible');
         renderTimer();
       } else {
         timerControls.classList.remove('active');
-        updateMoscowClock();
+        // Если таймер не запущен, прячем плашку над часами при закрытии меню
+        if (!timerRunning && timerSeconds === initialSeconds) {
+          activeTimerPill.classList.remove('visible');
+        }
       }
     }
 
@@ -376,16 +445,17 @@
     }
 
     function renderTimer() {
-      mainDisplay.textContent = formatTimer(timerSeconds);
-      subInfo.textContent = timerRunning ? 'ТАЙМЕР ИДЁТ' : 'РЕЖИМ ТАЙМЕРА (НАЖМИТЕ ЧАСЫ СПРАВА ДЛЯ МСК)';
+      timerText.textContent = formatTimer(timerSeconds);
     }
 
     function toggleTimer() {
+      activeTimerPill.classList.add('visible');
+      activeTimerPill.classList.remove('finished');
+
       if (timerRunning) {
         clearInterval(timerInterval);
         timerRunning = false;
         startPauseBtn.textContent = 'Старт';
-        renderTimer();
       } else {
         if (timerSeconds <= 0) timerSeconds = initialSeconds;
         timerRunning = true;
@@ -399,7 +469,8 @@
             clearInterval(timerInterval);
             timerRunning = false;
             startPauseBtn.textContent = 'Старт';
-            subInfo.textContent = 'ВРЕМЯ ВЫШЛО!';
+            timerText.textContent = '00:00 • ГОТОВО';
+            activeTimerPill.classList.add('finished');
           }
         }, 1000);
       }
@@ -411,6 +482,8 @@
       startPauseBtn.textContent = 'Старт';
       initialSeconds = minutes * 60;
       timerSeconds = initialSeconds;
+      activeTimerPill.classList.add('visible');
+      activeTimerPill.classList.remove('finished');
       renderTimer();
     }
 
@@ -426,16 +499,19 @@
       timerRunning = false;
       startPauseBtn.textContent = 'Старт';
       timerSeconds = initialSeconds;
+      activeTimerPill.classList.remove('finished');
       renderTimer();
+      if (!panelOpen) {
+        activeTimerPill.classList.remove('visible');
+      }
     }
 
-    // Смена 4K фонового видео
+    // Смена 4K видео на фоне
     function changeVideo(videoId) {
       const frame = document.getElementById('bgFrame');
       frame.src = `https://www.youtube.com/embed/${videoId}?autoplay=1&mute=1&controls=0&loop=1&playlist=${videoId}&playsinline=1&rel=0&showinfo=0&iv_load_policy=3&vq=hd2160`;
     }
 
-    // Запуск часов
     updateMoscowClock();
     setInterval(updateMoscowClock, 1000);
   </script>
